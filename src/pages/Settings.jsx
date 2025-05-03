@@ -52,67 +52,70 @@ const Settings =({ imageUrl, handleImageChange, handleDeleteImage})=> {
           </div>
         </div>
 
-        {/*Form Section*/}
-        <form style={{width: "85%"}}>
-          <div style={styles.inputGroup}>
-            <label style={{display: "flex", alignItems: "center"}}>
-              <span style={{color: "black", marginRight: "auto"}}>Username</span>
-              <input type="text" defaultValue={"John Dillinham"} style={styles.input} />
-            </label>
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={{display: "flex", alignItems: "center"}}>
-              <span style={{color: "black", marginRight: "auto"}}>Email</span>
-              <input type="email" defaultValue="johndillingham434@gmail.com" style={styles.input} />
-            </label>
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={{display: "flex", alignItems: "center",}}>
-              <span style={{color: "black", marginRight: "auto"}}>Language</span>
-              <select style={styles.select}>
-                <option>English</option>
-                <option>French</option>
-                <option>Spanish</option>
-              </select>
-            </label>
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={{display: "flex", alignItems: "center",}}>
-              <span style={{color: "black", marginRight: "auto"}}>Time Zone</span>
-              <select style={styles.select}>
-                <option>GMT+</option>
-                <option>GMT-</option>
-              </select>
-            </label>
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={{display: "flex", alignItems: "center"}}>
-              <span style={{color: "black", marginRight: "auto"}}>Date and Time</span>
-              <Datetime
-                  value={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
-                  style={{border: "1px solid #ccc", borderRadius: "5px", padding: "5px"}}
-                />
-            </label>
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={{display: "flex", alignItems: "center"}}>
-              <span style={{color: "black", marginRight: "auto"}}>Nationality</span>
-              <div style={{ ...styles.input, display: "flex", alignItems: "center", gap: "10px", color: "black" }}>
-                <span>Nigeria</span>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg"
-                  alt="Nigeria Flag"
-                  style={{ width: "20px", height: "20px" }}
-                />
-              </div>
-            </label>
-          </div>
+         {/*Form Section*/}
+                  <form style={{width: "85%"}}>
+                    <div style={styles.inputGroup}>
+                      <label style={{display: "flex", alignItems: "center"}}>
+                        <span style={{color: "black", marginRight: "auto"}}>Username</span>
+                        <input type="text" defaultValue={"John Dillinham"} style={styles.input} />
+                      </label>
+                    </div>
+        
+                    <div style={styles.inputGroup}>
+                      <label style={{display: "flex", alignItems: "center"}}>
+                        <span style={{color: "black", marginRight: "auto"}}>Email</span>
+                        <input type="email" defaultValue="johndillingham434@gmail.com" style={styles.input} />
+                      </label>
+                    </div>
+        
+                    <div style={styles.inputGroup}>
+                      <label style={{display: "flex", alignItems: "center",}}>
+                        <span style={{color: "black", marginRight: "auto"}}>Language</span>
+                        <select style={styles.select}>
+                    <option>English</option>
+                    <option>French</option>
+                    <option>Spanish</option>
+                        </select>
+                      </label>
+                    </div>
+        
+                    <div style={styles.inputGroup}>
+                      <label style={{display: "flex", alignItems: "center",}}>
+                        <span style={{color: "black", marginRight: "auto"}}>Time Zone</span>
+                        <select style={styles.select}>
+                    <option>GMT+</option>
+                    <option>GMT-</option>
+                        </select>
+                      </label>
+                    </div>
+        
+                    <div style={styles.inputGroup}>
+                      <label style={{display: "flex", alignItems: "center"}}>
+                        <span style={{color: "black", marginRight: "auto"}}>Date and Time</span>
+                        <Datetime
+                      value={selectedDate}
+                      onChange={(date) => setSelectedDate(date)}
+                      style={{border: "1px solid #ccc", borderRadius: "5px", padding: "5px"}}
+                    />
+                      </label>
+                    </div>
+        
+                    <div style={styles.inputGroup}>
+                      <label style={{display: "flex", alignItems: "center"}}>
+                        <span style={{color: "black", marginRight: "auto"}}>Nationality</span>
+                        <select style={styles.select}>
+                    <option value="nigeria">Nigeria</option>
+                    <option value="usa">United States</option>
+                    <option value="uk">United Kingdom</option>
+                    <option value="canada">Canada</option>
+                    <option value="germany">Germany</option>
+                    <option value="france">France</option>
+                    <option value="india">India</option>
+                    <option value="china">China</option>
+                    <option value="japan">Japan</option>
+                        </select>
+                      </label>
+                    </div>
           {/*Button Container*/}
           <div style={{display: "flex", marginTop: "40px", marginBottom: "20px", justifyContent: "space-between"}}>
             <div style={{display: "flex", gap: "10px"}}>

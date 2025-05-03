@@ -21,7 +21,7 @@ const ChatHistory = () =>{
                 <img src={Glassmorphic}
                 alt="Image"/>
                 </div>
-            </div>i
+            </div>
                         {/* Student FAQs Sessions */}
                         <div style={styles.bookSessioncontainer}>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
@@ -29,15 +29,28 @@ const ChatHistory = () =>{
             
                       {/* Filters Section */}
                       <div style={styles.filtersContainer}>
-                        <button style={styles.filterButton}>
-                          August 
-                          <span style={styles.filterIcon}>
-                            <ChevronDown size={20} style={{ transform: "translateY(20%)" }}/>
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-            
+                              <select style={styles.filterButton}>
+                                {[
+                                  "January",
+                                  "February",
+                                  "March",
+                                  "April",
+                                  "May",
+                                  "June",
+                                  "July",
+                                  "August",
+                                  "September",
+                                  "October",
+                                  "November",
+                                  "December",
+                                ].map((month) => (
+                                  <option key={month} value={month}>
+                                    {month}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
             
                       {/* Search Section */}
                     <div style={styles.searchContainer}>

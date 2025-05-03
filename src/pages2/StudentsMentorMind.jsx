@@ -79,22 +79,35 @@ const   StudentsMentorMind = () =>{
             
                         {/* Student FAQs Sessions */}
                         <div style={styles.bookSessioncontainer}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-                      <h2 style={{...styles.headerTitle, fontWeight:"500px", fontFamily:"Manrope",}}>Student FAQs</h2>
-            
-                      {/* Filters Section */}
-                      <div style={styles.filtersContainer}>
-                        <button style={styles.filterButton}>
-                          August 
-                          <span style={styles.filterIcon}>
-                            <ChevronDown size={20} style={{ transform: "translateY(20%)" }}/>
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-            
-            
-                      {/* Search Section */}
+                          <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+                            <h2 style={{ ...styles.headerTitle, fontWeight: "500px", fontFamily: "Manrope" }}>Student FAQs</h2>
+
+                            {/* Filters Section */}
+                            <div style={styles.filtersContainer}>
+                              <select style={styles.filterButton}>
+                                {[
+                                  "January",
+                                  "February",
+                                  "March",
+                                  "April",
+                                  "May",
+                                  "June",
+                                  "July",
+                                  "August",
+                                  "September",
+                                  "October",
+                                  "November",
+                                  "December",
+                                ].map((month) => (
+                                  <option key={month} value={month}>
+                                    {month}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+
+                          {/* Search Section */}
                     <div style={styles.searchContainer}>
                       <div style={styles.search}>
                         <SearchIcon style={styles.searchIcon} />

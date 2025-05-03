@@ -87,34 +87,57 @@ const StudentsCounselorSession = () => {
 
                 {/* Filters Section */}
                 <div style={styles.filtersContainer}>
-                  <div style={{ display: "flex", gap: "10px" }}></div>
-
-                  
-                    <button style={styles.filterButton} onClick={() => console.log("filter dropdown")}>
-                      Upcoming
-                      <span style={styles.filterIcon}>
-                        <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-                      </span>
-                    </button>
-                    <button style={styles.filterButton} onClick={() => console.log("Previous selected")}>
-                      Previous
-                      <span style={styles.filterIcon}>
-                        <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                    <div style={styles.searchContainer}>
-                      <div style={styles.search}>
-                        <SearchIcon style={styles.searchIcon} />
-                        <input
-                          style={styles.searchInput}
-                          type="text"
-                          placeholder="Search"
-                        />
-                      </div>
-                    </div>
-            
+                              <div style={{ position: "relative" }}>
+                                <button
+                                  style={styles.filterButton}
+                                  onClick={() => {
+                                    const dropdown = document.getElementById("dropdownMenu");
+                                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                                  }}
+                                >
+                                  <span id="selectedFilter">Upcoming</span>
+                                  <span style={styles.filterIcon}>
+                                    <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
+                                  </span>
+                                </button>
+                                <div
+                                  id="dropdownMenu"
+                                  style={{
+                                    position: "absolute",
+                                    top: "100%",
+                                    left: 0,
+                                    backgroundColor: "white",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "8px",
+                                    boxShadow: "0px 3px 8px rgba(50, 50, 71, 0.05)",
+                                    zIndex: 10,
+                                    display: "none",
+                                  }}
+                                >
+                                  <button
+                                    style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
+                                    onClick={() => {
+                                      document.getElementById("selectedFilter").innerText = "Upcoming";
+                                      document.getElementById("dropdownMenu").style.display = "none";
+                                      console.log("Upcoming selected");
+                                    }}
+                                  >
+                                    Upcoming
+                                  </button>
+                                  <button
+                                    style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
+                                    onClick={() => {
+                                      document.getElementById("selectedFilter").innerText = "Previous";
+                                      document.getElementById("dropdownMenu").style.display = "none";
+                                      console.log("Previous selected");
+                                    }}
+                                  >
+                                    Previous
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                     {/* Table Section */}
                     <div style={styles.tableWrapper}>
                       <table style={styles.table}>
