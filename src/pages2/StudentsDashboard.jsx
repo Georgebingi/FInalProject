@@ -19,61 +19,61 @@ const StudentsDashboard = () => {
   return (
       <div style={{ ...styles.container, }}>
         {/* Availability Status */}
-        <div style={styles.availabilityCard}>
-          <img src={Glassmorphic} alt="mental" style={styles.logo} />
-          <h3 style={styles.availabilityTitle}>MentorMind AI</h3>
-          <p style={styles.description}>Write an amazing description in this dedicated card section. Each word counts. </p>
-            <div onClick={() => handleNavigate("/studentsmentormind")
-            }
-                 style={{ display: "flex", justifyContent: "space-between", alignItems: "center",}}>
-                    <button style={{
-                        width: "163px",
-                        height: "41px",
-                        fontSize: "13px",
-                        ...styles.chatboxbutton}}>
-                          <LucideMessagesSquare size={18} stroke="#E8F0FF" style={{ marginRight: "5px", transform: "translateY(2px)" }}/>
-                        Start Chatting
-                    </button>
-            </div>
-        </div>
-    
-        {/* Chat History */}
-          <div style={styles.chatHistory}>
-            <h2 style={{...styles.header, fontSize: "24px"}}>
-              Chat History 
-              <button 
-                style={{ ...styles.seeAll, background: "none", border: "none", cursor: "pointer", color: "#1E4CA1", fontSize: "14px" }} 
-                onClick={() => handleNavigate("/chathistory")}
-              >
-                See all
-              </button>
-            </h2>
-            {chatData.map((chat) => (
-              <div key={chat.id} style={styles.chatItem}>
-                <div style={styles.userSection}>
-            {chat.id === 2 ? (
-              <div style={styles.ellipse}>
-                <img src="https://randomuser.me/api/portraits/women/75.jpg" alt="profile" style={{...styles.userIcon, height:"40px", width:"40px"}} />
-                {chat.isOnline && <span style={styles.notificationDot}></span>}
+          <div style={styles.availabilityCard}>
+            <img src={Glassmorphic} alt="mental" style={styles.logo} />
+            <h3 style={styles.availabilityTitle}>MentorMind AI</h3>
+            <p style={styles.description}>Write an amazing description in this dedicated card section. Each word counts. </p>
+              <div onClick={() => handleNavigate("/studentsmentormind")
+              }
+             style={{ display: "flex", justifyContent: "space-between", alignItems: "center",}}>
+                <button style={{
+              width: "163px",
+              height: "41px",
+              fontSize: "13px",
+              ...styles.chatboxbutton}}>
+                <LucideMessagesSquare size={18} stroke="#E8F0FF" style={{ marginRight: "5px", transform: "translateY(2px)" }}/>
+              Start Chatting
+                </button>
               </div>
-            ) : (
-              <div style={styles.ellipse}>
-                <img src={Glassmorphic} alt="mentalIcon" style={{...styles.userIcon, height:"40px", width:"40px"}} />
-                {chat.isOnline && <span style={styles.notificationDot}></span>}
-              </div>
-            )}
-            <div style={styles.chatDetails}>
-              <strong>{chat.name}</strong>
-              <p style={styles.chatMessage}>{chat.message}</p>
-            </div>
-                </div>
-                {chat.id === 2 && <button onClick={() => handleNavigate("#")}
-                 style={styles.chatButton}>Continue Chat</button>}
-              </div>
-            ))}
           </div>
             
-          {/* Quick Actions */}
+          {/* Chat History */}
+            <div style={styles.chatHistory}>
+              <h2 style={{...styles.header, fontSize: "24px"}}>
+                Chat History 
+                <button 
+            style={{ ...styles.seeAll, background: "none", border: "none", cursor: "pointer", color: "#1E4CA1", fontSize: "14px" }} 
+            onClick={() => handleNavigate("/chathistory")}
+                >
+            See all
+                </button>
+              </h2>
+              {chatData.map((chat) => (
+                <div key={chat.id} style={styles.chatItem}>
+            <div style={styles.userSection}>
+              {chat.id === 2 ? (
+                <div style={styles.ellipse}>
+            <img src="https://randomuser.me/api/portraits/women/75.jpg" alt="profile" style={{...styles.userIcon, height:"40px", width:"40px"}} />
+            {chat.isOnline && <span style={styles.notificationDot}></span>}
+                </div>
+              ) : (
+                <div style={styles.ellipse}>
+            <img src={Glassmorphic} alt="mentalIcon" style={{...styles.userIcon, height:"40px", width:"40px"}} />
+            {chat.isOnline && <span style={styles.notificationDot}></span>}
+                </div>
+              )}
+              <div style={styles.chatDetails}>
+                <strong>{chat.name}</strong>
+                <p style={styles.chatMessage}>{chat.message}</p>
+              </div>
+            </div>
+            {chat.id === 2 && <button onClick={() => handleNavigate("/continuechat")}
+             style={styles.chatButton}>Continue Chat</button>}
+                </div>
+              ))}
+            </div>
+              
+            {/* Quick Actions */}
         <div style={styles.wrapper}>
           <h2 style={{...styles.title, margin: "0 0 20px 0"}}>Quick Actions</h2>
           <div style={{...styles.cardContainer, height: "50px"}}>
