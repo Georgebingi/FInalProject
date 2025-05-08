@@ -10,155 +10,166 @@ const   StudentsMentorMind = () =>{
         { id: 4, name: "What is Depression?", message: "Multiple students have asked this question or a related one", notification: "18 Questions" },
       ]
 
+    const handleButtonClick = (text) => {
+      const inputField = document.getElementById("chatInput");
+      if (inputField) {
+        inputField.value = text;
+      }
+    };
+
     return(
-        <div style={{...styles.container}}>
-            <div style={{ padding: "20px", fontFamily: "Manrope, sans-serif" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-                <h1 style={{
-                  fontWeight: "500", fontFamily: "Manrope", marginBottom: "10px"
-                }}>
-                  Hi there,{" "}
-                  <span style={{
-                    backgroundImage: "linear-gradient(90deg, #F7CFFF 8.06%, #3F6AD2 50%, #FE6FA5 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    fontSize: "40px",
-                  }}>
-                    John.
-                  </span>
-                  <br />
-                  <span>What would you like to know?</span>
-                </h1>
-                <div style={{ display: "flex", alignItems: "center", marginLeft: "20px" }}>
-                  <img src={Glassmorphic} alt="Glassmorphic Background" />
-                </div>
-              </div>
+      <div style={{...styles.container}}>
+        <div style={{ padding: "20px", fontFamily: "Manrope, sans-serif" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <h1 style={{
+            fontWeight: "500", fontFamily: "Manrope", marginBottom: "10px"
+          }}>
+            Hi there,{" "}
+            <span style={{
+            backgroundImage: "linear-gradient(90deg, #F7CFFF 8.06%, #3F6AD2 50%, #FE6FA5 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontSize: "40px",
+            }}>
+            John.
+            </span>
+            <br />
+            <span>What would you like to know?</span>
+          </h1>
+          <div style={{ display: "flex", alignItems: "center", marginLeft: "20px" }}>
+            <img src={Glassmorphic} alt="Glassmorphic Background" />
+          </div>
+          </div>
 
-              <h3 style={{
-                  marginBottom: "10px",
-                  fontFamily: "Manrope",
-                  fontWeight: 400,
-                  fontSize: "16px",
-                  lineHeight: "23px",
-                  letterSpacing: "0%",
-                  color: "#425466",
-                }}>
-                Use a common prompt or just ask what’s on your mind
-                </h3>
+          <h3 style={{
+            marginBottom: "10px",
+            fontFamily: "Manrope",
+            fontWeight: 400,
+            fontSize: "16px",
+            lineHeight: "23px",
+            letterSpacing: "0%",
+            color: "#425466",
+          }}>
+          Use a common prompt or just ask what’s on your mind
+          </h3>
 
-              {/* Buttons for Prompts */}
-              <div style={styles.buttonContainer}>
-                {Array(4)
-                  .fill("Write a to-do list for a personal project or task")
-                  .map((text, index) => (
-                    <button key={index} style={{
-                      ...styles.button,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                    }}>
-                      <span style={{ alignSelf: "flex-start" }}>{text}</span>
-                      <UserIcon size={24} style={{ alignSelf: "flex-start", marginBottom: "5px" }}/>
-                    </button>
+          {/* Buttons for Prompts */}
+          <div style={styles.buttonContainer}>
+          {Array(4)
+            .fill("Write a to-do list for a personal project or task")
+            .map((text, index) => (
+            <button 
+              key={index} 
+              style={{
+              ...styles.button,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              }}
+              onClick={() => handleButtonClick(text)}
+            >
+              <span style={{ alignSelf: "flex-start" }}>{text}</span>
+              <UserIcon size={24} style={{ alignSelf: "flex-start", marginBottom: "5px" }}/>
+            </button>
+            ))}
+          </div>
+
+          {/* Chat Input */}
+          <div style={{
+          display: "flex", alignItems: "center", height: "60px", border: "1px solid #54545657",
+          padding: "5px", borderRadius: "15px", position: "relative", top: "20px"
+          }}>
+          <input id="chatInput" type="text" placeholder="Type Here..." style={{ flex: 1, ...styles.input }} />
+          <button style={{ ...styles.sendButton, marginLeft: "10px" }}>
+            <Send size={28} style={styles.sendIcon} />
+          </button>
+          </div>
+        </div>
+
+        
+              {/* Student FAQs Sessions */}
+              <div style={styles.bookSessioncontainer}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+                <h2 style={{ ...styles.headerTitle, fontWeight: "500px", fontFamily: "Manrope" }}>Student FAQs</h2>
+
+                {/* Filters Section */}
+                <div style={styles.filtersContainer}>
+                  <select style={styles.filterButton}>
+                  {[
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                  ].map((month) => (
+                    <option key={month} value={month}>
+                    {month}
+                    </option>
                   ))}
-              </div>
+                  </select>
+                </div>
+                </div>
 
-              {/* Chat Input */}
-              <div style={{
-                display: "flex", alignItems: "center", height: "60px", border: "1px solid #54545657",
-                padding: "5px", borderRadius: "15px", position: "relative", top: "20px"
-              }}>
-                <input type="text" placeholder="Type Here..." style={{ flex: 1, ...styles.input }} />
-                <button style={{ ...styles.sendButton, marginLeft: "10px" }}>
-                  <Send size={28} style={styles.sendIcon} />
-                </button>
+                {/* Search Section */}
+            <div style={styles.searchContainer}>
+              <div style={styles.search}>
+              <SearchIcon style={styles.searchIcon} />
+              <input
+                style={styles.searchInput}
+                type="text"
+                placeholder="Search"
+              />
               </div>
             </div>
-
-            
-                        {/* Student FAQs Sessions */}
-                        <div style={styles.bookSessioncontainer}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-                            <h2 style={{ ...styles.headerTitle, fontWeight: "500px", fontFamily: "Manrope" }}>Student FAQs</h2>
-
-                            {/* Filters Section */}
-                            <div style={styles.filtersContainer}>
-                              <select style={styles.filterButton}>
-                                {[
-                                  "January",
-                                  "February",
-                                  "March",
-                                  "April",
-                                  "May",
-                                  "June",
-                                  "July",
-                                  "August",
-                                  "September",
-                                  "October",
-                                  "November",
-                                  "December",
-                                ].map((month) => (
-                                  <option key={month} value={month}>
-                                    {month}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Search Section */}
-                    <div style={styles.searchContainer}>
-                      <div style={styles.search}>
-                        <SearchIcon style={styles.searchIcon} />
-                        <input
-                          style={styles.searchInput}
-                          type="text"
-                          placeholder="Search"
-                        />
-                      </div>
-                    </div>
-            
-                                          {/* Chat History */}
-                <div style={styles.chatHistory}>
-                    {chatData.map((chat) => (
-                    <div key={chat.id} style={styles.chatItem}>
-                        <div style={styles.userSection}>
-                        <div style={styles.ellipse}>
-                        <img src={Glassmorphic}
-                            alt="Image"
-                            style={styles.userIcon}/>
-                        </div>
-                        <div style={styles.chatDetails}>
-                            <strong>{chat.name}</strong>
-                            <p style={styles.chatMessage}>{chat.message}</p>
-                        </div>
-                        </div>
-                        <div style={{display: "flex", alignItems: "center"}}>
-                            <strong style={{...styles.notification, fontSize:"15px", fontFamily:"Manrope", color: "#565656", fontWeight:"bold"}}>{chat.notification}</strong>
-                        </div>
-                    </div>
-                    ))}
-                </div>
-                {/* Footer Section */}
-                <div style={styles.footerContainer}>
-                  <span>Showing <b>4</b> of 4</span>
-                  <div style={styles.paginationContainer}>
-                    <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
-                      <ChevronLeft size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-                    </button>
-                    <button style={{...styles.paginationButton, border: "1px solid #089156"}}>
-                      1
-                    </button>
-                    <button style={styles.paginationButton}>2</button>
-                    <button style={styles.paginationButton}>3</button>
-                    <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
-                      <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-                    </button>
-                  </div>
-                </div>
-                    </div>
-        </div>
+        
+                        {/* Chat History */}
+          <div style={styles.chatHistory}>
+            {chatData.map((chat) => (
+            <div key={chat.id} style={styles.chatItem}>
+              <div style={styles.userSection}>
+              <div style={styles.ellipse}>
+              <img src={Glassmorphic}
+                alt="Image"
+                style={styles.userIcon}/>
+              </div>
+              <div style={styles.chatDetails}>
+                <strong>{chat.name}</strong>
+                <p style={styles.chatMessage}>{chat.message}</p>
+              </div>
+              </div>
+              <div style={{display: "flex", alignItems: "center"}}>
+                <strong style={{...styles.notification, fontSize:"15px", fontFamily:"Manrope", color: "#565656", fontWeight:"bold"}}>{chat.notification}</strong>
+              </div>
+            </div>
+            ))}
+          </div>
+          {/* Footer Section */}
+          <div style={styles.footerContainer}>
+            <span>Showing <b>4</b> of 4</span>
+            <div style={styles.paginationContainer}>
+            <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
+              <ChevronLeft size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
+            </button>
+            <button style={{...styles.paginationButton, border: "1px solid #089156"}}>
+              1
+            </button>
+            <button style={styles.paginationButton}>2</button>
+            <button style={styles.paginationButton}>3</button>
+            <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
+              <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
+            </button>
+            </div>
+          </div>
+            </div>
+      </div>
     );
 };
 
