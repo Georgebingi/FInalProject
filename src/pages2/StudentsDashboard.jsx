@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 const StudentsDashboard = () => {
   const chatData = [
-    { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
-    { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
-    { id: 3, name: "Jessica Rogers", message: "Looking forward to our next session!", isOnline: false },
+    { id: 1, name: "Counselor", message: "I think you should focus more on what's ahead and...", isOnline: true },
+    { id: 2, name: "Counselor", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
+    { id: 3, name: "Counselor", message: "Looking forward to our next session!", isOnline: false },
   ];
 
   const navigate = useNavigate();
@@ -73,70 +73,7 @@ const StudentsDashboard = () => {
               ))}
             </div>
               
-            {/* Quick Actions */}
-        <div style={styles.wrapper}>
-          <h2 style={{...styles.title, margin: "0 0 20px 0"}}>Quick Actions</h2>
-          <div style={{...styles.cardContainer, height: "50px"}}>
-            <div style={{...styles.card, height: "100%"}}>
-              <div style={{...styles.iconContainer}}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="white"
-                  style={styles.icon}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 10h.01M12 10h.01M16 10h.01M8 16h8M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6"
-                  />
-                </svg>
-              </div>
-              <div  onClick={() => handleNavigate("#")}
-              style={{...styles.textContainer, height: "100%"}}>
-                <strong style={styles.cardTitle}>Book a Session</strong>
-                <p style={{...styles.subtitle,
-                  fontSize: "12px",
-                  margin: "auto",}
-                }>Subtitle text</p>
-              </div>
-            </div>
-    
-            <div style={{...styles.card, height: "100%"}}>
-              <div style={styles.iconContainer}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="white"
-                  style={styles.icon}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 10h11M9 21h6M3 6h18M3 6a2 2 0 012-2h12a2 2 0 012 2M3 6v12a2 2 0 002 2h12a2 2 0 002-2V6"
-                  />
-                </svg>
-              </div>
-              <div onClick={() => handleNavigate("#")}>
-                <p style={styles.cardTitle}>View Resources</p>
-                <p style={{...styles.subtitle,
-                  fontSize: "12px",
-                  margin: "auto",
-                }}>Subtitle text</p>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        {/* Progress Snapshot */}
-        <div style={styles.progressCard}>
-          <strong>Progress Snapshot</strong>
-          <div style={styles.graph}>Chart Placeholder</div>
-        </div>
+           
     
         {/* Booked Sessions */}
           <div style={styles.bookSessioncontainer}>
@@ -144,43 +81,44 @@ const StudentsDashboard = () => {
               <h2 style={styles.headerTitle}>Upcoming Sessions</h2>
             
               {/* Filters Section */}
-              <div style={styles.filtersContainer}>
-                <select style={styles.filterButton}>
-            {[
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December",
-            ].map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-                </select>
-              </div>
-            </div>
-            
-              {/* Search Section */}
-          <div style={styles.searchContainer}>
-            <div style={styles.search}>
-              <SearchIcon style={styles.searchIcon} />
-              <input
-                style={styles.searchInput}
-                type="text"
-                placeholder="Search"
-              />
-            </div>
-          </div>
-    
-          {/* Table Section */}
+                      <div style={styles.filtersContainer}>
+                      <select style={styles.filterButton}>
+                    {[
+                      "January",
+                      "February",
+                      "March",
+                      "April",
+                      "May",
+                      "June",
+                      "July",
+                      "August",
+                      "September",
+                      "October",
+                      "November",
+                      "December",
+                    ].map((month) => (
+                      <option key={month} value={month}>
+                      {month}
+                      </option>
+                    ))}
+                      </select>
+                      </div>
+                    </div>
+                    
+                      {/* Search Section */}
+                    <div style={styles.searchContainer}>
+                    <div style={styles.search}>
+                      <SearchIcon style={styles.searchIcon} />
+                      <input
+                      style={styles.searchInput}
+                      type="text"
+                      placeholder="Search"
+                      onChange={(e) => console.log("Search query:", e.target.value)}
+                      />
+                    </div>
+                    </div>
+                
+                    {/* Table Section */}
           <div style={styles.tableWrapper}>
             <table style={styles.table}>
               <thead>

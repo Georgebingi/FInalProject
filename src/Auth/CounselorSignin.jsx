@@ -1,4 +1,10 @@
 import { useState } from "react";
+
+const handleFormSubmit = (e, email, studentId) => {
+  e.preventDefault();
+  console.log("Email:", email);
+  console.log("Counsellor ID:", studentId);
+};
 import NileLogo from "../assets/Nile_logo.png";
 import Vector from "../assets/Vector.png";
 import { Link } from "react-router-dom";

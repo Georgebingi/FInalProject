@@ -18,8 +18,8 @@ const StudentChat = () => {
 
           <div style={styles.filtersContainer}>
             <select style={{ ...styles.filterButton, fontWeight: "bold", appearance: "none" }}>
-              <option value="all">All Counselors</option>
-              <option value="recent">Recent Counselors</option>
+              <option value="all">All Students</option>
+              <option value="recent">Recent Students</option>
             </select>
           </div>
         </div>
