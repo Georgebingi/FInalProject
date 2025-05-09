@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+const handleFormSubmit = (e, email, studentId) => {
+  e.preventDefault();
+  console.log("Email:", email);
+  console.log("Counsellor ID:", studentId);
+};
 import NileLogo from "../assets/Nile_logo.png";
 import Vector from "../assets/Vector.png";
 

@@ -29,6 +29,10 @@ import ChatHistory from "./pages2/ChatHistory";
 import GoalsAndProgress from "./pages2/GoalsAndProgress";
 import CounselorSignin from "./Auth/CounselorSignin";
 import { UserProvider } from "./context/UserContext";
+import ScheduleMeeting from "./pages2/ScheduleMeeting";
+import StartChatting from "./pages2/StartChatting";
+import ContinueChat from "./pages2/ContinueChat";
+ 
 
 const App = () => {
   const [image, setImage] = useState(null);
@@ -111,6 +115,46 @@ const App = () => {
                 </div>
                 <div style={{ overflow: "hidden", height:"240vh", backgroundColor: "#f9f9f9" }}>
                   <ChatHistory />
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/startchatting"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <StartChatting />
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/schedulemeeting"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <ScheduleMeeting />
                 </div>
               </div>
             </div>
@@ -234,6 +278,25 @@ const App = () => {
                 </div>
                 <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
                   <StudentsChatUI id="/studentschatui" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/continuechat"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
+                  <StudentsChatUI id="/continuechat" />
                 </div>
               </div>
             </div>

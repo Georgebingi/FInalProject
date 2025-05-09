@@ -19,73 +19,12 @@ const StudentsCounselorSession = () => {
     return(
       
       <div style={{...styles.container}}>
-      <div style={styles.messagerequestCard}>
-        <p style={{
-        color:"#3D3D3D",
-        fontFamily: "Manrope",
-        fontWeight: 500,
-        fontSize: "20px",
-        lineHeight: "100%",
-        width:"277px",
-        letterSpacing: "-3%",
-        }}>
-        Schedule a live meeting with an
-        available counsellor?
-        </p>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-        <img style={{height: "60px", width: "60px"}} src={DiscussionIcon} alt="Discussion Icon" />
-        <div style={{position: "relative"}}>
-          <button style={{
-          width: "184px",
-          height: "41px",
-          ...styles.messagerequestbutton,
-          fontSize: "13px",
-          lineHeight: "120%",
-          letterSpacing: "-2%",
-          }} onClick={() => { handleNavigate("/schedulemeeting") }}>
-          Schedule Meeting
-          </button>
-        </div>
-        </div>
-      </div>
 
-        <div style={styles.chatBox}>
-          <p style= {{
-          fontFamily: "Manrope",
-          fontWeight: 400,
-          fontSize: "20px",
-          lineHeight: "100%",
-          letterSpacing: "-3%",
-          }}
-          >
-            Chat <span style={{
-            backgroundImage: "linear-gradient(90deg, #F7CFFF 8.06%, #3F6AD2 50%, #FE6FA5 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            }}
-            >anonymously</span> with an avaliable Counselor?
-          </p>
-          <div 
-           style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position:"relative", top:"50px" }}>
-            <LucideMessagesSquare size={60} stroke="#6EC158"/>
-            <button style={{
-              width: "126px",
-              height: "41px",
-              fontSize: "13px",
-              lineHeight: "120%",
-              letterSpacing: "-2%",
-              ...styles.chatboxbutton}}
-              onClick={() => handleNavigate("/startchatting")}
-              >
-              Start Chatting
-            </button>
-          </div>
-        </div>
 
         {/* Student Section Sessions */}
         <div id="tableSection" style={styles.bookSessioncontainer}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-          <h2 style={styles.headerTitle}>Available Counselors</h2>
+          <h2 style={styles.headerTitle}>Counselor Sessions</h2>
 
           {/* Filters Section */}
           <div style={styles.filtersContainer}>
@@ -141,40 +80,44 @@ const StudentsCounselorSession = () => {
                 </div>
                 </div>
             {/* Table Section */}
-            <div style={styles.tableWrapper}>
-              <table style={styles.table}>
-              <thead>
-                <tr style={styles.tableHeaderRow}>
-                <th>Student</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Student ID</th>
-                <th>Email</th>
-                <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[1, 2, 3, 4].map((_, index) => (
-                <tr key={index} style={styles.tableBodyRow}>
-                  <td style={styles.studentCell}>
-                  <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                  Jesse Thomas
-                  </td>
-                  <td>12/2/2024</td>
-                  <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td>
-                  <td>4853966</td>
-                  <td>jt@gmail.com</td>
-                  <td>
-                  <button onClick={() => handleNavigate("/studentsschedulesession")}
-                   style={styles.viewButton}>View</button>
-                  </td>
-                </tr>
-                ))}
-              </tbody>
-              </table>
-            </div>
-        
-            {/* Footer Section */}
+                  <div style={styles.tableWrapper}>
+                    <table style={styles.table}>
+                    <thead>
+                    <tr style={styles.tableHeaderRow}>
+                    <th>Counselor</th>
+                    <th>Specialization</th>
+                    <th>Experience</th>
+                    <th>Office Number</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {[1, 2, 3, 4].map((_, index) => (
+                    <tr key={index} style={styles.tableBodyRow}>
+                      <td style={styles.studentCell}>
+                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                      Jesse Thomas
+                      </td>
+                      <td>Academic Guidance</td>
+                      <td>{["12 Years", "12 Years", "12 Years", "12 Years"][index]}</td>
+                      <td>4853966</td>
+                      <td>jt@gmail.com</td>
+                      <td>
+                      <span style={{ 
+                      color: index >= 2 ? "red" : "green", 
+                      fontWeight: "bold" 
+                      }}>
+                      {index >= 2 ? "Busy" : "Available"}
+                      </span>
+                      </td>
+                    </tr>
+                    ))}
+                    </tbody>
+                    </table>
+                  </div>
+                
+                  {/* Footer Section */}
             <div style={styles.footerContainer}>
               <span>Showing <b>4</b> of 4</span>
               <div style={styles.paginationContainer}>
@@ -190,32 +133,7 @@ const StudentsCounselorSession = () => {
                 <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
               </button>
               </div>
-      </div>
-          </div>
-              {/* Chat History */}
-          <div style={styles.chatHistory}>
-            <h3 style={styles.header}>
-            Chat History <span style={styles.seeAll}>See all</span>
-            </h3>
-            {chatData.map((chat) => (
-            <div key={chat.id} style={styles.chatItem}>
-              <div style={styles.userSection}>
-              <div style={styles.ellipse}>
-                <UserIcon style={styles.userIcon} />
-                {chat.isOnline && <span style={styles.notificationDot}></span>}
-              </div>
-              <div style={styles.chatDetails}>
-                <strong>{chat.name}</strong>
-                <p style={styles.chatMessage}>{chat.message}</p>
-              </div>
-              </div>
-              <div onClick={() => handleNavigate("/studentschatui")}
-              style={{display: "flex", alignItems: "center"}}>
-                <span style={{...styles.time, fontSize:"12px", marginRight: "20px"}}>2:32pm</span>
-                <button style={styles.chatButton}>Continue Chat</button>
-              </div>
             </div>
-            ))}
           </div>
       </div>
     );
@@ -233,40 +151,6 @@ const styles = {
         margin: "0 auto",
         backgroundColor: "#f9f9f9",
         color: "#333",
-    },
-    messagerequestCard: {
-        display:"flex",
-        flexDirection: "column",
-        width: "370px",
-        height: "170px",
-        background: "#E8F0FF",
-        justifyContent: "space-between",
-        borderRadius: "20px",
-        padding: "20px",
-        boxShadow: "0px 0px 1px rgba(12, 26, 75, 0.24), 0px 3px 8px rgba(50, 50, 71, 0.05)",
-    },
-    chatBox: { 
-        backgroundColor: "#E7F5E3",
-        width: "370px",
-        height: "170px",
-        borderRadius: "20px",
-        justifyContent: "space-between",
-        padding: "20px",   
-        boxShadow: "0px 0px 1px rgba(12, 26, 75, 0.24), 0px 3px 8px rgba(50, 50, 71, 0.05)",    
-    },
-    messagerequestbutton: {
-        backgroundColor: "#1E4CA1",
-        color: "white",
-        borderRadius: "8px",
-        padding: "12px 16.5px",
-    },
-    chatboxbutton:{
-        borderRadius: "8px",
-        paddingTop: "12px",
-        paddingRight: "16.5px",
-        paddingBottom: "12px",
-        paddingLeft: "16.5px",
-        background: "#6EC158",
     },
     bookSessioncontainer: {
         backgroundColor: "#E8F0FF",

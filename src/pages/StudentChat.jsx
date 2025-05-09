@@ -17,20 +17,10 @@ const StudentChat = () => {
           <h2 style={styles.headerTitle}>Student</h2>
 
           <div style={styles.filtersContainer}>
-            <button style={{...styles.filterButton,
-                fontWeight: "bold"
-            }}>
-              All Counselors
-              <span style={styles.filterIcon}>
-                <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-              </span>
-            </button>
-            <button style={styles.filterButton}>
-              Sort by
-              <span style={styles.filterIcon}>
-                <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-              </span>
-            </button>
+            <select style={{ ...styles.filterButton, fontWeight: "bold", appearance: "none" }}>
+              <option value="all">All Students</option>
+              <option value="recent">Recent Students</option>
+            </select>
           </div>
         </div>
 

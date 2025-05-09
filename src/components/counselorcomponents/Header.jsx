@@ -103,16 +103,6 @@ const Header = ({ imageUrl }) => {
           gap: "10px",
         }}
       >
-        <div style={styles.searchContainer}>
-          <div style={styles.search}>
-            <SearchIcon style={styles.searchIcon} />
-            <input
-              style={styles.searchInput}
-              type="text"
-              placeholder="Search"
-            />
-          </div>
-        </div>
         <div style={styles.userInfo}>
           <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <div style={{ position: "relative" }}>
