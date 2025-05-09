@@ -18,7 +18,7 @@ const AiInsights = () =>{
                 }}>
                 <h1 style={{fontWeight:"500px", fontFamily:"Manrope",}}>Hi there, <span style={{backgroundImage: "linear-gradient(90deg, #F7CFFF 8.06%, #3F6AD2 50%, #FE6FA5 100%)",
                     WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",}}>John.</span> 
+                    WebkitTextFillColor: "transparent",}}>{user.name}.</span> 
                 <br /><span>What would you like to know?</span>
                 </h1>
                 <div style={{display: "flex", alignItems: "center"}}>

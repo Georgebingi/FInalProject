@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const styles = {
   container: {
@@ -211,18 +212,84 @@ const styles = {
 
 
 const GoalsAndProgress = () => {
+  const [goals, setGoals] = useState([]); // List of goals
+  const [newGoal, setNewGoal] = useState({
+    title: "",
+    description: "",
+    type: "Personal",
+    timeframe: "Daily",
+    preferred_time: "8:00am",
+  }); // New goal form data
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
 
-  
+  // Fetch goals from the backend
+  const fetchGoals = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8000/api/goals", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setGoals(response.data.data); // Assuming pagination
+    } catch (err) {
+      setError("Failed to fetch goals. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Create a new goal
+  const createGoal = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:8000/api/goals",
+        newGoal,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setGoals((prevGoals) => [...prevGoals, response.data.goal]); // Add new goal to the list
+      setNewGoal({
+        title: "",
+        description: "",
+        type: "Personal",
+        timeframe: "Daily",
+        preferred_time: "8:00am",
+      }); // Reset form
+    } catch (err) {
+      setError("Failed to create goal. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete a goal
+  const deleteGoal = async (id) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:8000/api/goals/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id)); // Remove goal from the list
+    } catch (err) {
+      setError("Failed to delete goal. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch goals on component mount
+  useEffect(() => {
+    fetchGoals();
+  }, []);
+
   const months = [
     1, 1.5, 2.5, 2.8, 2.3, 2, 2, 1.2, 2.8, 3.5, 4.2, 4.8,
   ];
-  
-  const [goals, setGoals] = useState([
-    'Practice 200 push-ups weekly',
-    'Read 10 Books before February',
-    'Practice 100 push-ups weekly',
-    'Read 5 Books before January',
-  ]);
 
   return (
     <div style={styles.container}>
@@ -336,71 +403,102 @@ const GoalsAndProgress = () => {
       </div>
               </div>
       
-      {/* Set Goals Form */}
-      <div style={styles.formSection}>
-        <h2 style={styles.header}>Set Goals</h2>
-
-        <label style={styles.label}>Goal Type</label>
-        <select style={styles.input}>
-          <option>Personal</option>
-          <option>Work</option>
-        </select>
-
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <div style={{ flex: 1 }}>
-            <label style={styles.label}>Timeframe</label>
-            <select style={styles.input}>
-              <option>Daily</option>
-              <option>Weekly</option>
-              <option>Monthly</option>
-            </select>
-          </div>
-
-          <div style={{ flex: 1 }}>
-            <label style={styles.label}>Preferred Time</label>
-            <select style={styles.input}>
-              <option>8:00am</option>
-              <option>12:30pm</option>
-              <option>6:00pm</option>
-            </select>
-          </div>
-        </div>
-
-        <label style={styles.label}>Goal Title</label>
-        <input type="text" style={styles.input} placeholder="Practice 200 push-ups weekly" />
-
-        <label style={styles.label}>Description</label>
-        <textarea style={styles.textarea} placeholder="Reduce daily stress by practicing push-up exercises." />
-
-        <button style={styles.button}>Set Goal</button>
-      </div>
+      {/* Error Message */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {/* Goals List */}
       <div style={styles.goalListSection}>
         <div style={styles.goalListHeader}>
-          <h2 style={{ ...styles.header, fontSize: '1.25rem', marginBottom: 0 }}>Goals</h2>
-          <select style={{ ...styles.input, width: 'auto', padding: '0.25rem 0.75rem', marginBottom: 0 }}>
-            <option>August</option>
-            <option>September</option>
-          </select>
+          <h2 style={{ ...styles.header, fontSize: "1.25rem", marginBottom: 0 }}>
+            Goals
+          </h2>
         </div>
 
-        <input type="text" placeholder="Search" style={styles.input} />
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul>
+            {goals.map((goal) => (
+              <li key={goal.id} style={styles.goalItem}>
+                <span>{goal.title}</span>
+                <button
+                  onClick={() => deleteGoal(goal.id)}
+                  style={{ marginLeft: "10px", color: "red" }}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-        {goals.map((goal, index) => (
-          <div key={index} style={styles.goalItem}>
-            <span style={styles.circle}></span>
-            {goal}
-          </div>
-        ))}
+      {/* Create Goal Form */}
+      <div style={styles.formSection}>
+        <h2 style={styles.header}>Set Goals</h2>
 
-        {/* Pagination */}
-        <div style={styles.pagination}>
-          <span>Showing {goals.length} of {goals.length}</span>
-          <button style={styles.paginationBtn}>1</button>
-          <button style={styles.paginationBtn}>2</button>
-          <button style={styles.paginationBtn}>3</button>
-        </div>
+        <label style={styles.label}>Goal Title</label>
+        <input
+          type="text"
+          style={styles.input}
+          value={newGoal.title}
+          onChange={(e) =>
+            setNewGoal((prev) => ({ ...prev, title: e.target.value }))
+          }
+          placeholder="Practice 200 push-ups weekly"
+        />
+
+        <label style={styles.label}>Description</label>
+        <textarea
+          style={styles.textarea}
+          value={newGoal.description}
+          onChange={(e) =>
+            setNewGoal((prev) => ({ ...prev, description: e.target.value }))
+          }
+          placeholder="Reduce daily stress by practicing push-up exercises."
+        />
+
+        <label style={styles.label}>Goal Type</label>
+        <select
+          style={styles.input}
+          value={newGoal.type}
+          onChange={(e) =>
+            setNewGoal((prev) => ({ ...prev, type: e.target.value }))
+          }
+        >
+          <option>Personal</option>
+          <option>Work</option>
+        </select>
+
+        <label style={styles.label}>Timeframe</label>
+        <select
+          style={styles.input}
+          value={newGoal.timeframe}
+          onChange={(e) =>
+            setNewGoal((prev) => ({ ...prev, timeframe: e.target.value }))
+          }
+        >
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+        </select>
+
+        <label style={styles.label}>Preferred Time</label>
+        <select
+          style={styles.input}
+          value={newGoal.preferred_time}
+          onChange={(e) =>
+            setNewGoal((prev) => ({ ...prev, preferred_time: e.target.value }))
+          }
+        >
+          <option>8:00am</option>
+          <option>12:30pm</option>
+          <option>6:00pm</option>
+        </select>
+
+        <button onClick={createGoal} style={styles.button} disabled={loading}>
+          {loading ? "Creating..." : "Set Goal"}
+        </button>
       </div>
     </div>
   );

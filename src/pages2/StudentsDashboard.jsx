@@ -3,8 +3,11 @@ import vd_2 from "../assets/vd_2.png";
 import Glassmorphic from "../assets/Glassmorphic.png"
 import { SearchIcon, ChevronDown, ChevronRight, ChevronLeft, LucideMessagesSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 const StudentsDashboard = () => {
+  const { user, logout } = useContext(UserContext);
   const chatData = [
     { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
     { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },

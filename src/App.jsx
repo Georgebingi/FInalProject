@@ -28,6 +28,7 @@ import { useState } from "react";
 import ChatHistory from "./pages2/ChatHistory";
 import GoalsAndProgress from "./pages2/GoalsAndProgress";
 import CounselorSignin from "./Auth/CounselorSignin";
+import { UserProvider } from "./context/UserContext";
 
 const App = () => {
   const [image, setImage] = useState(null);
@@ -66,6 +67,7 @@ const App = () => {
   };
 
   return (
+    <UserProvider>
     <Router>
       {/* Students Routes */}
       <Routes>
@@ -377,6 +379,7 @@ const App = () => {
       />
       </Routes>
     </Router>
+    </UserProvider>
   );
 };
 

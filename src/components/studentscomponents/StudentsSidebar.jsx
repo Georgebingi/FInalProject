@@ -4,10 +4,14 @@ import Glassmorphic from "../../assets/Glassmorphic.png";
 import DashboardIcon from "../../assets/DashboardIcon.png";
 import { SettingsIcon, LogOut, UserIcon, LucideLayers, LucideGoal, LucideHistory } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+
+
 
 
 const StudentsSidebar = () => {
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
@@ -160,7 +164,8 @@ const StudentsSidebar = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/roleselection")}
+            onClick={() => { logout();
+               handleNavigate("/roleselection")}}
           style={{
             ...styles.logout,
             ...(activePath === "/" && styles.active),

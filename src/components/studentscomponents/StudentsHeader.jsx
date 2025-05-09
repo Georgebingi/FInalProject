@@ -1,13 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { SearchIcon, Bell, User, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-
+// import { motion } from "framer-motion";
+// import { useState } from "react";
+import { UserContext } from "../../context/UserContext";
 const StudentsHeader = ({ studentImageUrl: imageUrl }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useContext(UserContext);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -91,7 +94,7 @@ const StudentsHeader = ({ studentImageUrl: imageUrl }) => {
       }}
     >
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h1 style={styles.welcome}>Welcome Back, John!</h1>
+        <h1 style={styles.welcome}>Welcome Back, {user ? user.name : "No user logged in"}</h1>
         <span style={styles.greetings}>How are you Today?</span>
       </div>
       <div
@@ -154,9 +157,9 @@ const StudentsHeader = ({ studentImageUrl: imageUrl }) => {
                 fontFamily: "Arial",
               }}
             >
-              John Dillingham
+              {user ? user.name : "No user logged in"}
             </span>
-            <span style={styles.role}>Student</span>
+            <span style={styles.role}>{user ? user.role : "No Role"}</span>
           </div>
 
           {/* Profile Image Clickable */}

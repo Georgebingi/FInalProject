@@ -1,87 +1,99 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import NileLogo from "../assets/Nile_logo.png";
 import Vector from "../assets/Vector.png";
-import { Link } from "react-router-dom";
 
 const CounselorSignin = () => {
   const [email, setEmail] = useState("");
-  const [studentId, setStudentId] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [password, setPassword] = useState(""); // Add password field
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email,
+        password,
+      });
+
+      // Handle successful login
+      const { redirect_to, user } = response.data;
+      localStorage.setItem("token", response.data.token); // Save token
+      localStorage.setItem("user", JSON.stringify(user)); // Save user info
+      navigate(redirect_to); // Redirect to counselor dashboard
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={styles.container}>
-      {/* Left Section - Sign In Form */}
       <div style={styles.leftSection}>
         <h2 style={styles.heading}>Sign in</h2>
         <p style={styles.subText}>Welcome back to MentorMindAI</p>
 
-        {/* School Email Input */}
-        <label style={styles.label}>School Email</label>
-        <div style={styles.inputContainer}>
-          <input
-            type="email"
-            placeholder="thisguy@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-          <span style={styles.icon}>
-            <img src={Vector} alt="Vector" style={styles.vector} />
-          </span>
-        </div>
-
-        {/* Student ID Input */}
-        <label style={styles.label}>Counsellor ID</label>
-        <div style={styles.inputContainer}>
-          <input
-            type="text"
-            placeholder="Enter Counsellor ID"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            style={styles.input}
-          />
-          <span style={styles.icon}>
-            <img src={Vector} alt="Vector" style={styles.vector} />
-          </span>
-        </div>
-
-        {/* Remember Me & Forgot Password */}
-        <div style={styles.rememberContainer}>
-          <label style={styles.checkboxLabel}>
+        <form onSubmit={handleLogin}>
+          {/* School Email Input */}
+          <label style={styles.label}>School Email</label>
+          <div style={styles.inputContainer}>
             <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              style={styles.checkbox}
+              type="email"
+              placeholder="thisguy@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
             />
-            Remember me?
-          </label>
-          <a href="#" style={styles.forgotPassword}>
-            Forgot password?
-          </a>
-        </div>
+            <span style={styles.icon}>
+              <img src={Vector} alt="Vector" style={styles.vector} />
+            </span>
+          </div>
 
-        {/* Sign-in Button */}
-        <Link to="/counselor">
-        <button style={styles.signInButton}
-        >Sign in</button>
-        </Link>
+          {/* Password Input */}
+          <label style={styles.label}>Password</label>
+          <div style={styles.inputContainer}>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+            />
+            <span style={styles.icon}>
+              <img src={Vector} alt="Vector" style={styles.vector} />
+            </span>
+          </div>
+
+          {/* Error Message */}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+
+          {/* Sign-in Button */}
+          <button style={styles.signInButton} disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
       </div>
 
-      {/* Right Section - Branding */}
       <div style={styles.rightSection}>
-              <div style={styles.logoContainer}>
-                <img
-                  src={NileLogo}
-                  alt="Nile University Logo"
-                  style={{
-                    ...styles.logo,
-                    imageRendering: "-webkit-optimize-contrast",
-                    imageResolution: "300dpi",
-                  }}
-                />
-              </div>
-            </div>
+        <div style={styles.logoContainer}>
+          <img
+            src={NileLogo}
+            alt="Nile University Logo"
+            style={{
+              ...styles.logo,
+              imageRendering: "-webkit-optimize-contrast",
+              imageResolution: "300dpi",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };

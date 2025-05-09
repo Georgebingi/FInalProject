@@ -1,87 +1,97 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import NileLogo from "../assets/Nile_logo.png";
 import Vector from "../assets/Vector.png";
-import { Link } from "react-router-dom";
-
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 const SignIn = () => {
+  const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email,
+        password,
+      });
+
+      const { redirect_to, user } = response.data;
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate(redirect_to);
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={styles.container}>
-      {/* Left Section - Sign In Form */}
       <div style={styles.leftSection}>
         <h2 style={styles.heading}>Sign in</h2>
         <p style={styles.subText}>Welcome back to MentorMindAI</p>
 
-        {/* School Email Input */}
-        <label style={styles.label}>School Email</label>
-        <div style={styles.inputContainer}>
-          <input
-            type="email"
-            placeholder="thisguy@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-          <span style={styles.icon}>
-            <img src={Vector} alt="Vector" style={styles.vector} />
-          </span>
-        </div>
-
-        {/* Student ID Input */}
-        <label style={styles.label}>Student ID</label>
-        <div style={styles.inputContainer}>
-          <input
-            type="text"
-            placeholder="Enter student ID"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            style={styles.input}
-          />
-          <span style={styles.icon}>
-            <img src={Vector} alt="Vector" style={styles.vector} />
-          </span>
-        </div>
-
-        {/* Remember Me & Forgot Password */}
-        <div style={styles.rememberContainer}>
-          <label style={styles.checkboxLabel}>
+        <form onSubmit={handleLogin}>
+          <label style={styles.label}>School Email</label>
+          <div style={styles.inputContainer}>
             <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              style={styles.checkbox}
+              type="email"
+              placeholder="thisguy@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
             />
-            Remember me?
-          </label>
-          <a href="#" style={styles.forgotPassword}>
-            Forgot password?
-          </a>
-        </div>
+            <span style={styles.icon}>
+              <img src={Vector} alt="Vector" style={styles.vector} />
+            </span>
+          </div>
 
-        {/* Sign-in Button */}
-        <Link to="/studentsonboarding">
-        <button style={styles.signInButton}
-        >Sign in</button>
-        </Link>
+          <label style={styles.label}>Password</label>
+          <div style={styles.inputContainer}>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+            />
+            <span style={styles.icon}>
+              <img src={Vector} alt="Vector" style={styles.vector} />
+            </span>
+          </div>
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+
+          <button style={styles.signInButton} disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
       </div>
 
-      {/* Right Section - Branding */}
       <div style={styles.rightSection}>
-              <div style={styles.logoContainer}>
-                <img
-                  src={NileLogo}
-                  alt="Nile University Logo"
-                  style={{
-                    ...styles.logo,
-                    imageRendering: "-webkit-optimize-contrast",
-                    imageResolution: "300dpi",
-                  }}
-                />
-              </div>
-            </div>
+        <div style={styles.logoContainer}>
+          <img
+            src={NileLogo}
+            alt="Nile University Logo"
+            style={{
+              ...styles.logo,
+              imageRendering: "-webkit-optimize-contrast",
+              imageResolution: "300dpi",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
