@@ -279,6 +279,21 @@ const styles = {
         borderRadius: "8px",
         cursor: "pointer",
       },
+      sendButton: {
+        backgroundColor: "#6EC158",
+        border: "none",
+        cursor: "pointer",
+        width: "40px",
+        height: "40px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "50%",
+      },
+      sendIcon: {
+        cursor: "pointer",
+        color: "white",
+      },
   // Footer
   footerContainer: {
     display: "flex",

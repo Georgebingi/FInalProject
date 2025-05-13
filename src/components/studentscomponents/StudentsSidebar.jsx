@@ -112,40 +112,6 @@ const StudentsSidebar = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/goalsandprogress")}
-          style={{
-            ...styles.navItem,
-            ...(activePath === "/goalsandprogress" && styles.active || activePath === "/goalsandprogress" && styles.active),
-          }}
-        >
-          <LucideGoal size={20} 
-          style={{marginRight: "5px",
-            transform: "translateY(20%)"}}
-          />
-          Goals & Progress
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/chathistory")}
-          style={{
-            ...styles.navItem,
-            ...(activePath === "/chathistory" && styles.active || activePath === "/chathistory" && styles.active),
-          }}
-        >
-          <LucideHistory size={20} 
-          style={{marginRight: "5px",
-            transform: "translateY(20%)"}}
-          />
-          Chat History
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
           onClick={() => handleNavigate("/studentssettings")}
           style={{
             ...styles.navItem,
