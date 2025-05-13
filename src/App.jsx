@@ -25,13 +25,12 @@ import StudentsChatUI from "./pages2/StudentsChatUI";
 import StudentsMentorMind from "./pages2/StudentsMentorMind";
 import StudentResources from "./pages2/StudentResources";
 import { useState } from "react";
-import ChatHistory from "./pages2/ChatHistory";
-import GoalsAndProgress from "./pages2/GoalsAndProgress";
 import CounselorSignin from "./Auth/CounselorSignin";
 import { UserProvider } from "./context/UserContext";
 import ScheduleMeeting from "./pages2/ScheduleMeeting";
 import StartChatting from "./pages2/StartChatting";
 import ContinueChat from "./pages2/ContinueChat";
+import StudentsCounselorDetails from "./pages2/StudentCounselorDetails";
  
 
 const App = () => {
@@ -101,26 +100,6 @@ const App = () => {
           }
         />
         <Route
-          path="/chathistory"
-          element={
-            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
-              <div style={{ flex: 1, overflow: "auto" }}>
-                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-                  <StudentsHeader
-                    studentImageUrl={studentImageUrl}
-                    handleStudentImageChange={handleStudentImageChange}
-                    handleStudentDeleteImage={handleStudentDeleteImage}
-                  />
-                </div>
-                <div style={{ overflow: "hidden", height:"240vh", backgroundColor: "#f9f9f9" }}>
-                  <ChatHistory />
-                </div>
-              </div>
-            </div>
-          }
-        />
-        <Route
           path="/startchatting"
           element={
             <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
@@ -155,26 +134,6 @@ const App = () => {
                 </div>
                 <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
                   <ScheduleMeeting />
-                </div>
-              </div>
-            </div>
-          }
-        />
-         <Route
-          path="/goalsandprogress"
-          element={
-            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
-              <div style={{ flex: 1, overflow: "auto" }}>
-                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-                  <StudentsHeader
-                    studentImageUrl={studentImageUrl}
-                    handleStudentImageChange={handleStudentImageChange}
-                    handleStudentDeleteImage={handleStudentDeleteImage}
-                  />
-                </div>
-                <div style={{ overflow: "hidden", width:"81.5vw", height:"340vh", backgroundColor: "#f9f9f9" }}>
-                  <GoalsAndProgress />
                 </div>
               </div>
             </div>
@@ -296,7 +255,26 @@ const App = () => {
                   />
                 </div>
                 <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
-                  <StudentsChatUI id="/continuechat" />
+                  <ContinueChat id="/continuechat" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+         <Route
+          path="/studentcounselordetails"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
+                  <StudentsCounselorDetails id="/studentcounselordetails" />
                 </div>
               </div>
             </div>
