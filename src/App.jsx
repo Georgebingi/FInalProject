@@ -29,6 +29,7 @@ import CounselorSignin from "./Auth/CounselorSignin";
 import ScheduleMeeting from "./pages2/ScheduleMeeting";
 import StartChatting from "./pages2/StartChatting";
 import ContinueChat from "./pages2/ContinueChat";
+import StudentsCounselorDetails from "./pages2/StudentCounselorDetails";
  
 
 const App = () => {
@@ -252,7 +253,26 @@ const App = () => {
                   />
                 </div>
                 <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
-                  <StudentsChatUI id="/continuechat" />
+                  <ContinueChat id="/continuechat" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+         <Route
+          path="/studentcounselordetails"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
+                  <StudentsCounselorDetails id="/studentcounselordetails" />
                 </div>
               </div>
             </div>

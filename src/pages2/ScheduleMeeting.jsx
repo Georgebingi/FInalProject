@@ -3,7 +3,7 @@ import DiscussionIcon from "../assets/DiscussionIcon.png";
 import { useNavigate } from "react-router-dom";
 
 
-const StudentsCounselorSession = () => {
+const ScheduleMeeting = () => {
 
   const navigate = useNavigate();
   
@@ -80,42 +80,49 @@ const StudentsCounselorSession = () => {
                 </div>
                 </div>
             {/* Table Section */}
-                  <div style={styles.tableWrapper}>
-                    <table style={styles.table}>
-                    <thead>
-                    <tr style={styles.tableHeaderRow}>
+            <div style={styles.tableWrapper}>
+              <table style={styles.table}>
+                <thead>
+                  <tr style={styles.tableHeaderRow}>
                     <th>Counselor</th>
                     <th>Specialization</th>
                     <th>Experience</th>
                     <th>Office Number</th>
                     <th>Email</th>
                     <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {[1, 2, 3, 4].map((_, index) => (
+                  </tr>
+                </thead>
+                <tbody>
+                  {[1, 2, 3, 4].map((_, index) => (
                     <tr key={index} style={styles.tableBodyRow}>
-                      <td style={styles.studentCell}>
-                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                      Jesse Thomas
+                      <td
+                        style={styles.studentCell}
+                        onClick={() => {
+                          if (index < 2) handleNavigate(`/studentcounselordetails`);
+                        }}
+                      >
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                        Jesse Thomas
                       </td>
                       <td>Academic Guidance</td>
                       <td>{["12 Years", "12 Years", "12 Years", "12 Years"][index]}</td>
                       <td>4853966</td>
                       <td>jt@gmail.com</td>
                       <td>
-                      <span style={{ 
-                      color: index >= 2 ? "red" : "green", 
-                      fontWeight: "bold" 
-                      }}>
-                      {index >= 2 ? "Busy" : "Available"}
-                      </span>
+                        <span
+                          style={{
+                            color: index >= 2 ? "red" : "green",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {index >= 2 ? "Busy" : "Available"}
+                        </span>
                       </td>
                     </tr>
-                    ))}
-                    </tbody>
-                    </table>
-                  </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
                 
                   {/* Footer Section */}
             <div style={styles.footerContainer}>
@@ -138,7 +145,7 @@ const StudentsCounselorSession = () => {
       </div>
     );
 }
-export default StudentsCounselorSession;
+export default ScheduleMeeting;
 
 const styles = {
     container: {
