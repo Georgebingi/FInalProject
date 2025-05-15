@@ -3,13 +3,25 @@ import React from "react";
 const StudentCounselorDetails = () => {
   // Sample data for demonstration
   const counselorDetails = {
-    name: "Mrs. Daniella Phillips",
+    name: (
+      <span style={{ width: "298px", height: "38px", display: "inline-block" }}>
+        Mrs. Daniella Phillips
+      </span>
+    ),
     specialization: "Psychology",
     experience: "12 Years",
     officeNumber: "4853966",
     email: "daniPhil@example.com",
     status: "Available",
     rating: 4,
+    ratingStyle: {
+      width: "200px",
+      height: "50px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      margin: "0 auto",
+    },
   };
 
   return (
@@ -18,7 +30,20 @@ const StudentCounselorDetails = () => {
         <h2 style={{ ...styles.headerTitle, color: "#000000" }}>Session Details</h2>
         <form style={styles.form}>
           <label style={{ ...styles.label, color: "#000000" }}>Session Topic</label>
-          <select style={{ ...styles.input, backgroundColor: "#fff", color: "#000000" }}>
+          <select
+            style={{
+              ...styles.input,
+              backgroundColor: "#fff",
+              color: "#000000",
+              width: "200px",
+              height: "44px",
+              minWidth: "200px",
+              minHeight: "44px",
+              maxWidth: "200px",
+              maxHeight: "44px",
+              borderRadius: "30px",
+            }}
+          >
             <option
               style={{
                 color: "#000000",
@@ -33,27 +58,72 @@ const StudentCounselorDetails = () => {
             <option style={{ color: "#000000" }}>Mental Health</option>
           </select>
 
-          <label style={{ ...styles.label, color: "#000000" }}>Preferred Date</label>
-          <select style={{ ...styles.input, backgroundColor: "#fff", color: "#000000" }}>
-            <option style={{ color: "#000000" }}>Monday</option>
-            <option style={{ color: "#000000" }}>Tuesday</option>
-            <option style={{ color: "#000000" }}>Wednesday</option>
-            <option style={{ color: "#000000" }}>Thursday</option>
-            <option style={{ color: "#000000" }}>Friday</option>
-          </select>
+          {/* Preferred Date and Time on the same line */}
+          <div style={{ display: "flex", gap: "20px", alignItems: "flex-end" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ ...styles.label, color: "#000000" }}>Preferred Date</label>
+              <select
+                style={{
+                  ...styles.input,
+                  backgroundColor: "#fff",
+                  color: "#000000",
+                  width: "134px",
+                  height: "44px",
+                  minWidth: "134px",
+                  minHeight: "44px",
+                  maxWidth: "134px",
+                  maxHeight: "44px",
+                }}
+              >
+                <option style={{ color: "#000000" }}>Monday</option>
+                <option style={{ color: "#000000" }}>Tuesday</option>
+                <option style={{ color: "#000000" }}>Wednesday</option>
+                <option style={{ color: "#000000" }}>Thursday</option>
+                <option style={{ color: "#000000" }}>Friday</option>
+              </select>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label style={{ ...styles.label, color: "#000000" }}>Preferred Time</label>
+              <select
+                style={{
+                  ...styles.input,
+                  backgroundColor: "#fff",
+                  color: "#000000",
+                  width: "134px",
+                  height: "44px",
+                  minWidth: "134px",
+                  minHeight: "44px",
+                  maxWidth: "134px",
+                  maxHeight: "44px",
+                }}
+              >
+                <option style={{ color: "#000000" }}>10:00am</option>
+                <option style={{ color: "#000000" }}>11:00am</option>
+                <option style={{ color: "#000000" }}>12:00pm</option>
+                <option style={{ color: "#000000" }}>1:00pm</option>
+                <option style={{ color: "#000000" }}>2:00pm</option>
+                <option style={{ color: "#000000" }}>3:00pm</option>
+                <option style={{ color: "#000000" }}>4:00pm</option>
+                <option style={{ color: "#000000" }}>5:00pm</option>
+              </select>
+            </div>
+          </div>
 
-          <label style={{ ...styles.label, color: "#000000" }}>Preferred Time</label>
-          <select style={{ ...styles.input, backgroundColor: "#fff", color: "#000000" }}>
-            <option style={{ color: "#000000" }}>10:00am</option>
-            <option style={{ color: "#000000" }}>12:30pm</option>
-            <option style={{ color: "#000000" }}>3:00pm</option>
-          </select>
-
-          <label style={{ ...styles.label, color: "#000000" }}>Email</label>
+          <label style={{ ...styles.label, color: "#000000" }}>
+            Email
+          </label>
           <input
             type="email"
             placeholder="Enter your email"
-            style={{ ...styles.input, backgroundColor: "#fff", color: "#000000" }}
+            style={{
+              ...styles.input,
+              backgroundColor: "#fff",
+              color: "#000000",
+              width: "450px", // width for the email input
+              height: "40px", // height for the email input
+              borderRadius: "10px",
+              border: "1px solid #ccc",
+            }}
           />
 
           <label style={{ ...styles.label, color: "#000000" }}>
@@ -64,7 +134,22 @@ const StudentCounselorDetails = () => {
             style={{ ...styles.textarea, backgroundColor: "#fff", color: "#000000" }}
           ></textarea>
 
-          <button type="submit" style={{ ...styles.button }}>
+          <button
+            type="submit"
+            style={{
+              ...styles.button,
+              width: "150px",
+              height: "44px",
+              minWidth: "150px",
+              minHeight: "44px",
+              maxWidth: "150px",
+              maxHeight: "44px",
+              gap: "8px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             Send Request
           </button>
         </form>
