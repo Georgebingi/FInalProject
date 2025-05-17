@@ -186,25 +186,10 @@ const StudentsMentorMind = () => {
                 <strong style={{...styles.notification, fontSize:"15px", fontFamily:"Manrope", color: "#565656", fontWeight:"bold"}}>{chat.notification}</strong>
               </div>
             </div>
-          ))}
-        </div>
-        {/* Footer Section */}
-        <div style={styles.footerContainer}>
-          <span>Showing <b>4</b> of 4</span>
-          <div style={styles.paginationContainer}>
-            <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
-              <ChevronLeft size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-            </button>
-            <button style={{...styles.paginationButton, border: "1px solid #089156"}}>
-              1
-            </button>
-            <button style={styles.paginationButton}>2</button>
-            <button style={styles.paginationButton}>3</button>
-            <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
-              <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-            </button>
+            ))}
           </div>
-        </div>
+          
+            </div>
       </div>
     </div>
   );
