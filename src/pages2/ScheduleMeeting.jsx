@@ -1,10 +1,18 @@
 import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight} from "lucide-react";
 import DiscussionIcon from "../assets/DiscussionIcon.png";
 import { useNavigate } from "react-router-dom";
-
+import React, { useEffect, useState } from 'react';
+import api from '../api/axios';
 
 const ScheduleMeeting = () => {
+  const [counselors, setCounselors] = useState([]);
+  const [selected, setSelected] = useState(null);
 
+  useEffect(() => {
+    api.get('/counselors')
+      .then(res => setCounselors(res.data))
+      .catch(err => console.error(err));
+  }, []);
   const navigate = useNavigate();
   
   const handleNavigate = (path) => {
@@ -93,29 +101,29 @@ const ScheduleMeeting = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[1, 2, 3, 4].map((_, index) => (
-                    <tr key={index} style={styles.tableBodyRow}>
+                  {counselors.map(c => (
+                    <tr key={c.id} style={styles.tableBodyRow}>
                       <td
                         style={styles.studentCell}
                         onClick={() => {
-                          if (index < 2) handleNavigate(`/studentcounselordetails`);
+                         handleNavigate(`/studentcounselordetails`);
                         }}
                       >
                         <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                        Jesse Thomas
+                        {c.name}
                       </td>
-                      <td>Academic Guidance</td>
-                      <td>{["12 Years", "12 Years", "12 Years", "12 Years"][index]}</td>
-                      <td>4853966</td>
-                      <td>jt@gmail.com</td>
+                      <td>{c.counselor_profile?.specialization || '—'}</td>
+                      <td>{c.counselor_profile?.experience || '—'}</td>
+                      <td>{c.counselor_profile?.office_number || '—'}</td>
+                      <td>{c.email || '—'}</td>
                       <td>
                         <span
                           style={{
-                            color: index >= 2 ? "red" : "green",
+                            color: c >= 2 ? "red" : "green",
                             fontWeight: "bold",
                           }}
                         >
-                          {index >= 2 ? "Busy" : "Available"}
+                          {c.counselor_profile?.status || '—'}
                         </span>
                       </td>
                     </tr>

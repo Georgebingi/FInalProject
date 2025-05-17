@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../api/axios";
 import NileLogo from "../assets/Nile_logo.png";
 import Vector from "../assets/Vector.png";
 import { UserContext } from "../context/UserContext";
@@ -20,10 +21,7 @@ const SignIn = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
-        email,
-        password,
-      });
+      const response = await api.post('/login', { email, password });
 
       const { redirect_to, user } = response.data;
       localStorage.setItem("token", response.data.token);

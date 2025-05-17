@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import api from "../api/axios";
 const handleFormSubmit = (e, email, studentId) => {
   e.preventDefault();
-  console.log("Email:", email);
-  console.log("Counsellor ID:", studentId);
+ 
 };
 import NileLogo from "../assets/Nile_logo.png";
 import Vector from "../assets/Vector.png";
@@ -23,10 +21,7 @@ const CounselorSignin = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
-        email,
-        password,
-      });
+      const response = await api.post('/login', { email, password });
 
       // Handle successful login
       const { redirect_to, user } = response.data;

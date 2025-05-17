@@ -1,10 +1,18 @@
 import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight} from "lucide-react";
 import DiscussionIcon from "../assets/DiscussionIcon.png";
 import { useNavigate } from "react-router-dom";
-
+import React, { useEffect, useState } from 'react';
+import api from '../api/axios';
 
 const StudentsCounselorSession = () => {
+  const [counselors, setCounselors] = useState([]);
+  const [selected, setSelected] = useState(null);
 
+  useEffect(() => {
+    api.get('/counselors')
+      .then(res => setCounselors(res.data))
+      .catch(err => console.error(err));
+  }, []);
   const navigate = useNavigate();
   
   const handleNavigate = (path) => {
@@ -145,25 +153,25 @@ const StudentsCounselorSession = () => {
               <table style={styles.table}>
               <thead>
                 <tr style={styles.tableHeaderRow}>
-                <th>Student</th>
+                <th>Counsellor</th>
                 <th>Date</th>
-                <th>Time</th>
-                <th>Student ID</th>
+                {/* <th>Time</th> */}
+                <th>Room Number</th>
                 <th>Email</th>
                 <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[1, 2, 3, 4].map((_, index) => (
-                <tr key={index} style={styles.tableBodyRow}>
+                {counselors.map( c => (
+                <tr key={c.id} style={styles.tableBodyRow}>
                   <td style={styles.studentCell}>
                   <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                  Jesse Thomas
+                      {c.name}
                   </td>
-                  <td>12/2/2024</td>
-                  <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td>
-                  <td>4853966</td>
-                  <td>jt@gmail.com</td>
+                  <td>{c.name}</td>
+                  {/* <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td> */}
+                  <td>{c.office_number}</td>
+                    <td>{c.email}</td>
                   <td>
                   <button onClick={() => handleNavigate("/studentsschedulesession")}
                    style={styles.viewButton}>View</button>
