@@ -189,7 +189,7 @@ const StudentsMentorMind = () => {
             ))}
           </div>
           
-            </div>
+            
       </div>
     </div>
   );

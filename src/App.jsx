@@ -31,9 +31,14 @@ import ScheduleMeeting from "./pages2/ScheduleMeeting";
 import StartChatting from "./pages2/StartChatting";
 import ContinueChat from "./pages2/ContinueChat";
 import StudentsCounselorDetails from "./pages2/StudentCounselorDetails";
- 
+
 
 const App = () => {
+  // useEffect(() => {
+  //   api.get('/counselors')
+  //     .then(res => setCounselors(res.data))
+  //     .catch(err => console.error(err));
+  // }, []);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("https://randomuser.me/api/portraits/men/75.jpg");
 
@@ -262,7 +267,7 @@ const App = () => {
           }
         />
          <Route
-          path="/studentcounselordetails"
+            path="/studentcounselordetails/:id"
           element={
             <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
               <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />

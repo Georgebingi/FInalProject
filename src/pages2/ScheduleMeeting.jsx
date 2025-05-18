@@ -1,6 +1,6 @@
 import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight} from "lucide-react";
 import DiscussionIcon from "../assets/DiscussionIcon.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
 
@@ -98,6 +98,7 @@ const ScheduleMeeting = () => {
                     <th>Office Number</th>
                     <th>Email</th>
                     <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -105,9 +106,9 @@ const ScheduleMeeting = () => {
                     <tr key={c.id} style={styles.tableBodyRow}>
                       <td
                         style={styles.studentCell}
-                        onClick={() => {
-                         handleNavigate(`/studentcounselordetails`);
-                        }}
+                        // onClick={() => {
+                        //  handleNavigate(`/studentcounselordetails`);
+                        // }}
                       >
                         <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
                         {c.name}
@@ -125,6 +126,11 @@ const ScheduleMeeting = () => {
                         >
                           {c.counselor_profile?.status || '—'}
                         </span>
+                      </td>
+                      <td>
+                        <Link style={{ width: "50px", height: "100px" }} to={`/studentcounselordetails/${c.id}`}>
+                          <button>View & Schedule</button>
+                        </Link>
                       </td>
                     </tr>
                   ))}

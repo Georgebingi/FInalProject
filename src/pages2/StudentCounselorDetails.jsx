@@ -1,6 +1,52 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../api/axios"; // Adjust the import based on your project structure
+
+import { UserContext } from "../context/UserContext";
 
 const StudentCounselorDetails = () => {
+  const { user, logout } = useContext(UserContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [counselor, setCounselor] = useState(null);
+  const [topic, setTopic] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [email, setEmail] = useState('');
+  const [notes, setNotes] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    api.get(`/counselors/${id}`)
+      .then(res => setCounselor(res.data))
+      .catch(() => navigate('/'));
+  }, [id]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const studentId = user.id;
+      console.log(user.id) // Assuming user.id is the student ID
+      await api.post('/appointments', {
+        student_id: studentId,
+        counselor_id: counselor.id,
+        session_topic: topic,
+        preferred_date: date,
+        preferred_time: time,
+        email: email,
+        notes,
+      });
+      setMessage('Appointment scheduled!');
+    } catch (err) {
+      setMessage('Failed to schedule appointment');
+    }
+  };
+
+  if (!counselor) return <p>Loading...</p>;
+
+  const profile = counselor.counselor_profile || {};
+
+
   // Sample data for demonstration
   const counselorDetails = {
     name: (
@@ -28,84 +74,56 @@ const StudentCounselorDetails = () => {
     <div style={{ ...styles.container, backgroundColor: "#fff" }}>
       <div>
         <h2 style={{ ...styles.headerTitle, color: "#000000" }}>Session Details</h2>
-        <form style={styles.form}>
+        <form onSubmit={handleSubmit} style={styles.form} >
           <label style={{ ...styles.label, color: "#000000" }}>Session Topic</label>
           <select
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
             style={{
               ...styles.input,
               backgroundColor: "#fff",
               color: "#000000",
               width: "200px",
               height: "44px",
-              minWidth: "200px",
-              minHeight: "44px",
-              maxWidth: "200px",
-              maxHeight: "44px",
               borderRadius: "30px",
             }}
           >
-            <option
-              style={{
-                color: "#000000",
-                border: "1px solid #ccc",
-                height: "24px",
-                width: "24px",
-              }}
-            >
-              Academic Guidance
-            </option>
-            <option style={{ color: "#000000" }}>Career Counseling</option>
-            <option style={{ color: "#000000" }}>Mental Health</option>
+            <option value="Academic Guidance">Academic Guidance</option>
+            <option value="Career Counseling">Career Counseling</option>
+            <option value="Mental Health">Mental Health</option>
           </select>
 
           {/* Preferred Date and Time on the same line */}
           <div style={{ display: "flex", gap: "20px", alignItems: "flex-end" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label style={{ ...styles.label, color: "#000000" }}>Preferred Date</label>
-              <select
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
                 style={{
                   ...styles.input,
                   backgroundColor: "#fff",
                   color: "#000000",
                   width: "134px",
                   height: "44px",
-                  minWidth: "134px",
-                  minHeight: "44px",
-                  maxWidth: "134px",
-                  maxHeight: "44px",
                 }}
-              >
-                <option style={{ color: "#000000" }}>Monday</option>
-                <option style={{ color: "#000000" }}>Tuesday</option>
-                <option style={{ color: "#000000" }}>Wednesday</option>
-                <option style={{ color: "#000000" }}>Thursday</option>
-                <option style={{ color: "#000000" }}>Friday</option>
-              </select>
+              />
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label style={{ ...styles.label, color: "#000000" }}>Preferred Time</label>
-              <select
+              <input
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
                 style={{
                   ...styles.input,
                   backgroundColor: "#fff",
                   color: "#000000",
                   width: "134px",
                   height: "44px",
-                  minWidth: "134px",
-                  minHeight: "44px",
-                  maxWidth: "134px",
-                  maxHeight: "44px",
                 }}
-              >
-                <option style={{ color: "#000000" }}>10:00am</option>
-                <option style={{ color: "#000000" }}>11:00am</option>
-                <option style={{ color: "#000000" }}>12:00pm</option>
-                <option style={{ color: "#000000" }}>1:00pm</option>
-                <option style={{ color: "#000000" }}>2:00pm</option>
-                <option style={{ color: "#000000" }}>3:00pm</option>
-                <option style={{ color: "#000000" }}>4:00pm</option>
-                <option style={{ color: "#000000" }}>5:00pm</option>
-              </select>
+              />
             </div>
           </div>
 
@@ -114,6 +132,8 @@ const StudentCounselorDetails = () => {
           </label>
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             style={{
               ...styles.input,
@@ -130,6 +150,8 @@ const StudentCounselorDetails = () => {
             Is there anything you'd like your counselor to know before the session? (Optional)
           </label>
           <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
             placeholder="Let your counselor know what you'd like to focus on during the session."
             style={{ ...styles.textarea, backgroundColor: "#fff", color: "#000000" }}
           ></textarea>
@@ -140,10 +162,6 @@ const StudentCounselorDetails = () => {
               ...styles.button,
               width: "150px",
               height: "44px",
-              minWidth: "150px",
-              minHeight: "44px",
-              maxWidth: "150px",
-              maxHeight: "44px",
               gap: "8px",
               display: "inline-flex",
               alignItems: "center",
@@ -153,6 +171,7 @@ const StudentCounselorDetails = () => {
             Send Request
           </button>
         </form>
+        {message && <p>{message}</p>}
       </div>
 
       <div style={{ ...styles.counselorSection, backgroundColor: "#fff" }}>
@@ -161,11 +180,11 @@ const StudentCounselorDetails = () => {
           alt="Counselor"
           style={{ ...styles.avatar }}
         />
-        <h3 style={{ ...styles.counselorName, color: "#000000" }}>{counselorDetails.name}</h3>
+        <h3 style={{ ...styles.counselorName, color: "#000000" }}>{counselor.name}</h3>
         <p style={{ ...styles.status, color: "#000000" }}>
           Status:{" "}
-          <span style={{ color: counselorDetails.status === "Available" ? "green" : "red" }}>
-            {counselorDetails.status}
+          <span style={{ color: profile.status === "Available" ? "green" : "red" }}>
+            {profile.status}
           </span>
         </p>
         <div style={styles.rating}>
@@ -173,7 +192,7 @@ const StudentCounselorDetails = () => {
             <span
               key={index}
               style={{
-                color: index < counselorDetails.rating ? "#FFD700" : "#ccc",
+                color: index < profile.rating ? "#FFD700" : "#ccc",
                 fontSize: "20px",
               }}
             >
@@ -183,19 +202,19 @@ const StudentCounselorDetails = () => {
         </div>
         <div style={{ ...styles.info, backgroundColor: "#fff", color: "#000000" }}>
           <p>
-            <strong>Full Name:</strong> {counselorDetails.name}
+            <strong>Full Name:</strong> {counselor.name}
           </p>
           <p>
-            <strong>Email Address:</strong> {counselorDetails.email}
+            <strong>Email Address:</strong> {counselor.email}
           </p>
           <p>
-            <strong>Experience:</strong> {counselorDetails.experience}
+            <strong>Experience:</strong> {profile.experience}
           </p>
           <p>
-            <strong>Office Number:</strong> {counselorDetails.officeNumber}
+            <strong>Office Number:</strong> {profile.office_number}
           </p>
           <p>
-            <strong>Specialization:</strong> {counselorDetails.specialization}
+            <strong>Specialization:</strong> {profile.specialization}
           </p>
         </div>
       </div>

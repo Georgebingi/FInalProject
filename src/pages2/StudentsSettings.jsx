@@ -7,6 +7,9 @@ import "../styles/react-datetime.css";
 const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStudentDeleteImage})=> {
 
   const [selectedDate, setSelectedDate] = useState(null);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,7 +71,7 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
               </label>
             </div>
 
-            <div style={styles.inputGroup}>
+            {/* <div style={styles.inputGroup}>
               <label style={{display: "flex", alignItems: "center",}}>
                 <span style={{color: "black", marginRight: "auto"}}>Language</span>
                 <select style={styles.select}>
@@ -77,7 +80,7 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
             <option>Spanish</option>
                 </select>
               </label>
-            </div>
+            </div> */}
 
             <div style={styles.inputGroup}>
               <label style={{display: "flex", alignItems: "center",}}>
@@ -89,7 +92,7 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
               </label>
             </div>
 
-            <div style={styles.inputGroup}>
+            {/* <div style={styles.inputGroup}>
               <label style={{display: "flex", alignItems: "center"}}>
                 <span style={{color: "black", marginRight: "auto"}}>Date and Time</span>
                 <Datetime
@@ -98,7 +101,7 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
               style={{border: "1px solid #ccc", borderRadius: "5px", padding: "5px"}}
             />
               </label>
-            </div>
+            </div> */}
 
             <div style={styles.inputGroup}>
               <label style={{display: "flex", alignItems: "center"}}>
@@ -116,6 +119,48 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
                 </select>
               </label>
             </div>
+
+            {/*Password Section*/}
+            <div style={styles.inputGroup}>
+              <label style={{display: "flex", alignItems: "center"}}>
+                <span style={{color: "black", marginRight: "auto"}}>Current Password</span>
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={e => setCurrentPassword(e.target.value)}
+                  style={styles.input}
+                  placeholder="Enter current password"
+                  required
+                />
+              </label>
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={{display: "flex", alignItems: "center"}}>
+                <span style={{color: "black", marginRight: "auto"}}>New Password</span>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                  style={styles.input}
+                  placeholder="Enter new password"
+                  required
+                />
+              </label>
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={{display: "flex", alignItems: "center"}}>
+                <span style={{color: "black", marginRight: "auto"}}>Confirm New Password</span>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  style={styles.input}
+                  placeholder="Confirm new password"
+                  required
+                />
+              </label>
+            </div>
+
             {/*Button Container*/}
           <div style={{display: "flex", marginTop: "40px", marginBottom: "20px", justifyContent: "space-between"}}>
             <div style={{display: "flex", gap: "10px"}}>
