@@ -17,33 +17,29 @@ const ScheduleMeeting = () => {
       ];
 
     return(
-      
       <div style={{...styles.container}}>
-
-
         {/* Student Section Sessions */}
         <div id="tableSection" style={styles.bookSessioncontainer}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-          <h2 style={styles.headerTitle}>Counselor Sessions</h2>
-
-          {/* Filters Section */}
-          <div style={styles.filtersContainer}>
-                  <div style={{ position: "relative" }}>
-                  <button
-                    style={styles.filterButton}
-                    onClick={() => {
+            <h2 style={styles.headerTitle}>Counselor Sessions</h2>
+            {/* Filters Section */}
+            <div style={styles.filtersContainer}>
+              <div style={{ position: "relative" }}>
+                <button
+                  style={styles.filterButton}
+                  onClick={() => {
                     const dropdown = document.getElementById("dropdownMenu");
                     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-                    }}
-                  >
-                    <span id="selectedFilter">Upcoming</span>
-                    <span style={styles.filterIcon}>
+                  }}
+                >
+                  <span id="selectedFilter">Upcoming</span>
+                  <span style={styles.filterIcon}>
                     <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-                    </span>
-                  </button>
-                  <div
-                    id="dropdownMenu"
-                    style={{
+                  </span>
+                </button>
+                <div
+                  id="dropdownMenu"
+                  style={{
                     position: "absolute",
                     top: "100%",
                     left: 0,
@@ -53,71 +49,87 @@ const ScheduleMeeting = () => {
                     boxShadow: "0px 3px 8px rgba(50, 50, 71, 0.05)",
                     zIndex: 10,
                     display: "none",
-                    }}
-                  >
-                    <button
+                  }}
+                >
+                  <button
                     style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
                     onClick={() => {
                       document.getElementById("selectedFilter").innerText = "Upcoming";
                       document.getElementById("dropdownMenu").style.display = "none";
                       console.log("Upcoming selected");
                     }}
-                    >
+                  >
                     Upcoming
-                    </button>
-                    <button
+                  </button>
+                  <button
                     style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
                     onClick={() => {
                       document.getElementById("selectedFilter").innerText = "Previous";
                       document.getElementById("dropdownMenu").style.display = "none";
                       console.log("Previous selected");
                     }}
-                    >
+                  >
                     Previous
-                    </button>
-                  </div>
-                  </div>
+                  </button>
                 </div>
-                </div>
-            {/* Table Section */}
-                  <div style={styles.tableWrapper}>
-                    <table style={{ ...styles.table, backgroundColor: "#E8F5E9" }}>
-                    <thead>
-                    <tr style={{ ...styles.tableHeaderRow, backgroundColor: "#4CAF50" }}>
-                    <th>Counselor</th>
-                    <th>Specialization</th>
-                    <th>Experience</th>
-                    <th>Office Number</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {[1, 2, 3, 4].map((_, index) => (
-                    <tr key={index} style={styles.tableBodyRow}>
+              </div>
+            </div>
+          </div>
+          {/* Table Section */}
+          <div style={styles.tableWrapper}>
+            <table style={{ ...styles.table, backgroundColor: "#E8F5E9" }}>
+              <thead>
+                <tr style={{ ...styles.tableHeaderRow, backgroundColor: "#4CAF50" }}>
+                  <th>Counselor</th>
+                  <th>Specialization</th>
+                  <th>Experience</th>
+                  <th>Office Number</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[1, 2, 3, 4].map((_, index) => {
+                  const isAvailable = index < 2;
+                  const rowContent = (
+                    <>
                       <td style={styles.studentCell}>
-                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                      Jesse Thomas
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                        Jesse Thomas
                       </td>
                       <td>Academic Guidance</td>
-                      <td>{["12 Years", "12 Years", "12 Years", "12 Years"][index]}</td>
+                      <td>12 Years</td>
                       <td>4853966</td>
                       <td>jt@gmail.com</td>
                       <td>
-                      <span style={{ 
-                      color: index >= 2 ? "red" : "green", 
-                      fontWeight: "bold" 
-                      }}>
-                      {index >= 2 ? "Busy" : "Available"}
-                      </span>
+                        <span style={{ 
+                          color: isAvailable ? "green" : "red", 
+                          fontWeight: "bold" 
+                        }}>
+                          {isAvailable ? "Available" : "Busy"}
+                        </span>
                       </td>
+                    </>
+                  );
+                  return isAvailable ? (
+                    <tr
+                      key={index}
+                      style={{ ...styles.tableBodyRow, cursor: "pointer" }}
+                      onClick={() => handleNavigate("/ContinueChat")}
+                      title="Click to chat"
+                    >
+                      {rowContent}
                     </tr>
-                    ))}
-                    </tbody>
-                    </table>
-                  </div>
-                
+                  ) : (
+                    <tr key={index} style={styles.tableBodyRow}>
+                      {rowContent}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
+        </div>
       </div>
     );
 }
