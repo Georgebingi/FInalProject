@@ -30,7 +30,6 @@ import ScheduleMeeting from "./pages2/ScheduleMeeting";
 import StartChatting from "./pages2/StartChatting";
 import ContinueChat from "./pages2/ContinueChat";
 import StudentsCounselorDetails from "./pages2/StudentCounselorDetails";
- 
 
 const App = () => {
   const [image, setImage] = useState(null);
@@ -259,6 +258,7 @@ const App = () => {
             </div>
           }
         />
+       
          <Route
           path="/studentcounselordetails"
           element={

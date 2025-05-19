@@ -1,14 +1,22 @@
 import { ChevronDown, ChevronLeft, ChevronRight, SearchIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 const StudentChat = () => {
+  const navigate = useNavigate();
 
   const students = [
-    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Avaliable" },
-    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Avaliable" },
-    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Avaliable" },
-    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Avaliable" },
+    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
+    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
+    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
+    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
   ];
+
+  const handleRowClick = (student) => {
+    if (student.status === "Available") {
+      navigate(`/ChatUI/`);
+    } 
+  };
 
   return (
     <div style={styles.container}>
@@ -45,7 +53,14 @@ const StudentChat = () => {
             </thead>
             <tbody>
               {students.map((student, index) => (
-                <tr key={index} style={styles.tableBodyRow}>
+                <tr
+                  key={index}
+                  style={{
+                    ...styles.tableBodyRow,
+                    cursor: student.status === "Avaliable" ? "pointer" : "default",
+                  }}
+                  onClick={() => handleRowClick(student)}
+                >
                   <td style={styles.studentCell}>
                     <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
                     {student.name}
@@ -55,23 +70,22 @@ const StudentChat = () => {
                   <td>{student.id}</td>
                   <td>{student.email}</td>
                   <td>
-                    <strong style={{ color: "#6EC158", 
-                        fontFamily: "Manrope", 
-                        fontWeight: 700, 
-                        fontSize: "16px", 
-                        lineHeight: "120%", 
-                        letterSpacing: "-2%", 
-                        textAlign: "center", 
-                        verticalAlign: "middle" 
-                        }}>{student.status}</strong>
+                    <strong style={{
+                      color: "#6EC158",
+                      fontFamily: "Manrope",
+                      fontWeight: 700,
+                      fontSize: "16px",
+                      lineHeight: "120%",
+                      letterSpacing: "-2%",
+                      textAlign: "center",
+                      verticalAlign: "middle"
+                    }}>{student.status}</strong>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-       
       </div>
     </div>
   );
