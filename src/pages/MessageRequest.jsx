@@ -1,25 +1,29 @@
 import { ChevronDown, ChevronLeft, ChevronRight, SearchIcon } from "lucide-react";
-
+import { useEffect, useState, useContext } from "react";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
 
 const MessageRequest = () => {
+  const { user } = useContext(UserContext);
+  const [appointments, setAppointments] = useState([]);
 
-  const students = [
-    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Pending" },
-    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Pending" },
-    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Pending" },
-    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Pending" },
-  ];
+  useEffect(() => {
+    if (!user) return;
+    // Fetch appointments for this counselor (authenticated)
+    api.get("/appointmentslist")
+      .then(res => {
+        setAppointments(res.data); // Already filtered by backend
+      })
+      .catch(() => setAppointments([]));
+  }, [user]);
 
   return (
     <div style={styles.container}>
       <div style={styles.bookSessioncontainer}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-          <h2 style={styles.headerTitle}>Student</h2>
-
+          <h2 style={styles.headerTitle}>Student Appointment Requests</h2>
           <div style={styles.filtersContainer}>
-            <button style={{...styles.filterButton,
-                fontWeight: "bold"
-            }}>
+            <button style={{ ...styles.filterButton, fontWeight: "bold" }}>
               New Requests
               <span style={styles.filterIcon}>
                 <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
@@ -54,45 +58,54 @@ const MessageRequest = () => {
               </tr>
             </thead>
             <tbody>
-              {students.map((student, index) => (
-                <tr key={index} style={styles.tableBodyRow}>
-                  <td style={styles.studentCell}>
-                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                    {student.name}
-                  </td>
-                  <td>{student.topic}</td>
-                  <td>{student.level}</td>
-                  <td>{student.id}</td>
-                  <td>{student.email}</td>
-                  <td>
-                    <strong style={{ color: "#FF9500", 
-                        fontFamily: "Manrope", 
-                        fontWeight: 700, 
-                        fontSize: "16px", 
-                        lineHeight: "120%", 
-                        letterSpacing: "-2%", 
-                        textAlign: "center", 
-                        verticalAlign: "middle" 
-                        }}>{student.status}</strong>
+              {appointments.length > 0 ? (
+                appointments.map((appointment, index) => (
+                  <tr key={appointment.id} style={styles.tableBodyRow}>
+                    <td style={styles.studentCell}>
+                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                      {appointment.student?.display_name || "Unknown"}
+                    </td>
+                    <td>{appointment.session_topic}</td>
+                    <td>{appointment.student?.level || "—"}</td>
+                    <td>{appointment.student_id}</td>
+                    <td>{appointment.email || appointment.student?.email || "—"}</td>
+                    <td>
+                      <strong style={{
+                        color: "#FF9500",
+                        fontFamily: "Manrope",
+                        fontWeight: 700,
+                        fontSize: "16px",
+                        lineHeight: "120%",
+                        letterSpacing: "-2%",
+                        textAlign: "center",
+                        verticalAlign: "middle"
+                      }}>{appointment.status}</strong>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center", color: "#aaa" }}>
+                    No appointment requests found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
 
         <div style={styles.footerContainer}>
-          <span>Showing <b>4</b> of 4</span>
+          <span>Showing <b>{appointments.length}</b> of {appointments.length}</span>
           <div style={styles.paginationContainer}>
-            <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
+            <button style={{ backgroundColor: "#EAEAEA", width: "32px", height: "32px", borderRadius: "4px", padding: "0", border: "none" }}>
               <ChevronLeft size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
             </button>
-            <button style={{...styles.paginationButton, border: "1px solid #089156"}}>
+            <button style={{ ...styles.paginationButton, border: "1px solid #089156" }}>
               1
             </button>
             <button style={styles.paginationButton}>2</button>
             <button style={styles.paginationButton}>3</button>
-            <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
+            <button style={{ backgroundColor: "#EAEAEA", width: "32px", height: "32px", borderRadius: "4px", padding: "0", border: "none" }}>
               <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
             </button>
           </div>

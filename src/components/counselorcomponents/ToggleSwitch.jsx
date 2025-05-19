@@ -1,12 +1,31 @@
 import { useState } from "react";
+import api from "../../api/axios";
+import { UserContext } from "../../context/UserContext";
+import { useContext } from "react";
+const ToggleSwitch = ({ counselorId, onStatusChange }) => {
+  const { user } = useContext(UserContext);
 
-const ToggleSwitch = () => {
-  const [isOn, setIsOn] = useState(false);
+  // Guard: Wait until user is loaded
+  if (!user || !user.id) return null;
 
-  const toggleSwitch = () => {
-    setIsOn((prevState) => !prevState);
+  counselorId = user.id;
+  const initialStatus = user.counselor_profile?.status || "Unavailable"; // Use counselor_profile if available
+  const [isOn, setIsOn] = useState(initialStatus === "Available");
+  const [loading, setLoading] = useState(false);
+
+  const toggleSwitch = async () => {
+    setLoading(true);
+    const newStatus = isOn ? "Unavailable" : "Available";
+    try {
+      await api.patch(`/counselors/${user.id}/status`, { status: newStatus });
+      setIsOn(!isOn);
+      if (onStatusChange) onStatusChange(newStatus);
+    } catch (err) {
+      alert("Failed to update status");
+    }
+    setLoading(false);
   };
-
+  
   return (
     <div
       style={{
@@ -17,10 +36,11 @@ const ToggleSwitch = () => {
         display: "flex",
         alignItems: "center",
         padding: "5px",
-        cursor: "pointer",
+        cursor: loading ? "not-allowed" : "pointer",
+        opacity: loading ? 0.6 : 1,
         transition: "background-color 0.3s",
       }}
-      onClick={toggleSwitch}
+      onClick={loading ? undefined : toggleSwitch}
     >
       <div
         style={{

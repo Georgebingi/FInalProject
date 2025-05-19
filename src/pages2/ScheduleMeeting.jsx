@@ -32,7 +32,7 @@ const ScheduleMeeting = () => {
         {/* Student Section Sessions */}
         <div id="tableSection" style={styles.bookSessioncontainer}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-          <h2 style={styles.headerTitle}>Counselor Sessions</h2>
+          <h2 style={styles.headerTitle}>Available Counselors</h2>
 
           {/* Filters Section */}
           <div style={styles.filtersContainer}>

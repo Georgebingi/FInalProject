@@ -1,6 +1,6 @@
-import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight} from "lucide-react";
+import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight } from "lucide-react";
 import DiscussionIcon from "../assets/DiscussionIcon.png";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
 
@@ -13,184 +13,183 @@ const StudentsCounselorSession = () => {
       .then(res => setCounselors(res.data))
       .catch(err => console.error(err));
   }, []);
-  const navigate = useNavigate();
-  
-  const handleNavigate = (path) => {
-    navigate(path,{ replace: true });
-  }
-    const chatData = [
-        { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
-        { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
-        { id: 3, name: "Jessica Rogers", message: "Looking forward to our next session!", isOnline: false },
-      ];
 
-    return(
-      
-      <div style={{...styles.container}}>
+  const chatData = [
+    { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
+    { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
+    { id: 3, name: "Jessica Rogers", message: "Looking forward to our next session!", isOnline: false },
+  ];
+
+  return (
+    <div style={{ ...styles.container }}>
       <div style={styles.messagerequestCard}>
         <p style={{
-        color:"#3D3D3D",
-        fontFamily: "Manrope",
-        fontWeight: 500,
-        fontSize: "20px",
-        lineHeight: "100%",
-        width:"277px",
-        letterSpacing: "-3%",
+          color: "#3D3D3D",
+          fontFamily: "Manrope",
+          fontWeight: 500,
+          fontSize: "20px",
+          lineHeight: "100%",
+          width: "277px",
+          letterSpacing: "-3%",
         }}>
-        Schedule a live meeting with an
-        available counsellor?
+          Schedule a live meeting with an
+          available counsellor?
         </p>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-        <img style={{height: "60px", width: "60px"}} src={DiscussionIcon} alt="Discussion Icon" />
-        <div style={{position: "relative"}}>
-          <button style={{
-          width: "184px",
-          height: "41px",
-          ...styles.messagerequestbutton,
-          fontSize: "13px",
-          lineHeight: "120%",
-          letterSpacing: "-2%",
-          }} onClick={() => { handleNavigate("/schedulemeeting") }}>
-          Schedule Meeting
-          </button>
-        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <img style={{ height: "60px", width: "60px" }} src={DiscussionIcon} alt="Discussion Icon" />
+          <div style={{ position: "relative" }}>
+            <Link to="/schedulemeeting" style={{ textDecoration: "none" }}>
+              <button style={{
+                width: "184px",
+                height: "41px",
+                ...styles.messagerequestbutton,
+                fontSize: "13px",
+                lineHeight: "120%",
+                letterSpacing: "-2%",
+              }}>
+                Schedule Meeting
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
 
-        <div style={styles.chatBox}>
-          <p style= {{
+      <div style={styles.chatBox}>
+        <p style={{
           fontFamily: "Manrope",
           fontWeight: 400,
           fontSize: "20px",
           lineHeight: "100%",
           letterSpacing: "-3%",
-          }}
-          >
-            Chat <span style={{
+        }}
+        >
+          Chat <span style={{
             backgroundImage: "linear-gradient(90deg, #F7CFFF 8.06%, #3F6AD2 50%, #FE6FA5 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            }}
-            >anonymously</span> with an avaliable Counselor?
-          </p>
-          <div 
-           style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position:"relative", top:"50px" }}>
-            <LucideMessagesSquare size={60} stroke="#6EC158"/>
+          }}
+          >anonymously</span> with an avaliable Counselor?
+        </p>
+        <div
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", top: "50px" }}>
+          <LucideMessagesSquare size={60} stroke="#6EC158" />
+          <Link to="/startchatting" style={{ textDecoration: "none" }}>
             <button style={{
               width: "126px",
               height: "41px",
               fontSize: "13px",
               lineHeight: "120%",
               letterSpacing: "-2%",
-              ...styles.chatboxbutton}}
-              onClick={() => handleNavigate("/startchatting")}
-              >
+              ...styles.chatboxbutton
+            }}>
               Start Chatting
             </button>
-          </div>
+          </Link>
         </div>
+      </div>
 
-        {/* Student Section Sessions */}
-        <div id="tableSection" style={styles.bookSessioncontainer}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-          <h2 style={styles.headerTitle}>Available Counselors</h2>
+      {/* Student Section Sessions */}
+      <div id="tableSection" style={styles.bookSessioncontainer}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+          <h2 style={styles.headerTitle}>Counselor Sessions</h2>
 
           {/* Filters Section */}
           <div style={styles.filtersContainer}>
-                  <div style={{ position: "relative" }}>
-                  <button
-                    style={styles.filterButton}
-                    onClick={() => {
-                    const dropdown = document.getElementById("dropdownMenu");
-                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-                    }}
-                  >
-                    <span id="selectedFilter">Upcoming</span>
-                    <span style={styles.filterIcon}>
-                    <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-                    </span>
-                  </button>
-                  <div
-                    id="dropdownMenu"
-                    style={{
-                    position: "absolute",
-                    top: "100%",
-                    left: 0,
-                    backgroundColor: "white",
-                    border: "1px solid #ccc",
-                    borderRadius: "8px",
-                    boxShadow: "0px 3px 8px rgba(50, 50, 71, 0.05)",
-                    zIndex: 10,
-                    display: "none",
-                    }}
-                  >
-                    <button
-                    style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
-                    onClick={() => {
-                      document.getElementById("selectedFilter").innerText = "Upcoming";
-                      document.getElementById("dropdownMenu").style.display = "none";
-                      console.log("Upcoming selected");
-                    }}
-                    >
-                    Upcoming
-                    </button>
-                    <button
-                    style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
-                    onClick={() => {
-                      document.getElementById("selectedFilter").innerText = "Previous";
-                      document.getElementById("dropdownMenu").style.display = "none";
-                      console.log("Previous selected");
-                    }}
-                    >
-                    Previous
-                    </button>
-                  </div>
-                  </div>
-                </div>
-                </div>
-            {/* Table Section */}
-            <div style={styles.tableWrapper}>
-              <table style={styles.table}>
-              <thead>
-                <tr style={styles.tableHeaderRow}>
+            <div style={{ position: "relative" }}>
+              <button
+                style={styles.filterButton}
+                onClick={() => {
+                  const dropdown = document.getElementById("dropdownMenu");
+                  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                }}
+              >
+                <span id="selectedFilter">Upcoming</span>
+                <span style={styles.filterIcon}>
+                  <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
+                </span>
+              </button>
+              <div
+                id="dropdownMenu"
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  backgroundColor: "white",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  boxShadow: "0px 3px 8px rgba(50, 50, 71, 0.05)",
+                  zIndex: 10,
+                  display: "none",
+                }}
+              >
+                <button
+                  style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
+                  onClick={() => {
+                    document.getElementById("selectedFilter").innerText = "Upcoming";
+                    document.getElementById("dropdownMenu").style.display = "none";
+                    console.log("Upcoming selected");
+                  }}
+                >
+                  Upcoming
+                </button>
+                <button
+                  style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
+                  onClick={() => {
+                    document.getElementById("selectedFilter").innerText = "Previous";
+                    document.getElementById("dropdownMenu").style.display = "none";
+                    console.log("Previous selected");
+                  }}
+                >
+                  Previous
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Table Section */}
+        <div style={styles.tableWrapper}>
+          <table style={styles.table}>
+            <thead>
+              <tr style={styles.tableHeaderRow}>
                 <th>Counsellor</th>
                 <th>Date</th>
                 {/* <th>Time</th> */}
                 <th>Room Number</th>
                 <th>Email</th>
                 <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {counselors.map( c => (
+              </tr>
+            </thead>
+            <tbody>
+              {counselors.map(c => (
                 <tr key={c.id} style={styles.tableBodyRow}>
                   <td style={styles.studentCell}>
-                  <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                      {c.name}
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                    {c.name}
                   </td>
                   <td>{c.name}</td>
                   {/* <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td> */}
                   <td>{c.office_number}</td>
-                    <td>{c.email}</td>
+                  <td>{c.email}</td>
                   <td>
-                  <button onClick={() => handleNavigate("/studentsschedulesession")}
-                   style={styles.viewButton}>View</button>
+                    <Link to="/studentsschedulesession" style={{ textDecoration: "none" }}>
+                      <button style={styles.viewButton}>View</button>
+                    </Link>
                   </td>
                 </tr>
-                ))}
-              </tbody>
-              </table>
-            </div>
-        
-          </div>
-              {/* Chat History */}
-          <div style={styles.chatHistory}>
-            <h3 style={styles.header}>
-            Chat History <span style={styles.seeAll}>See all</span>
-            </h3>
-            {chatData.map((chat) => (
-            <div key={chat.id} style={styles.chatItem}>
-              <div style={styles.userSection}>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      {/* Chat History */}
+      <div style={styles.chatHistory}>
+        <h3 style={styles.header}>
+          Chat History <span style={styles.seeAll}>See all</span>
+        </h3>
+        {chatData.map((chat) => (
+          <div key={chat.id} style={styles.chatItem}>
+            <div style={styles.userSection}>
               <div style={styles.ellipse}>
                 <UserIcon style={styles.userIcon} />
                 {chat.isOnline && <span style={styles.notificationDot}></span>}
@@ -199,18 +198,20 @@ const StudentsCounselorSession = () => {
                 <strong>{chat.name}</strong>
                 <p style={styles.chatMessage}>{chat.message}</p>
               </div>
-              </div>
-              <div onClick={() => handleNavigate("/studentschatui")}
-              style={{display: "flex", alignItems: "center"}}>
-                <span style={{...styles.time, fontSize:"12px", marginRight: "20px"}}>2:32pm</span>
-                <button style={styles.chatButton}>Continue Chat</button>
-              </div>
             </div>
-            ))}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ ...styles.time, fontSize: "12px", marginRight: "20px" }}>2:32pm</span>
+              <Link to="/studentschatui" style={{ textDecoration: "none" }}>
+                <button style={styles.chatButton}>Continue Chat</button>
+              </Link>
+            </div>
           </div>
+        ))}
       </div>
-    );
-}
+    </div>
+  );
+};
+
 export default StudentsCounselorSession;
 
 const styles = {

@@ -26,7 +26,7 @@ const StudentCounselorDetails = () => {
     e.preventDefault();
     try {
       const studentId = user.id;
-      console.log(user.id) // Assuming user.id is the student ID
+      
       await api.post('/appointments', {
         student_id: studentId,
         counselor_id: counselor.id,

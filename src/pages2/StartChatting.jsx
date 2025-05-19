@@ -1,139 +1,133 @@
-import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight} from "lucide-react";
-import DiscussionIcon from "../assets/DiscussionIcon.png";
-import { useNavigate } from "react-router-dom";
+import { UserIcon, SearchIcon, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import api from "../api/axios";
 
+const StartChatting = () => {
+  const [counselors, setCounselors] = useState([]);
 
-const ScheduleMeeting = () => {
+  useEffect(() => {
+    api.get('/counselors')
+      .then(res => setCounselors(res.data))
+      .catch(err => console.error(err));
+  }, []);
 
-  const navigate = useNavigate();
-  
-  const handleNavigate = (path) => {
-    navigate(path,{ replace: true });
-  }
-    const chatData = [
-        { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
-        { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
-        { id: 3, name: "Jessica Rogers", message: "Looking forward to our next session!", isOnline: false },
-      ];
-
-    return(
-      <div style={{...styles.container}}>
-        {/* Student Section Sessions */}
-        <div id="tableSection" style={styles.bookSessioncontainer}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-            <h2 style={styles.headerTitle}>Counselor Sessions</h2>
-            {/* Filters Section */}
-            <div style={styles.filtersContainer}>
-              <div style={{ position: "relative" }}>
+  return (
+    <div style={{ ...styles.container }}>
+      {/* Student Section Sessions */}
+      <div id="tableSection" style={styles.bookSessioncontainer}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+          <h2 style={styles.headerTitle}>Counselor Sessions</h2>
+          {/* Filters Section */}
+          <div style={styles.filtersContainer}>
+            <div style={{ position: "relative" }}>
+              <button
+                style={styles.filterButton}
+                onClick={() => {
+                  const dropdown = document.getElementById("dropdownMenu");
+                  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                }}
+              >
+                <span id="selectedFilter">Upcoming</span>
+                <span style={styles.filterIcon}>
+                  <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
+                </span>
+              </button>
+              <div
+                id="dropdownMenu"
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  backgroundColor: "white",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  boxShadow: "0px 3px 8px rgba(50, 50, 71, 0.05)",
+                  zIndex: 10,
+                  display: "none",
+                }}
+              >
                 <button
-                  style={styles.filterButton}
+                  style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
                   onClick={() => {
-                    const dropdown = document.getElementById("dropdownMenu");
-                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                    document.getElementById("selectedFilter").innerText = "Upcoming";
+                    document.getElementById("dropdownMenu").style.display = "none";
                   }}
                 >
-                  <span id="selectedFilter">Upcoming</span>
-                  <span style={styles.filterIcon}>
-                    <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-                  </span>
+                  Upcoming
                 </button>
-                <div
-                  id="dropdownMenu"
-                  style={{
-                    position: "absolute",
-                    top: "100%",
-                    left: 0,
-                    backgroundColor: "white",
-                    border: "1px solid #ccc",
-                    borderRadius: "8px",
-                    boxShadow: "0px 3px 8px rgba(50, 50, 71, 0.05)",
-                    zIndex: 10,
-                    display: "none",
+                <button
+                  style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
+                  onClick={() => {
+                    document.getElementById("selectedFilter").innerText = "Previous";
+                    document.getElementById("dropdownMenu").style.display = "none";
                   }}
                 >
-                  <button
-                    style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
-                    onClick={() => {
-                      document.getElementById("selectedFilter").innerText = "Upcoming";
-                      document.getElementById("dropdownMenu").style.display = "none";
-                      console.log("Upcoming selected");
-                    }}
-                  >
-                    Upcoming
-                  </button>
-                  <button
-                    style={{ ...styles.filterButton, width: "100%", textAlign: "left" }}
-                    onClick={() => {
-                      document.getElementById("selectedFilter").innerText = "Previous";
-                      document.getElementById("dropdownMenu").style.display = "none";
-                      console.log("Previous selected");
-                    }}
-                  >
-                    Previous
-                  </button>
-                </div>
+                  Previous
+                </button>
               </div>
             </div>
           </div>
-          {/* Table Section */}
-          <div style={styles.tableWrapper}>
-            <table style={{ ...styles.table, backgroundColor: "#E8F5E9" }}>
-              <thead>
-                <tr style={{ ...styles.tableHeaderRow, backgroundColor: "#4CAF50" }}>
-                  <th>Counselor</th>
-                  <th>Specialization</th>
-                  <th>Experience</th>
-                  <th>Office Number</th>
-                  <th>Email</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[1, 2, 3, 4].map((_, index) => {
-                  const isAvailable = index < 2;
-                  const rowContent = (
-                    <>
-                      <td style={styles.studentCell}>
-                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                        Jesse Thomas
-                      </td>
-                      <td>Academic Guidance</td>
-                      <td>12 Years</td>
-                      <td>4853966</td>
-                      <td>jt@gmail.com</td>
-                      <td>
-                        <span style={{ 
-                          color: isAvailable ? "green" : "red", 
-                          fontWeight: "bold" 
-                        }}>
-                          {isAvailable ? "Available" : "Busy"}
-                        </span>
-                      </td>
-                    </>
-                  );
-                  return isAvailable ? (
-                    <tr
-                      key={index}
-                      style={{ ...styles.tableBodyRow, cursor: "pointer" }}
-                      onClick={() => handleNavigate("/ContinueChat")}
-                      title="Click to chat"
-                    >
-                      {rowContent}
-                    </tr>
-                  ) : (
-                    <tr key={index} style={styles.tableBodyRow}>
-                      {rowContent}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+        </div>
+        {/* Table Section */}
+        <div style={styles.tableWrapper}>
+          <table style={{ ...styles.table, backgroundColor: "#E8F5E9" }}>
+            <thead>
+              <tr style={{ ...styles.tableHeaderRow, backgroundColor: "#4CAF50" }}>
+                <th>Counselor</th>
+                <th>Specialization</th>
+                <th>Experience</th>
+                <th>Office Number</th>
+                <th>Email</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {counselors.map((c, index) => {
+                const isAvailable = c.counselor_profile?.status === "Available";
+                return (
+                  <tr
+                    key={c.id}
+                    style={{
+                      ...styles.tableBodyRow,
+                      cursor: isAvailable ? "pointer" : "default"
+                    }}
+                    title={isAvailable ? "Click to chat" : ""}
+                  >
+                    <td style={styles.studentCell}>
+                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                      {isAvailable ? (
+                        <Link to={`/ContinueChat/${c.id}`} style={{ color: "inherit", textDecoration: "none" }}>
+                          {c.name}
+                        </Link>
+                      ) : (
+                        c.name
+                      )}
+                    </td>
+                    <td>{c.counselor_profile?.specialization || '—'}</td>
+                    <td>{c.counselor_profile?.experience || '—'}</td>
+                    <td>{c.counselor_profile?.office_number || '—'}</td>
+                    <td>{c.email || '—'}</td>
+                    <td>
+                      <span style={{
+                        color: isAvailable ? "green" : "red",
+                        fontWeight: "bold"
+                      }}>
+                        {c.counselor_profile?.status || '—'}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
-    );
-}
-export default ScheduleMeeting;
+    </div>
+  );
+};
+
+export default StartChatting;
 
 const styles = {
     container: {

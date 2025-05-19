@@ -248,7 +248,7 @@ const App = () => {
           }
         />
         <Route
-          path="/continuechat"
+            path="/continuechat/:id"
           element={
             <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
               <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />

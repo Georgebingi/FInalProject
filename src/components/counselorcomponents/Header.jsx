@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { SearchIcon, Bell, User, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { UserContext } from "../../context/UserContext";
 const Header = ({ imageUrl }) => {
+ 
+  const { user } = useContext(UserContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -72,6 +74,7 @@ const Header = ({ imageUrl }) => {
       },
     },
   };
+  if (!user || !user.id) return null;
 
   return (
     <motion.header
@@ -91,7 +94,7 @@ const Header = ({ imageUrl }) => {
       }}
     >
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h1 style={styles.welcome}>Welcome Back, John!</h1>
+        <h1 style={styles.welcome}>Welcome Back, {user.name}</h1>
         <span style={styles.greetings}>How are you Today?</span>
       </div>
       <div
@@ -144,9 +147,9 @@ const Header = ({ imageUrl }) => {
                 fontFamily: "Arial",
               }}
             >
-              John Dillingham
+              {user.name}
             </span>
-            <span style={styles.role}>Counsellor</span>
+            <span style={styles.role}>{user.role}</span>
           </div>
 
           {/* Profile Image Clickable */}

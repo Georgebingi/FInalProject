@@ -1,22 +1,59 @@
 import { Save, Trash, LogOut } from "lucide-react";
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import Datetime from 'react-datetime';
 import "../styles/react-datetime.css";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
 
-const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStudentDeleteImage})=> {
+const StudentsSettings = ({ studentImageUrl, handleStudentImageChange, handleStudentDeleteImage }) => {
+  const { user } = useContext(UserContext);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Add state for username, email, nationality, etc.
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  // const [nationality, setNationality] = useState("nigeria");
+  // const [timezone, setTimezone] = useState("GMT+");
+
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Populate fields with current user data when loaded
+  useEffect(() => {
+    if (user) {
+      setUsername(user.name || "");
+      setEmail(user.email || "");
+    }
+  }, [user]);
 
   const handleNavigate = (path) => {
     navigate(path, { replace: true });
+  };
+
+  // Submit handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        name: username,
+        email,
+        // nationality,
+        // timezone,
+        current_password: currentPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+      };
+      const res = await api.put("/student/settings", payload);
+      alert("Profile updated successfully!");
+      // Optionally update UI or context here
+    } catch (err) {
+      alert("Failed to update profile.");
+    }
   };
 
   return (
@@ -28,27 +65,28 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
       <div style={styles.secondContainer}>
         {/*Profile Section*/}
         <div style={styles.profileSection}>
-          <div style={{display: "flex", 
-                      flexDirection: "column",
-                      alignItems: "flex-start", 
-                      marginBottom: "20px",
-                      marginRight: "17%",
-                      }}>
-            <h3 style={{ color: "black", marginBottom: 0}}>Your Photo</h3>
-            <span style={{fontSize: "12px", color: "rgba(0,0,0,0.5)"}}>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            marginBottom: "20px",
+            marginRight: "17%",
+          }}>
+            <h3 style={{ color: "black", marginBottom: 0 }}>Your Photo</h3>
+            <span style={{ fontSize: "12px", color: "rgba(0,0,0,0.5)" }}>
               This will be displayed at the top right screen
             </span>
           </div>
-          <div style={{display: "flex", alignItems: "center"}}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <img src={studentImageUrl || "https://randomuser.me/api/portraits/men/75.jpg"} alt="Profile" style={styles.profileImage} />
             <div style={styles.buttonRow}>
-              <label style={{...styles.button, ...styles.uploadButton, cursor: "pointer"}}>
-                <Save size={15} style={{transform: "translateY(14%)"}}/>
+              <label style={{ ...styles.button, ...styles.uploadButton, cursor: "pointer" }}>
+                <Save size={15} style={{ transform: "translateY(14%)" }} />
                 update
-                <input type="file" accept="image/*" onChange={handleStudentImageChange} style={{display: "none"}}/>
+                <input type="file" accept="image/*" onChange={handleStudentImageChange} style={{ display: "none" }} />
               </label>
-              <button style={{...styles.button, ...styles.deleteButton }} onClick={handleStudentDeleteImage}>
-                <Trash size={15}/>
+              <button style={{ ...styles.button, ...styles.deleteButton }} onClick={handleStudentDeleteImage}>
+                <Trash size={15} />
                 Delete
               </button>
             </div>
@@ -56,134 +94,93 @@ const StudentsSettings =({ studentImageUrl, handleStudentImageChange, handleStud
         </div>
 
         {/*Form Section*/}
-          <form style={{width: "85%"}}>
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>Username</span>
-                <input type="text" defaultValue={"John Dillinham"} style={styles.input} />
-              </label>
-            </div>
+        <form style={{ width: "85%" }} onSubmit={handleSubmit}>
+          <div style={styles.inputGroup}>
+            <label style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: "black", marginRight: "auto" }}>Username</span>
+              <input
+                type="text"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                style={styles.input}
+              />
+            </label>
+          </div>
 
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>Email</span>
-                <input type="email" defaultValue="johndillingham434@gmail.com" style={styles.input} />
-              </label>
-            </div>
+          <div style={styles.inputGroup}>
+            <label style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: "black", marginRight: "auto" }}>Email</span>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                style={styles.input}
+              />
+            </label>
+          </div>
 
-            {/* <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center",}}>
-                <span style={{color: "black", marginRight: "auto"}}>Language</span>
-                <select style={styles.select}>
-            <option>English</option>
-            <option>French</option>
-            <option>Spanish</option>
-                </select>
-              </label>
-            </div> */}
+          {/* ...rest of your form... */}
+          <div style={styles.inputGroup}>
+            <label style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: "black", marginRight: "auto" }}>Current Password</span>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={e => setCurrentPassword(e.target.value)}
+                style={styles.input}
+                placeholder="Enter current password"
+                required
+              />
+            </label>
+          </div>
+          <div style={styles.inputGroup}>
+            <label style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: "black", marginRight: "auto" }}>New Password</span>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={e => setNewPassword(e.target.value)}
+                style={styles.input}
+                placeholder="Enter new password"
+                required
+              />
+            </label>
+          </div>
+          <div style={styles.inputGroup}>
+            <label style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: "black", marginRight: "auto" }}>Confirm New Password</span>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                style={styles.input}
+                placeholder="Confirm new password"
+                required
+              />
+            </label>
+          </div>
 
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center",}}>
-                <span style={{color: "black", marginRight: "auto"}}>Time Zone</span>
-                <select style={styles.select}>
-            <option>GMT+</option>
-            <option>GMT-</option>
-                </select>
-              </label>
-            </div>
-
-            {/* <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>Date and Time</span>
-                <Datetime
-              value={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              style={{border: "1px solid #ccc", borderRadius: "5px", padding: "5px"}}
-            />
-              </label>
-            </div> */}
-
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>Nationality</span>
-                <select style={styles.select}>
-            <option value="nigeria">Nigeria</option>
-            <option value="usa">United States</option>
-            <option value="uk">United Kingdom</option>
-            <option value="canada">Canada</option>
-            <option value="germany">Germany</option>
-            <option value="france">France</option>
-            <option value="india">India</option>
-            <option value="china">China</option>
-            <option value="japan">Japan</option>
-                </select>
-              </label>
-            </div>
-
-            {/*Password Section*/}
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>Current Password</span>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={e => setCurrentPassword(e.target.value)}
-                  style={styles.input}
-                  placeholder="Enter current password"
-                  required
-                />
-              </label>
-            </div>
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>New Password</span>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={e => setNewPassword(e.target.value)}
-                  style={styles.input}
-                  placeholder="Enter new password"
-                  required
-                />
-              </label>
-            </div>
-            <div style={styles.inputGroup}>
-              <label style={{display: "flex", alignItems: "center"}}>
-                <span style={{color: "black", marginRight: "auto"}}>Confirm New Password</span>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                  style={styles.input}
-                  placeholder="Confirm new password"
-                  required
-                />
-              </label>
-            </div>
-
-            {/*Button Container*/}
-          <div style={{display: "flex", marginTop: "40px", marginBottom: "20px", justifyContent: "space-between"}}>
-            <div style={{display: "flex", gap: "10px"}}>
-              <button style={{...styles.button, ...styles.saveButton}}>
+          {/*Button Container*/}
+          <div style={{ display: "flex", marginTop: "40px", marginBottom: "20px", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button type="submit" style={{ ...styles.button, ...styles.saveButton }}>
                 <span>Save</span>
               </button>
-              <button style={{...styles.button, ...styles.cancelButton}}>
+              <button type="button" style={{ ...styles.button, ...styles.cancelButton }}>
                 <span>Cancel</span>
               </button>
             </div>
-            <button style={{...styles.button, ...styles.logoutButton}} onClick={() => handleNavigate("/roleselection")}>
+            <button type="button" style={{ ...styles.button, ...styles.logoutButton }} onClick={() => handleNavigate("/roleselection")}>
               <LogOut size={14} />
               <span>Log Out</span>
             </button>
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
-}
+};
+
 export default StudentsSettings;
 
 const styles = {

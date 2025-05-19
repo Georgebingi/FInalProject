@@ -1,19 +1,80 @@
+import { useEffect, useState, useContext } from "react";
 import { Phone, Info, Paperclip, Send } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../api/axios"; // Axios instance
+import { UserContext } from "../context/UserContext";
 
-const ContinueChat = () => {
+
+
+const ContinueChat = ({ studentId, counselorId }) => {
+  const { user } = useContext(UserContext);
+  const { id } = useParams();
+  const [messages, setMessages] = useState([]);
+  const [newMsg, setNewMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [counselor, setCounselor] = useState(null);
+
+  useEffect(() => {
+    api.get(`/counselors/${id}`)
+      .then(res => setCounselor(res.data))
+      .catch(() => navigate('/'));
+  }, [id]);
+
+  const fetchMessages = async () => {
+    if (!counselor || !counselor.id) return;
+    try {
+      const res = await api.get(`/messages/${counselor.id}?student_id=${user.id}`);
+      console.log("Fetched messages:", res.data);
+      setMessages(Array.isArray(res.data.data) ? res.data.data : []);
+    } catch (err) {
+      console.error("Fetch messages failed:", err);
+      setMessages([]);
+    }
+  };
+
+  const handleSend = async () => {
+    if (!newMsg.trim()) return;
+    setLoading(true);
+    try {
+      const studentId = user.id;
+      await api.post("/messages", {
+        sender_id: studentId,
+        receiver_id: counselor.id,
+        content: newMsg,
+      });
+      setNewMsg("");
+      fetchMessages(); // Refresh messages
+    } catch (err) {
+      console.error("Send message failed:", err);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    if (counselor && counselor.id) {
+      fetchMessages();
+    }
+    // eslint-disable-next-line
+  }, [counselor]);
+  if (!counselor) return <p>Loading...</p>;
+  const profile = counselor.counselor_profile || {};
+  
+
+  
   return (
     <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
         <div style={styles.profileSection}>
-          <img
-            src="https://randomuser.me/api/portraits/women/75.jpg"
-            alt="profile"
-            style={styles.profileImage}
-          />
+          <img src="https://randomuser.me/api/portraits/women/75.jpg" alt="profile" style={styles.profileImage} />
           <div>
-            <h3 style={styles.name}>Student 23</h3>
-            <div style={styles.stars}>⭐ ⭐ ⭐ ⭐ ☆</div>
+            <h3 style={styles.name}> {counselor.name}</h3>
+            <div style={styles.stars}>
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <span key={idx} style={{ color: idx < (profile.rating || 0) ? "#FFD700" : "#ccc", fontSize: "18px" }}>
+                  ★
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         <div style={styles.icons}>
@@ -25,52 +86,54 @@ const ContinueChat = () => {
       {/* Chat Messages */}
       <div style={styles.chatArea}>
         <p style={styles.date}>Today</p>
-
-        {/* Received Message */}
-        <div style={styles.messageContainer}>
-          <img
-            src="https://randomuser.me/api/portraits/women/75.jpg"
-            alt="profile"
-            style={styles.messageProfile}
-          />
-          <div>
-            <div style={styles.receivedMessage}>Don't forget about the assignment due tomorrow</div>
-            <p style={{...styles.time, textAlign:"left"}}>8:00 PM</p>
+        {Array.isArray(messages) && messages.length > 0 ? (
+          messages.map((msg, idx) => {
+            const isSent = msg.sender_id === user.id;
+            return (
+              <div
+                key={msg.id || idx}
+                style={isSent ? styles.messageContainerSent : styles.messageContainer}
+              >
+                {!isSent && (
+                  <img
+                    src="https://randomuser.me/api/portraits/women/75.jpg"
+                    alt="profile"
+                    style={styles.messageProfile}
+                  />
+                )}
+                <div style={isSent ? styles.sentMessage : styles.receivedMessage}>
+                  {msg.content}
+                </div>
+                {isSent && (
+                  <img
+                    src="https://randomuser.me/api/portraits/men/75.jpg"
+                    alt="profile"
+                    style={styles.messageProfile}
+                  />
+                )}
+              </div>
+            );
+          })
+        ) : (
+          <div style={{ textAlign: "center", color: "#aaa", marginTop: "30px" }}>
+            No messages yet.
           </div>
-        </div>
-
-        {/* Sent Message */}
-        <div style={styles.messageContainerSent}>
-          <div style={styles.sentMessage}>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s,</div>
-          <img
-            src="https://randomuser.me/api/portraits/men/75.jpg"
-            alt="profile"
-            style={styles.messageProfile}
-          />
-        </div>
-        <p style={styles.time}>8:00 PM</p>
-        
-
-        {/* Typing Indicator */}
-        <div style={styles.messageContainer}>
-          <img
-            src="https://randomuser.me/api/portraits/women/75.jpg"
-            alt="profile"
-            style={styles.messageProfile}
-          />
-          <div style={styles.typing}>...</div>
-        </div>
+        )}
       </div>
 
-      {/* Chat Input */}
-      <div style={{display: "flex", alignItems: "center", 
-      height:"60px",
-      border: "1px solid #54545657", 
-        padding: "5px", borderRadius: "15px", position:"relative", top:"70px"}}>
+
+      {/* Input */}
+      <div style={styles.inputContainer}>
         <Paperclip style={styles.attachIcon} />
-        <input type="text" placeholder="Type Here..." style={{flex: 1, ...styles.input}} />
-        <button style={{...styles.sendButton, marginLeft: "10px"}}>
-            <Send size={28} style={styles.sendIcon} />
+        <input
+          type="text"
+          value={newMsg}
+          onChange={(e) => setNewMsg(e.target.value)}
+          placeholder="Type Here..."
+          style={styles.input}
+        />
+        <button style={styles.sendButton} onClick={handleSend} disabled={loading}>
+          <Send size={28} style={styles.sendIcon} />
         </button>
       </div>
     </div>

@@ -1,8 +1,11 @@
 import { SearchIcon, ChevronDown, ChevronLeft, ChevronRight} from "lucide-react";
 import Glassmorphic from "../assets/Glassmorphic.png";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 
 const AiInsights = () =>{
-
+    const { user } = useContext(UserContext);
     const chatData = [
         { id: 1, name: "Being better at school", message: "Multiple students have asked this question or a related one", notification: "128 Questions"},
         { id: 2, name: "Being better at school", message: "Multiple students have asked this question or a related one", notification: "47 Questions"},
@@ -13,7 +16,7 @@ const AiInsights = () =>{
     return(
         <div style={{...styles.container}}>
 
-            <div style={{display: "flex", 
+            {/* <div style={{display: "flex", 
                       alignItems: "flex-start", 
                 }}>
                 <h1 style={{fontWeight:"500px", fontFamily:"Manrope",}}>Hi there, <span style={{backgroundImage: "linear-gradient(90deg, #F7CFFF 8.06%, #3F6AD2 50%, #FE6FA5 100%)",
@@ -25,7 +28,7 @@ const AiInsights = () =>{
                 <img src={Glassmorphic}
                 alt="Image"/>
                 </div>
-            </div>
+            </div> */}
                       {/* Student FAQs Sessions */}
                         <div style={styles.bookSessioncontainer}>
                           <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>

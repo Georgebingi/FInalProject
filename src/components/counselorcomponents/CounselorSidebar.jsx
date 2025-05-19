@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import NileLogo from "../../assets/Nile_logo.png";
 import Glassmorphic from "../../assets/Glassmorphic.png";
 import DashboardIcon from "../../assets/DashboardIcon.png";
@@ -7,14 +7,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 const CounselorSidebar = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
 
-  const handleNavigate = (path) => {
-    setActivePath(path);
-    navigate(path, { replace: true });
-  };
+  const handleSetActive = (path) => setActivePath(path);
 
   return (
     <aside style={styles.sidebar}>
@@ -22,121 +18,141 @@ const CounselorSidebar = () => {
         <img src={NileLogo} alt="Nile University Logo" style={styles.logo} />
       </div>
       <div style={styles.navContainer}>
-      <nav style={styles.nav}>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/counselor")}
-          style={{
-            ...styles.navItem,
-            ...(activePath === "/counselor" && styles.active),
-          }}
-        >
-          <img
-            src={DashboardIcon}
-            alt="Person Icon"
+        <nav style={styles.nav}>
+          <Link
+            to="/counselor"
             style={{
-              ...styles.icon,
-              marginRight: "10px",
-              transform: "translateY(20%)",
+              ...styles.navItem,
+              ...(activePath === "/counselor" && styles.active),
+              display: "flex",
+              alignItems: "center",
             }}
-          />
-          Dashboard
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/mystudent")}
-          style={{
-            ...styles.navItem,
-            ...(activePath === "/mystudent" && styles.active 
-              || activePath === "/messagerequest" && styles.active
-              || activePath === "/studentchat" && styles.active
-              || activePath === "/scheduledsession" && styles.active
-              || activePath === "/chatui" && styles.active),
-          }}
-        >
-          <UserIcon size={20} style={{ marginRight: "5px", transform: "translateY(20%)" }} />
-          My Students
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/aiinsights")}
-          style={{
-            ...styles.navItem,
-            marginTop: "px",
-            ...(activePath === "/aiinsights" && styles.active),
-          }}
-        >
-          <img
-            src={Glassmorphic}
-            alt="Person Icon"
+            onClick={() => handleSetActive("/counselor")}
+          >
+            <img
+              src={DashboardIcon}
+              alt="Person Icon"
+              style={{
+                ...styles.icon,
+                marginRight: "10px",
+                transform: "translateY(20%)",
+              }}
+            />
+            Dashboard
+          </Link>
+          <Link
+            to="/mystudent"
             style={{
-              ...styles.icon,
-              marginLeft: `-6px`,
-              marginTop: `-8px`,
-              marginBottom: `-7px`,
-              marginRight: "2px",
-              width: "30px",
-              height: "30px",
-              transform: "translateY(10%)",
+              ...styles.navItem,
+              ...(
+                (activePath === "/mystudent" ||
+                activePath === "/messagerequest" ||
+                activePath === "/studentchat" ||
+                activePath === "/scheduledsession" ||
+                activePath === "/chatui") && styles.active
+              ),
+              display: "flex",
+              alignItems: "center",
             }}
-          />
-          AI Insights
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/resources")}
-          style={{
-            ...styles.navItem,
-            ...(activePath === "/resources" && styles.active || activePath === "/mentalhealtharticle" && styles.active),
-          }}
-        >
-          <LucideLayers size={20} 
-          style={{marginRight: "5px",
-            transform: "translateY(20%)"}}
-          />
-          Resources
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/settings")}
-          style={{
-            ...styles.navItem,
-            ...(activePath === "/settings" && styles.active),
-          }}
-        >
-          <SettingsIcon size={20} style={{ ...styles.icon, marginRight: "5px", transform: "translateY(20%)" }} />
-          Settings
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-          onClick={() => handleNavigate("/roleselection")}
-          style={{
-            ...styles.logout,
-            ...(activePath === "/" && styles.active),
-          }}
-        >
-          <LogOut size={20} style={{ marginRight: "10px", transform: "translateY(20%)" }} />
-          Logout
-        </motion.div>
-      </nav>
+            onClick={() => handleSetActive("/mystudent")}
+          >
+            <UserIcon
+              size={20}
+              style={{
+                marginRight: "5px",
+                transform: "translateY(20%)",
+              }}
+            />
+            My Students
+          </Link>
+          <Link
+            to="/aiinsights"
+            style={{
+              ...styles.navItem,
+              marginTop: "px",
+              ...(activePath === "/aiinsights" && styles.active),
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => handleSetActive("/aiinsights")}
+          >
+            <img
+              src={Glassmorphic}
+              alt="Person Icon"
+              style={{
+                ...styles.icon,
+                marginLeft: `-6px`,
+                marginTop: `-8px`,
+                marginBottom: `-7px`,
+                marginRight: "2px",
+                width: "30px",
+                height: "30px",
+                transform: "translateY(10%)",
+              }}
+            />
+            AI Insights
+          </Link>
+          <Link
+            to="/resources"
+            style={{
+              ...styles.navItem,
+              ...(
+                (activePath === "/resources" || activePath === "/mentalhealtharticle") && styles.active
+              ),
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => handleSetActive("/resources")}
+          >
+            <LucideLayers
+              size={20}
+              style={{
+                marginRight: "5px",
+                transform: "translateY(20%)",
+              }}
+            />
+            Resources
+          </Link>
+          <Link
+            to="/settings"
+            style={{
+              ...styles.navItem,
+              ...(activePath === "/settings" && styles.active),
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => handleSetActive("/settings")}
+          >
+            <SettingsIcon
+              size={20}
+              style={{
+                ...styles.icon,
+                marginRight: "5px",
+                transform: "translateY(20%)",
+              }}
+            />
+            Settings
+          </Link>
+          <Link
+            to="/roleselection"
+            style={{
+              ...styles.logout,
+              ...(activePath === "/" && styles.active),
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => handleSetActive("/roleselection")}
+          >
+            <LogOut
+              size={20}
+              style={{
+                marginRight: "10px",
+                transform: "translateY(20%)",
+              }}
+            />
+            Logout
+          </Link>
+        </nav>
       </div>
     </aside>
   );
