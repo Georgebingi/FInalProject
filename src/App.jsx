@@ -30,6 +30,8 @@ import ScheduleMeeting from "./pages2/ScheduleMeeting";
 import StartChatting from "./pages2/StartChatting";
 import ContinueChat from "./pages2/ContinueChat";
 import StudentsCounselorDetails from "./pages2/StudentCounselorDetails";
+import CounselorStudentDetails from "./pages/CounselorStudentDetails";
+
 
 const App = () => {
   const [image, setImage] = useState(null);
@@ -131,6 +133,26 @@ const App = () => {
                 </div>
                 <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
                   <ScheduleMeeting />
+                </div>
+              </div>
+            </div>
+          }
+        />
+         <Route
+          path="/counselorstudentdetails"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <CounselorStudentDetails />
                 </div>
               </div>
             </div>
