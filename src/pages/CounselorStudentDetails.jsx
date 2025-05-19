@@ -134,26 +134,49 @@ const CounselorStudentDetails = () => {
             style={{ ...styles.textarea, backgroundColor: "#fff", color: "#000000" }}
           ></textarea>
 
-          <button
-            type="submit"
-            style={{
-              ...styles.button,
-              width: "150px",
-              height: "44px",
-              minWidth: "150px",
-              minHeight: "44px",
-              maxWidth: "150px",
-              maxHeight: "44px",
-              gap: "8px",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            Send Request
-          </button>
-        </form>
-      </div>
+           <div style={{ display: "flex", gap: "16px", marginTop: "10px" }}>
+                    <button
+                        type="button"
+                        style={{
+                            ...styles.button,
+                            width: "150px",
+                            height: "44px",
+                            minWidth: "150px",
+                            minHeight: "44px",
+                            maxWidth: "150px",
+                            maxHeight: "44px",
+                            gap: "8px",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "#28a745", // green
+                        }}
+                    >
+                        Accept Request
+                    </button>
+                    <button
+                        type="button"
+                        style={{
+                            ...styles.button,
+                            width: "150px",
+                            height: "44px",
+                            minWidth: "150px",
+                            minHeight: "44px",
+                            maxWidth: "150px",
+                            maxHeight: "44px",
+                            gap: "8px",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "#dc3545", // red
+                        }}
+                    >
+                        Reject Request
+                    </button>
+                </div>
+            </form>
+        </div>
+
 
       <div style={{ ...styles.counselorSection, backgroundColor: "#fff" }}>
         <img
