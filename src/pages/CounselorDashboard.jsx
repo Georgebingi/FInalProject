@@ -47,72 +47,7 @@ const CounselorDashboard = () => {
             </div>
           ))}
         </div>
-    
-        {/* Quick Actions */}
-        <div style={styles.wrapper}>
-          <h2 style={{...styles.title, margin: "0 0 20px 0"}}>Quick Actions</h2>
-          <div style={{...styles.cardContainer, height: "50px"}}>
-            <div style={{...styles.card, height: "100%"}}>
-              <div style={{...styles.iconContainer}}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="white"
-                  style={styles.icon}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 10h.01M12 10h.01M16 10h.01M8 16h8M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6"
-                  />
-                </svg>
-              </div>
-              <div  onClick={() => handleNavigate("/messagerequest")}
-              style={{...styles.textContainer, height: "100%"}}>
-                <strong style={styles.cardTitle}>View Session Requests</strong>
-                <p style={{...styles.subtitle,
-                  fontSize: "12px",
-                  margin: "auto",}
-                }>Subtitle text</p>
-              </div>
-            </div>
-    
-            <div style={{...styles.card, height: "100%"}}>
-              <div style={styles.iconContainer}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="white"
-                  style={styles.icon}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 10h11M9 21h6M3 6h18M3 6a2 2 0 012-2h12a2 2 0 012 2M3 6v12a2 2 0 002 2h12a2 2 0 002-2V6"
-                  />
-                </svg>
-              </div>
-              <div onClick={() => handleNavigate("/resources")}>
-                <p style={styles.cardTitle}>View Resources</p>
-                <p style={{...styles.subtitle,
-                  fontSize: "12px",
-                  margin: "auto",
-                }}>Subtitle text</p>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        {/* Progress Snapshot */}
-        <div style={styles.progressCard}>
-          <strong>Progress Snapshot</strong>
-          <div style={styles.graph}>Chart Placeholder</div>
-        </div>
-    
+       
         {/* Booked Sessions */}
           <div style={styles.bookSessioncontainer}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
