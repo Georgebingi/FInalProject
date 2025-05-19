@@ -17,6 +17,13 @@ const MessageRequest = () => {
       .catch(() => setAppointments([]));
   }, [user]);
 
+  // Add this handler
+  const handleRowClick = (student) => {
+    if (student.status === "Pending") {
+      navigate(`/CounselorStudentDetails/`);
+    }
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.bookSessioncontainer}>
@@ -92,23 +99,6 @@ const MessageRequest = () => {
               )}
             </tbody>
           </table>
-        </div>
-
-        <div style={styles.footerContainer}>
-          <span>Showing <b>{appointments.length}</b> of {appointments.length}</span>
-          <div style={styles.paginationContainer}>
-            <button style={{ backgroundColor: "#EAEAEA", width: "32px", height: "32px", borderRadius: "4px", padding: "0", border: "none" }}>
-              <ChevronLeft size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-            </button>
-            <button style={{ ...styles.paginationButton, border: "1px solid #089156" }}>
-              1
-            </button>
-            <button style={styles.paginationButton}>2</button>
-            <button style={styles.paginationButton}>3</button>
-            <button style={{ backgroundColor: "#EAEAEA", width: "32px", height: "32px", borderRadius: "4px", padding: "0", border: "none" }}>
-              <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-            </button>
-          </div>
         </div>
       </div>
     </div>
