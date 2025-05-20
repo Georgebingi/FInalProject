@@ -159,58 +159,40 @@ const MyStudent = () => {
             </div>
         
             {/* Table Section */}
-            <div style={styles.tableWrapper}>
-              <table style={styles.table}>
-              <thead>
-                <tr style={styles.tableHeaderRow}>
-                <th>Student</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Student ID</th>
-                <th>Email</th>
-                <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[1, 2, 3, 4].map((_, index) => (
-                <tr key={index} style={styles.tableBodyRow}>
-                  <td style={styles.studentCell}>
-                  <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                  Jesse Thomas
-                  </td>
-                  <td>12/2/2024</td>
-                  <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td>
-                  <td>4853966</td>
-                  <td>jt@gmail.com</td>
-                  <td>
-                  <button onClick={() => handleNavigate("/scheduledsession")}
-                   style={styles.viewButton}>View</button>
-                  </td>
-                </tr>
-                ))}
-              </tbody>
-              </table>
-            </div>
-        
-            {/* Footer Section */}
-            <div style={styles.footerContainer}>
-              <span>Showing <b>4</b> of 4</span>
-              <div style={styles.paginationContainer}>
-              <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
-                <ChevronLeft size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-              </button>
-              <button style={{...styles.paginationButton, border: "1px solid #089156"}}>
-                1
-              </button>
-              <button style={styles.paginationButton}>2</button>
-              <button style={styles.paginationButton}>3</button>
-              <button style={{ backgroundColor: "#EAEAEA", width:"32px", height:"32px", borderRadius:"4px", padding: "0", border: "none" }}>
-                <ChevronRight size={20} style={{ transform: "translateY(20%)", color: "#959595" }} />
-              </button>
-              </div>
-      </div>
-          </div>
-              {/* Chat History */}
+                  <div style={styles.tableWrapper}>
+                    <table style={styles.table}>
+                    <thead>
+                    <tr style={styles.tableHeaderRow}>
+                    <th>Student</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Student ID</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {[1, 2, 3, 4].map((_, index) => (
+                    <tr key={index} style={styles.tableBodyRow}>
+                      <td style={styles.studentCell}>
+                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
+                      Jesse Thomas
+                      </td>
+                      <td>12/2/2024</td>
+                      <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td>
+                      <td>4853966</td>
+                      <td>jt@gmail.com</td>
+                      <td>
+                      <button onClick={() => handleNavigate("/scheduledsession")}
+                       style={styles.viewButton}>View</button>
+                      </td>
+                    </tr>
+                    ))}
+                    </tbody>
+                    </table>
+                  </div>
+                  </div>
+                    {/* Chat History */}
           <div style={styles.chatHistory}>
             <h3 style={styles.header}>
             Chat History <span style={styles.seeAll}>See all</span>

@@ -191,7 +191,7 @@ const App = () => {
                     handleStudentDeleteImage={handleStudentDeleteImage}
                   />
                 </div>
-                <div style={{ overflow: "hidden", height: "90vh", backgroundColor: "#f9f9f9" }}>
+                <div style={{ overflow: "hidden", height: "120vh", backgroundColor: "#f9f9f9" }}>
                   <StudentsScheduleSession id="studentsschedulesession" />
                 </div>
               </div>
@@ -385,7 +385,7 @@ const App = () => {
                   />
                 
               </div>
-              <div style={{overflow:"hidden", height:"110vh", backgroundColor:"#f9f9f9"}}>
+              <div style={{overflow:"hidden", height:"150vh", backgroundColor:"#f9f9f9"}}>
                 <AiInsights id="/aiinsights" />
               </div>
             </div>

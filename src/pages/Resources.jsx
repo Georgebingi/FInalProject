@@ -101,74 +101,83 @@ import { useNavigate} from "react-router-dom";
                         fill="none" // Ensures there is no fill
                         size={75}
                     />
-                    <h3 style={{fontSize:"20px", color: "#414F58", marginBottom: "0", textAlign: "center" }}>Academic Support</h3>
-                    <p style={{ paddingBottom: "10px", borderBottom: "1px solid #C6CDD5", marginBottom: "5px" , fontSize: "12px", color: "#C6CDD5", textAlign: "center" }}>
-                    Study tips, time management strategies, and more
-                    </p>
-                </div>
-                <div style={{marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: "15px" }}>
-                        <p style={{ marginBottom:"-4px", margin: 0, color: "#C6CDD5" }}>Read Time:</p>
-                        <strong>10 mins</strong>
-                    </div>
-                    <div style={{ width: "1px", height: "20px", backgroundColor: "#C6CDD5", margin: "0 10px" }} />
-                    <button style={{ ...styles.button, ...styles.pinkButton }}>
-                        <LucideBookOpen size={16} style={{ marginRight: "5px", transform: "translateY(2px)" }} /> 
-                        Read More
-                    </button>
-                </div>
-            </div>
-            <div style={styles.resourceCard}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <LucideBriefcaseBusiness
-                        color="#A1821E" // Sets the stroke color
-                        strokeWidth="2" // Adjusts the thickness of the stroke
-                        fill="none" // Ensures there is no fill
-                        size={75} // Optional: Adjust the size of the icon
+                     <h3 style={{fontSize:"20px", color: "#414F58", marginBottom: "0", textAlign: "center" }}>Academic Support</h3>
+                                                      <p style={{ paddingBottom: "10px", borderBottom: "1px solid #C6CDD5", marginBottom: "5px" , fontSize: "12px", color: "#C6CDD5", textAlign: "center" }}>
+                                                      Study tips, time management strategies, and more
+                                                      </p>
+                                                    </div>
+                                                    <div style={{marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: "15px" }}>
+                                                        <p style={{ marginBottom:"-4px", margin: 0, color: "#C6CDD5" }}>Read Time:</p>
+                                                        <strong>10 mins</strong>
+                                                      </div>
+                                                      <div style={{ width: "1px", height: "20px", backgroundColor: "#C6CDD5", margin: "0 10px" }} />
+                                                      <button 
+                                                        style={{ ...styles.button, ...styles.pinkButton }} 
+                                                        onClick={() => window.open("https://youtu.be/uMPX-C5dQKY?si=_KhcFyCD-rTlZg-1", "_blank")}
+                                                      >
+                                                        <LucideBookOpen size={16} style={{ marginRight: "5px", transform: "translateY(2px)" }} /> 
+                                                        Read More
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                  <div style={styles.resourceCard}>
+                                                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                                      <LucideBriefcaseBusiness
+                                                        color="#A1821E" // Sets the stroke color
+                                            strokeWidth="2" // Adjusts the thickness of the stroke
+                                            fill="none" // Ensures there is no fill
+                                             // Optional: Adjust the size of the icon
                     />
-                    <h3 style={{fontSize:"20px", color: "#414F58", marginBottom: "0", textAlign: "center" }}>Career Development</h3>
-                    <p style={{ paddingBottom: "10px", borderBottom: "1px solid #C6CDD5", marginBottom: "5px" , fontSize: "12px", color: "#C6CDD5", textAlign: "center" }}>
-                    Resume building, interview tips, and more
-                    </p>
-                </div>
-                <div style={{marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: "15px" }}>
-                        <p style={{ marginBottom:"-4px", margin: 0, color: "#C6CDD5" }}>Read Time:</p>
-                        <strong>10 mins</strong>
-                    </div>
-                    <div style={{ width: "1px", height: "20px", backgroundColor: "#C6CDD5", margin: "0 10px" }} />
-                    <button style={{ ...styles.button, ...styles.brownButton }}>
-                        <LucideBookOpen size={16} style={{ marginRight: "5px", transform: "translateY(2px)" }} /> 
-                        Read More
-                    </button>
-                </div>
-            </div>
-            <div style={styles.resourceCard}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <LucideBicepsFlexed
-                        color="#58A0C1" 
-                        strokeWidth="2" 
-                        fill="none"
-                        size={75} 
+                     <h3 style={{fontSize:"20px", color: "#414F58", marginBottom: "0", textAlign: "center" }}>Career Development</h3>
+                                                 <p style={{ paddingBottom: "10px", borderBottom: "1px solid #C6CDD5", marginBottom: "5px" , fontSize: "12px", color: "#C6CDD5", textAlign: "center" }}>
+                                                 Resume building, interview tips, and more
+                                                 </p>
+                                               </div>
+                                               <div style={{marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: "15px" }}>
+                                                 <p style={{ marginBottom:"-4px", margin: 0, color: "#C6CDD5" }}>Read Time:</p>
+                                                 <strong>10 mins</strong>
+                                                 </div>
+                                                 <div style={{ width: "1px", height: "20px", backgroundColor: "#C6CDD5", margin: "0 10px" }} />
+                                                 <button 
+                                                 style={{ ...styles.button, ...styles.brownButton }} 
+                                                 onClick={() => window.open("https://youtu.be/Tuw8hxrFBH8?si=ZytQXt1iTQpNLyG5", "_blank")}
+                                                 >
+                                                 <LucideBookOpen size={16} style={{ marginRight: "5px", transform: "translateY(2px)" }} /> 
+                                                 Read More
+                                                 </button>
+                                               </div>
+                                               </div>
+                                               <div style={styles.resourceCard}>
+                                               <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                                 <LucideBicepsFlexed
+                                                 color="#58A0C1" 
+                                                 strokeWidth="2" 
+                                                 fill="none"
+                                                 size={75} 
                     />
                     <h3 style={{fontSize:"20px", color: "#414F58", marginBottom: "0", textAlign: "center" }}>Personal Development</h3>
-                    <p style={{ paddingBottom: "10px", borderBottom: "1px solid #C6CDD5", marginBottom: "5px" , fontSize: "12px", color: "#C6CDD5", textAlign: "center" }}>
-                    Resources on building confidence and skills
-                    </p>
-                </div>
-                <div style={{marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: "15px" }}>
-                        <p style={{ marginBottom:"-4px", margin: 0, color: "#C6CDD5" }}>Read Time:</p>
-                        <strong>10 mins</strong>
-                    </div>
-                    <div style={{ width: "1px", height: "20px", backgroundColor: "#C6CDD5", margin: "0 10px" }} />
-                    <button style={{ ...styles.button, ...styles.skyblueButton }}>
-                        <LucideBookOpen size={16} style={{ marginRight: "5px", transform: "translateY(2px)" }} /> 
-                        Read More
-                    </button>
-                </div>
-            </div>
-        </div>
+                                                  <p style={{ paddingBottom: "10px", borderBottom: "1px solid #C6CDD5", marginBottom: "5px" , fontSize: "12px", color: "#C6CDD5", textAlign: "center" }}>
+                                                  Resources on building confidence and skills
+                                                  </p>
+                                                </div>
+                                                <div style={{marginTop: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: "15px" }}>
+                                                  <p style={{ marginBottom:"-4px", margin: 0, color: "#C6CDD5" }}>Read Time:</p>
+                                                  <strong>10 mins</strong>
+                                                  </div>
+                                                  <div style={{ width: "1px", height: "20px", backgroundColor: "#C6CDD5", margin: "0 10px" }} />
+                                                  <button 
+                                                  style={{ ...styles.button, ...styles.skyblueButton }} 
+                                                  onClick={() => window.open("https://youtu.be/RO4abBz6W7M?si=vF1c0xuq-gPHp7-b", "_blank")}
+                                                  >
+                                                  <LucideBookOpen size={16} style={{ marginRight: "5px", transform: "translateY(2px)" }} /> 
+                                                  Read More
+                                                  </button>
+                                                </div>
+                                                </div>
+                                              </div>
         
         <h2 style={styles.sectionTitle}>Recently Accessed Resources</h2>
         <div style={styles.recentlyAccessedGrid}>
