@@ -15,6 +15,33 @@ const CounselorSignin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     const response = await api.post('/login', { email, password });
+
+  //     const { plainTextToken, redirect_to, user } = response.data;
+
+  //     if (!plainTextToken) {
+  //       throw new Error('No token returned from server');
+  //     }
+
+  //     // Save token and user data
+  //     localStorage.setItem("access_token", plainTextToken); // Used by axios.js
+  //     localStorage.setItem("user", JSON.stringify(user));
+  //     console.log(response.data);
+  //     // Redirect user
+  //     navigate(redirect_to);
+  //   } catch (err) {
+  //     console.error("Login error:", err);
+  //     setError(err.response?.data?.message || "Login failed. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,7 +61,6 @@ const CounselorSignin = () => {
       setLoading(false);
     }
   };
-
   return (
     <div style={styles.container}>
       <div style={styles.leftSection}>

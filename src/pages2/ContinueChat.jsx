@@ -86,6 +86,30 @@ const ContinueChat = ({ studentId, counselorId }) => {
       {/* Chat Messages */}
       <div style={styles.chatArea}>
         <p style={styles.date}>Today</p>
+
+        {messages && messages.length > 0 ? (
+          messages.map((msg) => {
+            const isSent = msg.sender_id === user?.id;
+            return (
+              <div key={msg.id} style={isSent ? styles.messageContainerSent : styles.messageContainer}>
+                <div style={isSent ? styles.sentMessage : styles.receivedMessage}>
+                  {msg.content}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div style={{ textAlign: "center", color: "#aaa", marginTop: "30px" }}>
+            No messages yet.
+          </div>
+        )}
+      </div>
+
+
+
+
+      {/* <div style={styles.chatArea}>
+        <p style={styles.date}>Today</p>
         {Array.isArray(messages) && messages.length > 0 ? (
           messages.map((msg, idx) => {
             const isSent = msg.sender_id === user.id;
@@ -119,7 +143,7 @@ const ContinueChat = ({ studentId, counselorId }) => {
             No messages yet.
           </div>
         )}
-      </div>
+      </div> */}
 
 
       {/* Input */}

@@ -1,182 +1,143 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
 
 const CounselorStudentDetails = () => {
-  // Sample data for demonstration
-  const counselorDetails = {
-    name: (
-      <span style={{ width: "298px", height: "38px", display: "inline-block" }}>
-        Mrs. Daniella Phillips
-      </span>
-    ),
-    specialization: "Psychology",
-    experience: "12 Years",
-    officeNumber: "4853966",
-    email: "daniPhil@example.com",
-    status: "Available",
-    rating: 4,
-    ratingStyle: {
-      width: "200px",
-      height: "50px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      margin: "0 auto",
-    },
-  };
+  const { user } = useContext(UserContext);
+  const { id } = useParams();
+  const [appointment, setAppointment] = useState(null);
 
+  useEffect(() => {
+    if (id) {
+      api.get(`/appointments/${id}`)
+        .then(res => setAppointment(res.data))
+        .catch(() => setAppointment(null));
+    }
+  }, [id]);
+  console.log(appointment);
   return (
     <div style={{ ...styles.container, backgroundColor: "#fff" }}>
-      <div>
+      <div style={styles.detailsSection}>
         <h2 style={{ ...styles.headerTitle, color: "#000000" }}>Session Details</h2>
         <form style={styles.form}>
           <label style={{ ...styles.label, color: "#000000" }}>Session Topic</label>
-          <select
+          <input
+            type="text"
+            value={appointment?.session_topic || ""}
             style={{
               ...styles.input,
               backgroundColor: "#fff",
               color: "#000000",
               width: "200px",
               height: "44px",
-              minWidth: "200px",
-              minHeight: "44px",
-              maxWidth: "200px",
-              maxHeight: "44px",
               borderRadius: "30px",
             }}
-          >
-            <option
-              style={{
-                color: "#000000",
-                border: "1px solid #ccc",
-                height: "24px",
-                width: "24px",
-              }}
-            >
-              Academic Guidance
-            </option>
-            <option style={{ color: "#000000" }}>Career Counseling</option>
-            <option style={{ color: "#000000" }}>Mental Health</option>
-          </select>
+            readOnly
+          />
 
-          {/* Preferred Date and Time on the same line */}
           <div style={{ display: "flex", gap: "20px", alignItems: "flex-end" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label style={{ ...styles.label, color: "#000000" }}>Preferred Date</label>
-              <select
+              <input
+                type="text"
+                value={appointment?.preferred_date || ""}
                 style={{
                   ...styles.input,
                   backgroundColor: "#fff",
                   color: "#000000",
                   width: "134px",
                   height: "44px",
-                  minWidth: "134px",
-                  minHeight: "44px",
-                  maxWidth: "134px",
-                  maxHeight: "44px",
+                  borderRadius: "30px",
                 }}
-              >
-                <option style={{ color: "#000000" }}>Monday</option>
-                <option style={{ color: "#000000" }}>Tuesday</option>
-                <option style={{ color: "#000000" }}>Wednesday</option>
-                <option style={{ color: "#000000" }}>Thursday</option>
-                <option style={{ color: "#000000" }}>Friday</option>
-              </select>
+                readOnly
+              />
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <label style={{ ...styles.label, color: "#000000" }}>Preferred Time</label>
-              <select
+              <input
+                type="text"
+                value={appointment?.preferred_time || ""}
                 style={{
                   ...styles.input,
                   backgroundColor: "#fff",
                   color: "#000000",
                   width: "134px",
                   height: "44px",
-                  minWidth: "134px",
-                  minHeight: "44px",
-                  maxWidth: "134px",
-                  maxHeight: "44px",
+                  borderRadius: "30px",
                 }}
-              >
-                <option style={{ color: "#000000" }}>10:00am</option>
-                <option style={{ color: "#000000" }}>11:00am</option>
-                <option style={{ color: "#000000" }}>12:00pm</option>
-                <option style={{ color: "#000000" }}>1:00pm</option>
-                <option style={{ color: "#000000" }}>2:00pm</option>
-                <option style={{ color: "#000000" }}>3:00pm</option>
-                <option style={{ color: "#000000" }}>4:00pm</option>
-                <option style={{ color: "#000000" }}>5:00pm</option>
-              </select>
+                readOnly
+              />
             </div>
           </div>
 
-          <label style={{ ...styles.label, color: "#000000" }}>
-            Email
-          </label>
+          <label style={{ ...styles.label, color: "#000000" }}>Email</label>
           <input
             type="email"
-            placeholder="Enter your email"
+            value={appointment?.email || appointment?.student?.email || ""}
             style={{
               ...styles.input,
               backgroundColor: "#fff",
               color: "#000000",
-              width: "450px", // width for the email input
-              height: "40px", // height for the email input
+              width: "450px",
+              height: "40px",
               borderRadius: "10px",
               border: "1px solid #ccc",
             }}
+            readOnly
           />
 
           <label style={{ ...styles.label, color: "#000000" }}>
             Is there anything you'd like your counselor to know before the session? (Optional)
           </label>
           <textarea
-            placeholder="Let your counselor know what you'd like to focus on during the session."
+            value={appointment?.notes || ""}
             style={{ ...styles.textarea, backgroundColor: "#fff", color: "#000000" }}
+            readOnly
           ></textarea>
 
-           <div style={{ display: "flex", gap: "16px", marginTop: "10px" }}>
-                    <button
-                        type="button"
-                        style={{
-                            ...styles.button,
-                            width: "150px",
-                            height: "44px",
-                            minWidth: "150px",
-                            minHeight: "44px",
-                            maxWidth: "150px",
-                            maxHeight: "44px",
-                            gap: "8px",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: "#28a745", // green
-                        }}
-                    >
-                        Accept Request
-                    </button>
-                    <button
-                        type="button"
-                        style={{
-                            ...styles.button,
-                            width: "150px",
-                            height: "44px",
-                            minWidth: "150px",
-                            minHeight: "44px",
-                            maxWidth: "150px",
-                            maxHeight: "44px",
-                            gap: "8px",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: "#dc3545", // red
-                        }}
-                    >
-                        Reject Request
-                    </button>
-                </div>
-            </form>
-        </div>
-
+          <div style={{ display: "flex", gap: "16px", marginTop: "10px" }}>
+            <button
+              type="button"
+              style={{
+                ...styles.button,
+                width: "150px",
+                height: "44px",
+                minWidth: "150px",
+                minHeight: "44px",
+                maxWidth: "150px",
+                maxHeight: "44px",
+                gap: "8px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#28a745",
+              }}
+            >
+              Accept Request
+            </button>
+            <button
+              type="button"
+              style={{
+                ...styles.button,
+                width: "150px",
+                height: "44px",
+                minWidth: "150px",
+                minHeight: "44px",
+                maxWidth: "150px",
+                maxHeight: "44px",
+                gap: "8px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#dc3545",
+              }}
+            >
+              Reject Request
+            </button>
+          </div>
+        </form>
+      </div>
 
       <div style={{ ...styles.counselorSection, backgroundColor: "#fff" }}>
         <img
@@ -184,11 +145,11 @@ const CounselorStudentDetails = () => {
           alt="Counselor"
           style={{ ...styles.avatar }}
         />
-        <h3 style={{ ...styles.counselorName, color: "#000000" }}>{counselorDetails.name}</h3>
+        <h3 style={{ ...styles.counselorName, color: "#000000" }}>{user?.name}</h3>
         <p style={{ ...styles.status, color: "#000000" }}>
           Status:{" "}
-          <span style={{ color: counselorDetails.status === "Available" ? "green" : "red" }}>
-            {counselorDetails.status}
+          <span style={{ color: "green" }}>
+            Available
           </span>
         </p>
         <div style={styles.rating}>
@@ -196,7 +157,7 @@ const CounselorStudentDetails = () => {
             <span
               key={index}
               style={{
-                color: index < counselorDetails.rating ? "#FFD700" : "#ccc",
+                color: index < 4 ? "#FFD700" : "#ccc",
                 fontSize: "20px",
               }}
             >
@@ -206,19 +167,19 @@ const CounselorStudentDetails = () => {
         </div>
         <div style={{ ...styles.info, backgroundColor: "#fff", color: "#000000" }}>
           <p>
-            <strong>Full Name:</strong> {counselorDetails.name}
+            <strong>Full Name:</strong> {user?.name}
           </p>
           <p>
-            <strong>Email Address:</strong> {counselorDetails.email}
+            <strong>Email Address:</strong> {user?.email}
           </p>
           <p>
-            <strong>Experience:</strong> {counselorDetails.experience}
+            <strong>Experience:</strong> 12 Years
           </p>
           <p>
-            <strong>Office Number:</strong> {counselorDetails.officeNumber}
+            <strong>Office Number:</strong> 4853966
           </p>
           <p>
-            <strong>Specialization:</strong> {counselorDetails.specialization}
+            <strong>Specialization:</strong> Psychology
           </p>
         </div>
       </div>

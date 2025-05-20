@@ -2,6 +2,7 @@ import { ChevronDown, ChevronLeft, ChevronRight, SearchIcon } from "lucide-react
 import { useEffect, useState, useContext } from "react";
 import api from "../api/axios";
 import { UserContext } from "../context/UserContext";
+import { Link } from "react-router-dom";
 
 const MessageRequest = () => {
   const { user } = useContext(UserContext);
@@ -10,19 +11,12 @@ const MessageRequest = () => {
   useEffect(() => {
     if (!user) return;
     // Fetch appointments for this counselor (authenticated)
-    api.get("/appointmentslist")
+    api.get(`/appointments/user/${user.id}?role=counselor`)
       .then(res => {
         setAppointments(res.data); // Already filtered by backend
       })
       .catch(() => setAppointments([]));
   }, [user]);
-
-  // Add this handler
-  const handleRowClick = (student) => {
-    if (student.status === "Pending") {
-      navigate(`/CounselorStudentDetails/`);
-    }
-  };
 
   return (
     <div style={styles.container}>
@@ -59,14 +53,15 @@ const MessageRequest = () => {
                 <th>Student</th>
                 <th>Topic</th>
                 <th>Level</th>
-                <th>Student ID</th>
+                {/* <th>Student ID</th> */}
                 <th>Email</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {appointments.length > 0 ? (
-                appointments.map((appointment, index) => (
+                appointments.map((appointment) => (
                   <tr key={appointment.id} style={styles.tableBodyRow}>
                     <td style={styles.studentCell}>
                       <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
@@ -74,7 +69,7 @@ const MessageRequest = () => {
                     </td>
                     <td>{appointment.session_topic}</td>
                     <td>{appointment.student?.level || "—"}</td>
-                    <td>{appointment.student_id}</td>
+                    {/* <td>{appointment.student_id}</td> */}
                     <td>{appointment.email || appointment.student?.email || "—"}</td>
                     <td>
                       <strong style={{
@@ -87,6 +82,14 @@ const MessageRequest = () => {
                         textAlign: "center",
                         verticalAlign: "middle"
                       }}>{appointment.status}</strong>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/CounselorStudentDetails/${appointment.id}`}
+                        style={{ color: "#2255CC", textDecoration: "underline", cursor: "pointer" }}
+                      >
+                        View
+                      </Link>
                     </td>
                   </tr>
                 ))
@@ -228,6 +231,8 @@ const styles = {
     textAlign: "center",
   },
   studentCell: {
+    alignItems: "center",
+    justifyContent: "center",
     display: "flex",
     gap: "10px",
     padding: "10px",

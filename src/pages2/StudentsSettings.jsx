@@ -38,21 +38,26 @@ const StudentsSettings = ({ studentImageUrl, handleStudentImageChange, handleStu
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user || !user.id) {
+      alert("User not loaded. Please refresh and try again.");
+      return;
+    }
     try {
       const payload = {
         name: username,
-        email,
+        email: email,
         // nationality,
         // timezone,
         current_password: currentPassword,
         new_password: newPassword,
         confirm_password: confirmPassword,
       };
-      const res = await api.put("/student/settings", payload);
+      const res = await api.patch(`/student/settings/${user.id}`, payload);
       alert("Profile updated successfully!");
       // Optionally update UI or context here
     } catch (err) {
-      alert("Failed to update profile.");
+      alert("Failed to update profile. error: " + err.message);
+      console.error("Error updating profile:", err);
     }
   };
 
@@ -163,7 +168,11 @@ const StudentsSettings = ({ studentImageUrl, handleStudentImageChange, handleStu
           {/*Button Container*/}
           <div style={{ display: "flex", marginTop: "40px", marginBottom: "20px", justifyContent: "space-between" }}>
             <div style={{ display: "flex", gap: "10px" }}>
-              <button type="submit" style={{ ...styles.button, ...styles.saveButton }}>
+              <button
+                type="submit"
+                style={{ ...styles.button, ...styles.saveButton }}
+                // disabled={!user || !user.id}
+              >
                 <span>Save</span>
               </button>
               <button type="button" style={{ ...styles.button, ...styles.cancelButton }}>

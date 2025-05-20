@@ -55,7 +55,7 @@ const App = () => {
 
   const handleDeleteImage = () => {
     setImage(null);
-    setImageUrl("https://randomuser.me/api/portraits/men/75.jpg");
+    setImageUrl("https://randomuser.me/api/portraits/men/76.jpg");
   };
 
   const [studentImage, setStudentImage] = useState(null);
@@ -146,7 +146,7 @@ const App = () => {
           }
         />
          <Route
-          path="/counselorstudentdetails"
+          path="/counselorstudentdetails/:id"
           element={
             <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
               <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
