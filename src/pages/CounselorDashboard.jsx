@@ -56,51 +56,29 @@ const CounselorDashboard = () => {
               {/* Filters Section */}
               <div style={styles.filtersContainer}>
                 <select style={styles.filterButton}>
-            {[
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December",
-            ].map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
+                  {[
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                  ].map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
                 </select>
-                <button style={styles.filterButton}>
-            Sort by: Verified Users 
-            <span style={styles.filterIcon}>
-              <ChevronDown size={20} style={{ transform: "translateY(20%)" }}/>
-            </span>
-                </button>
-                <button style={styles.filterButton}>
-            Filter: Active Users
-            <span style={styles.filterIcon}>
-            <Filter size={24} style={{ transform: "translateY(10%)" }} />
-            <PlusCircle
-              size={12}
-              style={{
-                position: "relative",
-                right: 12.5,
-                top: -3,
-                background: "white",
-                borderRadius: "50%",
-              }}
-            />
-            </span>
-                </button>
               </div>
-            </div>
-            
-            {/* Selected Filters */}
+              </div>
+
+              {/* Selected Filters */}
           <div style={styles.selectedFiltersContainer}>
             <span style={styles.selectedFilter}>Newest First ✖</span>
             <span style={styles.selectedFilter}>Verified Users ✖</span>

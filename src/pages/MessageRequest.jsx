@@ -26,14 +26,6 @@ const MessageRequest = () => {
           <h2 style={styles.headerTitle}>Student</h2>
 
           <div style={styles.filtersContainer}>
-            <button style={{...styles.filterButton,
-                fontWeight: "bold"
-            }}>
-              New Requests
-              <span style={styles.filterIcon}>
-                <ChevronDown size={20} style={{ transform: "translateY(20%)" }} />
-              </span>
-            </button>
             <button style={styles.filterButton}>
               Sort by
               <span style={styles.filterIcon}>
