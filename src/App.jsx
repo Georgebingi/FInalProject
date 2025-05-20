@@ -72,257 +72,257 @@ const App = () => {
   return (
     <Router>
       {/* Students Routes */}
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/roleselection" element={<RoleSelection />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/studentsonboarding" element={<StudentsOnboarding />} />
-          <Route path="/counselorsignin" element={<CounselorSignin />} />
-          <Route
-            path="/studentresources"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height:"240vh", backgroundColor: "#f9f9f9" }}>
-            <StudentResources />
-              </div>
-            </div>
-          </div>
-            }
-          />
-          <Route
-            path="/startchatting"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
-            <StartChatting />
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/roleselection" element={<RoleSelection />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/studentsonboarding" element={<StudentsOnboarding />} />
+        <Route path="/counselorsignin" element={<CounselorSignin />} />
+        <Route
+          path="/studentresources"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <StudentResources />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
-          <Route
-            path="/schedulemeeting"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
-            <ScheduleMeeting />
-              </div>
-            </div>
-          </div>
-            }
-          />
-           <Route
-            path="/counselorstudentdetails"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
-            <CounselorStudentDetails />
+          }
+        />
+        <Route
+          path="/startchatting"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <StartChatting />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
-          <Route
-            path="/studentsdashboard"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height:"240vh", backgroundColor: "#f9f9f9" }}>
-            <StudentsDashboard />
-              </div>
-            </div>
-          </div>
-            }
-          />
-          <Route
-            path="/studentsschedulesession"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height: "90vh", backgroundColor: "#f9f9f9" }}>
-            <StudentsScheduleSession id="studentsschedulesession" />
+          }
+        />
+        <Route
+          path="/schedulemeeting"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <ScheduleMeeting />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
-          <Route
-            path="/studentssettings"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl}
-              handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", backgroundColor: "#f9f9f9", height: "180vh" }}>
-            <StudentsSettings
-              studentImageUrl={studentImageUrl}
-              handleStudentImageChange={handleStudentImageChange}
-              handleStudentDeleteImage={handleStudentDeleteImage}
-              id="/studentssettings"
-            />
+          }
+        />
+         <Route
+          path="/counselorstudentdetails"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <CounselorSidebar style={{flex:"none", overflow:"hidden"}} />
+              <div style={{flex: 1, overflow:"auto"}}>
+                <div style={{position:"sticky", top:0, zIndex:1, background:"white"}}>
+                    <Header
+                    imageUrl={imageUrl}
+                    handleImageChange={handleImageChange}
+                    handleDeleteImage={handleDeleteImage} 
+                    />
+                </div>
+                <div style={{ overflow: "hidden", width:"81.5vw", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <CounselorStudentDetails />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
-          <Route
-            path="/studentscounselorsession"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl} handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height: "180vh", backgroundColor: "#f9f9f9" }}>
-            <StudentsCounselorSession id="/studentscounselorsession" />
-              </div>
-            </div>
-          </div>
-            }
-          />
-          <Route
-            path="/studentschatui"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl} handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
-            <StudentsChatUI id="/studentschatui" />
+          }
+        />
+        <Route
+          path="/studentsdashboard"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height:"240vh", backgroundColor: "#f9f9f9" }}>
+                  <StudentsDashboard />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
-          <Route
-            path="/continuechat"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl} handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
-            <ContinueChat id="/continuechat" />
-              </div>
-            </div>
-          </div>
-            }
-          />
-         
-           <Route
-            path="/studentcounselordetails"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl} handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
-            <StudentsCounselorDetails id="/studentcounselordetails" />
+          }
+        />
+        <Route
+          path="/studentsschedulesession"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "90vh", backgroundColor: "#f9f9f9" }}>
+                  <StudentsScheduleSession id="studentsschedulesession" />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
-          <Route
-            path="/studentsmentormind"
-            element={
-          <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
-            <CounselorSidebar style={{ flex: "none", overflow: "hidden" }} />
-            <div style={{ flex: 1, overflow: "auto" }}>
-              <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
-            <Header
-              imageUrl={imageUrl} handleImageChange={handleImageChange}
-              handleDeleteImage={handleDeleteImage}
-            />
-              </div>
-              <div style={{ overflow: "hidden", height: "180vh", backgroundColor: "#f9f9f9" }}>
-            <StudentsMentorMind id="/studentsmentormind" />
+          }
+        />
+        <Route
+          path="/studentssettings"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", backgroundColor: "#f9f9f9", height: "180vh" }}>
+                  <StudentsSettings
+                    studentImageUrl={studentImageUrl}
+                    handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                    id="/studentssettings"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-            }
-          />
+          }
+        />
+        <Route
+          path="/studentscounselorsession"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", backgroundColor: "#f9f9f9" }}>
+                  <StudentsCounselorSession id="/studentscounselorsession" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/studentschatui"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
+                  <StudentsChatUI id="/studentschatui" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/continuechat"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
+                  <ContinueChat id="/continuechat" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+       
+         <Route
+          path="/studentcounselordetails"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", width:"81.55vw", backgroundColor: "#f9f9f9" }}>
+                  <StudentsCounselorDetails id="/studentcounselordetails" />
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/studentsmentormind"
+          element={
+            <div style={{ display: "flex", overflow: "hidden", height: "100vh" }}>
+              <StudentsSidebar style={{ flex: "none", overflow: "hidden" }} />
+              <div style={{ flex: 1, overflow: "auto" }}>
+                <div style={{ position: "sticky", top: 0, zIndex: 1, background: "white" }}>
+                  <StudentsHeader
+                    studentImageUrl={studentImageUrl} handleStudentImageChange={handleStudentImageChange}
+                    handleStudentDeleteImage={handleStudentDeleteImage}
+                  />
+                </div>
+                <div style={{ overflow: "hidden", height: "180vh", backgroundColor: "#f9f9f9" }}>
+                  <StudentsMentorMind id="/studentsmentormind" />
+                </div>
+              </div>
+            </div>
+          }
+        />
 
 
 
-          {/* Counselor Routes */}
+        {/* Counselor Routes */}
         <Route
           path="*"
           element={
@@ -444,4 +444,3 @@ const App = () => {
 };
 
 export default App;
-
