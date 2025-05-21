@@ -8,7 +8,13 @@ const StartChatting = () => {
 
   useEffect(() => {
     api.get('/counselors')
-      .then(res => setCounselors(res.data))
+      .then(res => {
+        // Only show counselors whose status is "Available"
+        const availableCounselors = res.data.filter(
+          c => c.counselor_profile?.status === "Available"
+        );
+        setCounselors(availableCounselors);
+      })
       .catch(err => console.error(err));
   }, []);
 
@@ -17,7 +23,7 @@ const StartChatting = () => {
       {/* Student Section Sessions */}
       <div id="tableSection" style={styles.bookSessioncontainer}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-          <h2 style={styles.headerTitle}>Counselor Sessions</h2>
+          <h2 style={styles.headerTitle}>Available Counsellors</h2>
           {/* Filters Section */}
           <div style={styles.filtersContainer}>
             <div style={{ position: "relative" }}>

@@ -25,7 +25,7 @@ const ContinueChat = ({ studentId, counselorId }) => {
     try {
       const res = await api.get(`/messages/${counselor.id}?student_id=${user.id}`);
       console.log("Fetched messages:", res.data);
-      setMessages(Array.isArray(res.data.data) ? res.data.data : []);
+      setMessages(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Fetch messages failed:", err);
       setMessages([]);
@@ -87,7 +87,7 @@ const ContinueChat = ({ studentId, counselorId }) => {
       <div style={styles.chatArea}>
         <p style={styles.date}>Today</p>
 
-        {messages && messages.length > 0 ? (
+        {Array.isArray(messages) && messages.length > 0 ? (
           messages.map((msg) => {
             const isSent = msg.sender_id === user?.id;
             return (

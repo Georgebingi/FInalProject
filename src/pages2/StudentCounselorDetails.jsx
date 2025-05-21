@@ -37,6 +37,7 @@ const StudentCounselorDetails = () => {
         notes,
       });
       setMessage('Appointment scheduled!');
+      navigate('/MessageRequest'); // Redirect to appointment list
     } catch (err) {
       setMessage('Failed to schedule appointment');
     }

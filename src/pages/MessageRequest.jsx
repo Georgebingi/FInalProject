@@ -13,7 +13,8 @@ const MessageRequest = () => {
     // Fetch appointments for this counselor (authenticated)
     api.get(`/appointments/user/${user.id}?role=counselor`)
       .then(res => {
-        setAppointments(res.data); // Already filtered by backend
+        // Only show appointments with status "Pending"
+        setAppointments(res.data.filter(app => app.status === "Pending"));
       })
       .catch(() => setAppointments([]));
   }, [user]);

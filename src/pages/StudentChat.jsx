@@ -1,21 +1,26 @@
 import { ChevronDown, ChevronLeft, ChevronRight, SearchIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState, useContext } from "react";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
 
 const StudentChat = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext); // The logged-in counselor
+  const [students, setStudents] = useState([]);
 
-  const students = [
-    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
-    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
-    { name: "Jesse Thomas", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
-    { name: "Daniella Phillips", topic: "Academic Guidance", level: "300 Level", id: "4853966", email: "jt@gmail.com", status: "Available" },
-  ];
+  useEffect(() => {
+    if (!user || !user.id) return;
+    // Fetch students who have messaged this counselor
+    api.get(`/messages/students-with-history/${user.id}`)
+      .then(res => setStudents(Array.isArray(res.data) ? res.data : []))
+      .catch(() => setStudents([]));
+  }, [user]);
 
   const handleRowClick = (student) => {
     if (student.status === "Available") {
-      navigate(`/ChatUI/`);
-    } 
+      navigate(`/ChatUI/${student.id}`);
+    }
   };
 
   return (
@@ -45,9 +50,9 @@ const StudentChat = () => {
               <tr style={styles.tableHeaderRow}>
                 <th>Student</th>
                 <th>Topic</th>
-                <th>Level</th>
+                {/* <th>Level</th> */}
                 <th>Student ID</th>
-                <th>Email</th>
+                {/* <th>Email</th> */}
                 <th>Status</th>
               </tr>
             </thead>
@@ -57,18 +62,18 @@ const StudentChat = () => {
                   key={index}
                   style={{
                     ...styles.tableBodyRow,
-                    cursor: student.status === "Avaliable" ? "pointer" : "default",
+                    cursor: "pointer", // Always pointer
                   }}
-                  onClick={() => handleRowClick(student)}
+                  onClick={() => navigate(`/ChatUI/${student.id}`)} // Always navigate
                 >
                   <td style={styles.studentCell}>
-                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                    {student.name}
+                    <img src={student.avatar || "https://randomuser.me/api/portraits/men/75.jpg"} alt="Profile" style={styles.avatar} />
+                    {student.name || student.display_name || "Anonymous"}
                   </td>
-                  <td>{student.topic}</td>
-                  <td>{student.level}</td>
+                  {/* <td>{student.topic || "—"}</td> */}
+                  <td>{student.level || "—"}</td>
                   <td>{student.id}</td>
-                  <td>{student.email}</td>
+                  {/* <td>{student.email}</td> */}
                   <td>
                     <strong style={{
                       color: "#6EC158",
@@ -79,7 +84,7 @@ const StudentChat = () => {
                       letterSpacing: "-2%",
                       textAlign: "center",
                       verticalAlign: "middle"
-                    }}>{student.status}</strong>
+                    }}>View</strong>
                   </td>
                 </tr>
               ))}

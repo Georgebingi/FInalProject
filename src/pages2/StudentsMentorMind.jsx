@@ -2,26 +2,42 @@ import { useState } from "react";
 import { SearchIcon, ChevronDown, ChevronLeft, ChevronRight, Send, UserIcon} from "lucide-react";
 import Glassmorphic from "../assets/Glassmorphic.png";
 import axios from "axios";
-
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 const StudentsMentorMind = () => {
+  const { user } = useContext(UserContext); // Get user data from context
   const [chatHistory, setChatHistory] = useState([]); // Chat history
   const [userInput, setUserInput] = useState(""); // User input
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [topThreads, setTopThreads] = useState([]);
 
   const handleSend = async () => {
     if (!userInput.trim()) return; // Prevent empty input
 
-    // Add user input to chat history
     setChatHistory((prev) => [...prev, { sender: "user", message: userInput }]);
     setLoading(true);
     setError(null);
 
     try {
-      const token = localStorage.getItem("token"); // Get auth token
+      const token = localStorage.getItem("token"); // Get auth token if needed
+      const systemMessage = {
+        role: "system",
+        content: "You are a helpful, empathetic, and professional counsellor. Always respond as a counsellor would."
+      };
+
+      const messages = [
+        systemMessage,
+        ...chatHistory.map(msg => ({
+          role: msg.sender === "user" ? "user" : "assistant",
+          content: msg.message
+        })),
+        { role: "user", content: userInput }
+      ];
+
       const response = await axios.post(
-        "http://localhost:8000/api/ai/process",
-        { input: userInput },
+        "http://localhost:8000/api/ask-openai",
+        { messages },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,8 +48,20 @@ const StudentsMentorMind = () => {
       // Add AI response to chat history
       setChatHistory((prev) => [
         ...prev,
-        { sender: "ai", message: response.data.reply },
+        { sender: "ai", message: response.data.answer },
       ]);
+
+      // Update top threads
+      setTopThreads(prev => {
+        const newThread = {
+          prompt: userInput,
+          response: response.data.answer,
+          timestamp: Date.now(),
+        };
+        // Add new thread to the front, keep only 3
+        const updated = [newThread, ...prev].slice(0, 3);
+        return updated;
+      });
     } catch (err) {
       setError("Failed to get a response from AI. Please try again.");
     } finally {
@@ -63,7 +91,7 @@ const StudentsMentorMind = () => {
               WebkitTextFillColor: "transparent",
               fontSize: "40px",
             }}>
-              John.
+              { user.name }
             </span>
             <br />
             <span>What would you like to know?</span>
@@ -87,22 +115,58 @@ const StudentsMentorMind = () => {
 
         {/* Buttons for Prompts */}
         <div style={styles.buttonContainer}>
-          {Array(4)
-            .fill("Write a to-do list for a personal project or task")
-            .map((text, index) => (
-              <button key={index} style={{
+          {[
+            "How can I improve my study habits?",
+            "What should I do if I feel overwhelmed by schoolwork?",
+            "How do I deal with exam anxiety?",
+            "How can I balance academics and my social life?"
+          ].map((text, index) => (
+            <button
+              key={index}
+              style={{
                 ...styles.button,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
                 alignItems: "flex-start",
-              }}>
-                <span style={{ alignSelf: "flex-start" }}>{text}</span>
-                <UserIcon size={24} style={{ alignSelf: "flex-start", marginBottom: "5px" }}/>
-              </button>
-            ))}
+              }}
+              onClick={() => setUserInput(text)}
+            >
+              <span style={{ alignSelf: "flex-start" }}>{text}</span>
+              <UserIcon size={24} style={{ alignSelf: "flex-start", marginBottom: "5px" }}/>
+            </button>
+          ))}
         </div>
 
+        {/* Chat History */}
+        <div style={{ marginTop: "20px", marginBottom: "40px" }}>
+          {chatHistory.map((chat, index) => (
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                justifyContent: chat.sender === "user" ? "flex-end" : "flex-start",
+                marginBottom: "10px",
+              }}
+            >
+              <div
+                style={{
+                  maxWidth: "70%",
+                  padding: "10px 15px",
+                  borderRadius: "15px",
+                  backgroundColor: chat.sender === "user" ? "#DCFCE7" : "#E5E7EB",
+                  color: "#333",
+                  fontSize: "14px",
+                  fontFamily: "Manrope, sans-serif",
+                  whiteSpace: "pre-wrap",
+                  lineHeight: "1.4",
+                }}
+              >
+                {chat.message}
+              </div>
+            </div>
+          ))}
+        </div>
         {/* Chat Input */}
         <div style={styles.inputContainer}>
           <input
@@ -170,7 +234,11 @@ const StudentsMentorMind = () => {
         {/* Chat History */}
         <div style={styles.chatHistory}>
           {chatData.map((chat) => (
-            <div key={chat.id} style={styles.chatItem}>
+            <div
+              key={chat.id}
+              style={styles.chatItem}
+              onClick={() => setUserInput(chat.name)} // Set FAQ as chat input on click
+            >
               <div style={styles.userSection}>
                 <div style={styles.ellipse}>
                   <img src={Glassmorphic}
@@ -186,10 +254,19 @@ const StudentsMentorMind = () => {
                 <strong style={{...styles.notification, fontSize:"15px", fontFamily:"Manrope", color: "#565656", fontWeight:"bold"}}>{chat.notification}</strong>
               </div>
             </div>
-            ))}
+          ))}
+        </div>
+      </div>
+
+      {/* Top 3 Recent Threads */}
+      <div style={styles.topThreadsContainer}>
+        <h3 style={styles.topThreadsTitle}>Top 3 Recent Threads</h3>
+        {topThreads.map((thread, idx) => (
+          <div key={idx} style={styles.threadItem}>
+            <strong>Q:</strong> {thread.prompt}<br />
+            <strong>A:</strong> {thread.response}
           </div>
-          
-            
+        ))}
       </div>
     </div>
   );
@@ -469,5 +546,26 @@ const styles = {
   error: {
     color: "red",
     marginTop: "10px",
+  },
+  // Top Threads
+  topThreadsContainer: {
+    marginTop: "30px",
+    padding: "15px",
+    borderRadius: "10px",
+    backgroundColor: "#FFFFFF",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  topThreadsTitle: {
+    fontSize: "18px",
+    fontWeight: 500,
+    marginBottom: "10px",
+    color: "#333",
+  },
+  threadItem: {
+    marginBottom: "10px",
+    padding: "10px",
+    borderRadius: "8px",
+    backgroundColor: "#F8F9FA",
+    border: "1px solid #E1E1E1",
   },
 }

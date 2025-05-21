@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import api from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
-import { useContext } from "react";
+
 const ToggleSwitch = ({ counselorId, onStatusChange }) => {
   const { user } = useContext(UserContext);
 
-  // Guard: Wait until user is loaded
-  if (!user || !user.id) return null;
+  const [isOn, setIsOn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  counselorId = user.id;
-  const initialStatus = user.counselor_profile?.status || "Unavailable"; // Use counselor_profile if available
-  const [isOn, setIsOn] = useState(initialStatus === "Available");
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (user && user.counselor_profile) {
+      setIsOn(user.counselor_profile.status === "Available");
+      setLoading(false);
+    } else if (user) {
+      // User loaded but no counselor profile
+      setIsOn(false);
+      setLoading(false);
+    }
+  }, [user]);
+
+  if (!user || !user.id) return null; // User not loaded at all
 
   const toggleSwitch = async () => {
     setLoading(true);
@@ -25,7 +33,7 @@ const ToggleSwitch = ({ counselorId, onStatusChange }) => {
     }
     setLoading(false);
   };
-  
+
   return (
     <div
       style={{
@@ -52,6 +60,11 @@ const ToggleSwitch = ({ counselorId, onStatusChange }) => {
           transform: isOn ? "translateX(30px)" : "translateX(0px)",
         }}
       ></div>
+      {loading && (
+        <span style={{ marginLeft: 10, color: "#888", fontSize: 12 }}>
+          Loading...
+        </span>
+      )}
     </div>
   );
 };

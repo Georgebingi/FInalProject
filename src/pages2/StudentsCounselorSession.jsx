@@ -1,19 +1,30 @@
 import { UserIcon, SearchIcon, ChevronDown, LucideMessagesSquare, ChevronLeft, ChevronRight } from "lucide-react";
 import DiscussionIcon from "../assets/DiscussionIcon.png";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import api from '../api/axios';
 
+import { UserContext } from '../context/UserContext';
 const StudentsCounselorSession = () => {
+  const { user } = useContext(UserContext);
   const [counselors, setCounselors] = useState([]);
   const [selected, setSelected] = useState(null);
-
+  const [appointments, setAppointments] = useState([]);
   useEffect(() => {
     api.get('/counselors')
       .then(res => setCounselors(res.data))
       .catch(err => console.error(err));
   }, []);
-
+  useEffect(() => {
+    if (!user) return;
+    // Fetch appointments for this counselor (authenticated)
+    api.get(`/appointments/user/${user.id}?role=student`)
+      .then(res => {
+        // Only show appointments with status "Pending"
+        setAppointments(res.data.filter(app => app.status === "Aprroved"));
+      })
+      .catch(() => setAppointments([]));
+  }, [user]);
   const chatData = [
     { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
     { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },

@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { UserContext } from "../context/UserContext";
 
 const CounselorStudentDetails = () => {
   const { user } = useContext(UserContext);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [appointment, setAppointment] = useState(null);
 
   useEffect(() => {
@@ -15,7 +16,32 @@ const CounselorStudentDetails = () => {
         .catch(() => setAppointment(null));
     }
   }, [id]);
-  console.log(appointment);
+
+  // Accept request: update status to "accepted"
+  const handleAccept = async () => {
+    try {
+      await api.patch(`/appointments/${id}`, { status: "Approved" });
+      setAppointment(prev => ({ ...prev, status: "Approved" }));
+      alert("Appointment accepted!");
+    } catch (err) {
+      alert("Failed to accept appointment.");
+    }
+  };
+
+  // Reject request: delete appointment
+  const handleReject = async () => {
+    if (!window.confirm("Are you sure you want to reject and delete this appointment?")) return;
+    try {
+      await api.patch(`/appointments/${id}`);
+      await api.patch(`/appointments/${id}`, { status: "Rejected" });
+      setAppointment(prev => ({ ...prev, status: "Rejected" }));
+      alert("Appointment rejected!");
+      navigate("/MessageRequest"); // Redirect to appointment list
+    } catch (err) {
+      alert("Failed to delete appointment.");
+    }
+  };
+
   return (
     <div style={{ ...styles.container, backgroundColor: "#fff" }}>
       <div style={styles.detailsSection}>
@@ -99,6 +125,7 @@ const CounselorStudentDetails = () => {
           <div style={{ display: "flex", gap: "16px", marginTop: "10px" }}>
             <button
               type="button"
+              onClick={handleAccept}
               style={{
                 ...styles.button,
                 width: "150px",
@@ -113,11 +140,13 @@ const CounselorStudentDetails = () => {
                 justifyContent: "center",
                 backgroundColor: "#28a745",
               }}
+              disabled={appointment?.status === "Approved"}
             >
               Accept Request
             </button>
             <button
               type="button"
+              onClick={handleReject}
               style={{
                 ...styles.button,
                 width: "150px",

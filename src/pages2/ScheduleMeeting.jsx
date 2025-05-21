@@ -10,7 +10,13 @@ const ScheduleMeeting = () => {
 
   useEffect(() => {
     api.get('/counselors')
-      .then(res => setCounselors(res.data))
+      .then(res => {
+        // Only show counselors whose status is "Available"
+        const availableCounselors = res.data.filter(
+          c => c.counselor_profile?.status === "Available"
+        );
+        setCounselors(availableCounselors);
+      })
       .catch(err => console.error(err));
   }, []);
   const navigate = useNavigate();

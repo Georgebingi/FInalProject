@@ -1,6 +1,18 @@
 import { Calendar, Clock, GraduationCap, Mail, NotebookPen, XCircle, RotateCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import api from "../api/axios"; // Adjust the import based on your project structure
 
 const StudentsScheduleSession = () => {
+    const [messages, setMessages] = useState([]);
+    const studentId = "123"; // Replace with actual student ID
+    const counselorId = "456"; // Replace with actual counselor ID
+
+    useEffect(() => {
+        api.get(`/messages?student_id=${studentId}&counselor_id=${counselorId}`)
+            .then(res => setMessages(Array.isArray(res.data) ? res.data : []))
+            .catch(() => setMessages([]));
+    }, [studentId, counselorId]);
+
     const sessionDetails = [
         {
           icon: <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="profile" style={{ width: "30px", height: "30px", borderRadius: "50%", position: "relative", top: "-12%", left: "80%" }} />,

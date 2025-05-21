@@ -1,18 +1,72 @@
+import { useEffect, useState, useContext } from "react";
 import { Phone, Info, Paperclip, Send } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
 
 const ChatUI = () => {
+  const { user } = useContext(UserContext); // The logged-in counselor
+  const { id } = useParams(); // student id from route
+  const [messages, setMessages] = useState([]);
+  const [newMsg, setNewMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [student, setStudent] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    api.get(`/students/${id}`)
+      .then(res => setStudent(res.data))
+      .catch(() => navigate('/'));
+  }, [id, navigate]);
+
+  const fetchMessages = async () => {
+    if (!student || !student.id) return;
+    try {
+      const res = await api.get(`/messages/${user.id}?student_id=${student.id}`);
+      setMessages(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      setMessages([]);
+    }
+  };
+
+  const handleSend = async () => {
+    if (!newMsg.trim()) return;
+    setLoading(true);
+    try {
+      await api.post("/messages", {
+        sender_id: user.id,
+        receiver_id: student.id,
+        content: newMsg,
+      });
+      setNewMsg("");
+      fetchMessages();
+    } catch (err) {
+      // Optionally handle error
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (student && student.id) {
+      fetchMessages();
+    }
+    // eslint-disable-next-line
+  }, [student]);
+
+  if (!student) return <p>Loading...</p>;
+
   return (
     <div style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
         <div style={styles.profileSection}>
           <img
-            src="https://randomuser.me/api/portraits/men/75.jpg"
+            src={student.avatar || "https://randomuser.me/api/portraits/men/75.jpg"}
             alt="profile"
             style={styles.profileImage}
           />
           <div>
-            <h3 style={styles.name}>Daniella Phillips</h3>
+            <h3 style={styles.name}>{student.name}</h3>
             <div style={styles.stars}>⭐ ⭐ ⭐ ⭐ ☆</div>
           </div>
         </div>
@@ -25,51 +79,57 @@ const ChatUI = () => {
       {/* Chat Messages */}
       <div style={styles.chatArea}>
         <p style={styles.date}>Today</p>
-
-        {/* Received Message */}
-        <div style={styles.messageContainer}>
-          <img
-            src="https://randomuser.me/api/portraits/men/75.jpg"
-            alt="profile"
-            style={styles.messageProfile}
-          />
-          <div>
-            <div style={styles.receivedMessage}>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s,</div>
-            <p style={{...styles.time, textAlign:"left"}}>8:00 PM</p>
+        {Array.isArray(messages) && messages.length > 0 ? (
+          messages.map((msg) => {
+            const isSent = msg.sender_id === user?.id;
+            return (
+              <div key={msg.id} style={isSent ? styles.messageContainerSent : styles.messageContainer}>
+                {!isSent && (
+                  <img
+                    src={student.avatar || "https://randomuser.me/api/portraits/men/75.jpg"}
+                    alt="profile"
+                    style={styles.messageProfile}
+                  />
+                )}
+                <div style={isSent ? styles.sentMessage : styles.receivedMessage}>
+                  {msg.content}
+                </div>
+                {isSent && (
+                  <img
+                    src={user.avatar || "https://randomuser.me/api/portraits/women/75.jpg"}
+                    alt="profile"
+                    style={styles.messageProfile}
+                  />
+                )}
+              </div>
+            );
+          })
+        ) : (
+          <div style={{ textAlign: "center", color: "#aaa", marginTop: "30px" }}>
+            No messages yet.
           </div>
-        </div>
-
-        {/* Sent Message */}
-        <div style={styles.messageContainerSent}>
-          <div style={styles.sentMessage}>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s,</div>
-          <img
-            src="https://randomuser.me/api/portraits/men/75.jpg"
-            alt="profile"
-            style={styles.messageProfile}
-          />
-        </div>
-        <p style={styles.time}>8:00 PM</p>
-
-        {/* Typing Indicator */}
-        <div style={styles.messageContainer}>
-          <img
-            src="https://randomuser.me/api/portraits/men/75.jpg"
-            alt="profile"
-            style={styles.messageProfile}
-          />
-          <div style={styles.typing}>...</div>
-        </div>
+        )}
       </div>
 
       {/* Chat Input */}
       <div style={{display: "flex", alignItems: "center", 
-      height:"60px",
-      border: "1px solid #54545657", 
+        height:"60px",
+        border: "1px solid #54545657", 
         padding: "5px", borderRadius: "15px"}}>
         <Paperclip style={styles.attachIcon} />
-        <input type="text" placeholder="Type Here..." style={{flex: 1, ...styles.input}} />
-        <button style={{...styles.sendButton, marginLeft: "10px"}}>
-            <Send size={28} style={styles.sendIcon} />
+        <input
+          type="text"
+          placeholder="Type Here..."
+          style={{flex: 1, ...styles.input}}
+          value={newMsg}
+          onChange={e => setNewMsg(e.target.value)}
+        />
+        <button
+          style={{...styles.sendButton, marginLeft: "10px"}}
+          onClick={handleSend}
+          disabled={loading}
+        >
+          <Send size={28} style={styles.sendIcon} />
         </button>
       </div>
     </div>

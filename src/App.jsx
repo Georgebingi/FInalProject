@@ -358,7 +358,7 @@ const App = () => {
           }
         />
       <Route 
-        path="/chatui"
+        path="/chatui/:id"
         element={
           <div style={{display:"flex", overflow:"hidden", height:"100vh"}}>
             <CounselorSidebar style={{flex:"none", overflow:"hidden"}} />

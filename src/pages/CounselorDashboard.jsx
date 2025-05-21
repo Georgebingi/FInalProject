@@ -1,9 +1,13 @@
 import HearingSymbol from "../assets/hearingIcon.png";
 import ToggleSwitch from "../components/counselorcomponents/ToggleSwitch";
 import { UserIcon, SearchIcon, ChevronDown, Filter, PlusCircle, ChevronRight, ChevronLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import api from "../api/axios";
+import { UserContext } from "../context/UserContext";
 const CounselorDashboard = () => {
+  const { user } = useContext(UserContext);
+  if (!user || !user.id) return null; // User not loaded at all 
   const chatData = [
     { id: 1, name: "Student 12", message: "I think you should focus more on what's ahead and...", isOnline: true },
     { id: 2, name: "Student 23", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
@@ -15,6 +19,19 @@ const CounselorDashboard = () => {
   const handleNavigate = (path) =>{
     navigate(path, { replace: true });
   }
+
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    if (!user) return;
+    // Fetch appointments for this counselor (authenticated)
+    api.get(`/appointments/user/${user.id}?role=counselor`)
+      .then(res => {
+        setAppointments(res.data.filter(app => app.status === "Approved")); 
+      })
+      .catch(() => setAppointments([]));
+  }, [user]);
+
   return (
       <div style={{ ...styles.container, }}>
         {/* Availability Status */}
@@ -22,7 +39,7 @@ const CounselorDashboard = () => {
           <img src={HearingSymbol} alt="Nile University Logo" style={styles.logo} />
           <h3 style={styles.availabilityTitle}>Availability Status</h3>
           <p style={styles.description}>Write an amazing description in this dedicated card section.</p>
-          <ToggleSwitch />
+          <ToggleSwitch  />
         </div>
     
         {/* Chat History */}
@@ -42,8 +59,9 @@ const CounselorDashboard = () => {
                   <p style={styles.chatMessage}>{chat.message}</p>
                 </div>
               </div>
-              <button onClick={() => handleNavigate("/studentchat")}
-               style={styles.chatButton}>Continue Chat</button>
+              <Link to="/studentchat" style={{ ...styles.chatButton, textDecoration: "none", display: "inline-block", textAlign: "center" }}>
+                Continue Chat
+              </Link>
             </div>
           ))}
         </div>
@@ -69,14 +87,13 @@ const CounselorDashboard = () => {
                   />
                 </svg>
               </div>
-              <div  onClick={() => handleNavigate("/messagerequest")}
-              style={{...styles.textContainer, height: "100%"}}>
+              <Link to="/messagerequest" style={{...styles.textContainer, height: "100%", textDecoration: "none", color: "inherit", display: "block"}}>
                 <strong style={styles.cardTitle}>View Session Requests</strong>
                 <p style={{...styles.subtitle,
                   fontSize: "12px",
                   margin: "auto",}
                 }>Subtitle text</p>
-              </div>
+              </Link>
             </div>
     
             <div style={{...styles.card, height: "100%"}}>
@@ -96,13 +113,13 @@ const CounselorDashboard = () => {
                   />
                 </svg>
               </div>
-              <div onClick={() => handleNavigate("/resources")}>
+              <Link to="/resources" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
                 <p style={styles.cardTitle}>View Resources</p>
                 <p style={{...styles.subtitle,
                   fontSize: "12px",
                   margin: "auto",
                 }}>Subtitle text</p>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -114,13 +131,13 @@ const CounselorDashboard = () => {
         </div>
     
         {/* Booked Sessions */}
-          <div style={styles.bookSessioncontainer}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
-              <h2 style={styles.headerTitle}>Booked Sessions</h2>
+        <div style={styles.bookSessioncontainer}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+            <h2 style={styles.headerTitle}>Booked Sessions</h2>
             
-              {/* Filters Section */}
-              <div style={styles.filtersContainer}>
-                <select style={styles.filterButton}>
+            {/* Filters Section */}
+            <div style={styles.filtersContainer}>
+              <select style={styles.filterButton}>
             {[
               "January",
               "February",
@@ -139,14 +156,14 @@ const CounselorDashboard = () => {
                 {month}
               </option>
             ))}
-                </select>
-                <button style={styles.filterButton}>
+              </select>
+              <button style={styles.filterButton}>
             Sort by: Verified Users 
             <span style={styles.filterIcon}>
               <ChevronDown size={20} style={{ transform: "translateY(20%)" }}/>
             </span>
-                </button>
-                <button style={styles.filterButton}>
+              </button>
+              <button style={styles.filterButton}>
             Filter: Active Users
             <span style={styles.filterIcon}>
             <Filter size={24} style={{ transform: "translateY(10%)" }} />
@@ -161,63 +178,74 @@ const CounselorDashboard = () => {
               }}
             />
             </span>
-                </button>
-              </div>
-            </div>
-            
-            {/* Selected Filters */}
-          <div style={styles.selectedFiltersContainer}>
-            <span style={styles.selectedFilter}>Newest First ✖</span>
-            <span style={styles.selectedFilter}>Verified Users ✖</span>
-            <span style={styles.clearAll}>Clear All</span>
-          </div>
-    
-            {/* Search Section */}
-          <div style={styles.searchContainer}>
-            <div style={styles.search}>
-              <SearchIcon style={styles.searchIcon} />
-              <input
-                style={styles.searchInput}
-                type="text"
-                placeholder="Search"
-              />
+              </button>
             </div>
           </div>
+          
+          {/* Selected Filters */}
+        <div style={styles.selectedFiltersContainer}>
+          <span style={styles.selectedFilter}>Newest First ✖</span>
+          <span style={styles.selectedFilter}>Verified Users ✖</span>
+          <span style={styles.clearAll}>Clear All</span>
+        </div>
     
-          {/* Table Section */}
-          <div style={styles.tableWrapper}>
-            <table style={styles.table}>
-              <thead>
-                <div style={{ borderRadius: "20px", marginBottom: "20px" }} />
-                <tr style={styles.tableHeaderRow}>
-                  <th>Student</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Student ID</th>
-                  <th>Email</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[1, 2, 3, 4].map((_, index) => (
-                  <tr key={index} style={styles.tableBodyRow}>
+          {/* Search Section */}
+        <div style={styles.searchContainer}>
+          <div style={styles.search}>
+            <SearchIcon style={styles.searchIcon} />
+            <input
+              style={styles.searchInput}
+              type="text"
+              placeholder="Search"
+            />
+          </div>
+        </div>
+    
+        {/* Table Section */}
+        <div style={styles.tableWrapper}>
+          <table style={styles.table}>
+            <thead>
+              <tr style={styles.tableHeaderRow}>
+                <th>Student</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Student ID</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.length > 0 ? (
+                appointments.map((appointment, index) => (
+                  <tr key={appointment.id} style={styles.tableBodyRow}>
                     <td style={styles.studentCell}>
                       <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                      Jesse Thomas
+                      {appointment.student?.display_name || "Unknown"}
                     </td>
-                    <td>12/2/2024</td>
-                    <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td>
-                    <td>4853966</td>
-                    <td>jt@gmail.com</td>
+                    <td>{appointment.preferred_date}</td>
+                    <td>{appointment.preferred_time}</td>
+                    <td>{appointment.student_id}</td>
+                    <td>{appointment.email || appointment.student?.email || "—"}</td>
                     <td>
-                      <button onClick={() => handleNavigate("/scheduledsession")}
-                      style={styles.viewButton}>View</button>
+                      <Link
+                        to={`/scheduledsession/${appointment.id}`}
+                        style={{ ...styles.viewButton, textDecoration: "none", display: "inline-block", textAlign: "center" }}
+                      >
+                        View
+                      </Link>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center", color: "#aaa" }}>
+                    No approved booked sessions found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
     
           
           
