@@ -2,21 +2,52 @@ import vd_1 from "../assets/vd_1.png";
 import vd_2 from "../assets/vd_2.png";
 import Glassmorphic from "../assets/Glassmorphic.png"
 import { SearchIcon, ChevronDown, ChevronRight, ChevronLeft, LucideMessagesSquare } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import React, { useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 
 const StudentsDashboard = () => {
   const { user, logout } = useContext(UserContext);
-  const chatData = [
-    { id: 1, name: "Counselor", message: "I think you should focus more on what's ahead and...", isOnline: true },
-    { id: 2, name: "Counselor", message: "Don't forget about the assignment due tomorrow...", isOnline: true },
-    { id: 3, name: "Counselor", message: "Looking forward to our next session!", isOnline: false },
-  ];
-
+  const [appointments, setAppointments] = useState([]);
+  const [recentCounselorMsg, setRecentCounselorMsg] = useState(null);
+  const [counselor, setCounselor] = useState(null);
   const navigate = useNavigate();
 
-  const handleNavigate = (path) =>{
+  useEffect(() => {
+    if (!user?.id) return;
+    // Fetch all appointments for this student
+    fetch(`http://localhost:8000/api/appointments/user/${user.id}`)
+      .then(res => res.json())
+      .then(data => setAppointments(Array.isArray(data) ? data : []))
+      .catch(() => setAppointments([]));
+  }, [user]);
+
+  // Get the most recent approved appointment to determine the counselor
+  useEffect(() => {
+    const approvedAppointments = appointments.filter(appt => appt.status === "Approved");
+    if (approvedAppointments.length > 0) {
+      const latestAppt = approvedAppointments
+        .sort((a, b) => new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at))[0];
+      setCounselor(latestAppt.counselor);
+    }
+  }, [appointments]);
+
+  // Fetch most recent message from the counselor
+  useEffect(() => {
+    if (!counselor?.id || !user?.id) return;
+    fetch(`http://localhost:8000/api/messages/${counselor.id}?student_id=${user.id}`)
+      .then(res => res.json())
+      .then(messages => {
+        // Filter messages sent by the counselor
+        const counselorMsgs = messages.filter(msg => msg.sender_id === counselor.id);
+        // Sort by created_at descending and get the most recent
+        const sorted = counselorMsgs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setRecentCounselorMsg(sorted[0] || null);
+      })
+      .catch(() => setRecentCounselorMsg(null));
+  }, [counselor, user]);
+
+  const handleNavigate = (path) => {
     navigate(path, { replace: true });
   }
   return (
@@ -44,36 +75,52 @@ const StudentsDashboard = () => {
             <div style={styles.chatHistory}>
               <h2 style={{...styles.header, fontSize: "24px"}}>
                 Chat History 
-                <button 
+                {/* <button 
             style={{ ...styles.seeAll, background: "none", border: "none", cursor: "pointer", color: "#1E4CA1", fontSize: "14px" }} 
             onClick={() => handleNavigate("/chathistory")}
                 >
             See all
-                </button>
+                </button> */}
               </h2>
-              {chatData.map((chat) => (
-                <div key={chat.id} style={styles.chatItem}>
-            <div style={styles.userSection}>
-              {chat.id === 2 ? (
-                <div style={styles.ellipse}>
-            <img src="https://randomuser.me/api/portraits/women/75.jpg" alt="profile" style={{...styles.userIcon, height:"40px", width:"40px"}} />
-            {chat.isOnline && <span style={styles.notificationDot}></span>}
+              {recentCounselorMsg ? (
+                <div style={styles.chatItem}>
+                  <div style={styles.userSection}>
+                    <div style={styles.ellipse}>
+                      <img
+                        src={counselor?.avatar || Glassmorphic}
+                        alt="Counselor"
+                        style={{ ...styles.userIcon, height: "40px", width: "40px" }}
+                      />
+                    </div>
+                    <div style={styles.chatDetails}>
+                      <strong>{counselor?.name || "Counselor"}</strong>
+                      <p style={styles.chatMessage}>{recentCounselorMsg.content}</p>
+                    </div>
+                  </div>
+                  <Link
+                    to={`/continuechat/${user.id}`}
+                    style={styles.chatButton}
+                  >
+                    Continue Chat
+                  </Link>
                 </div>
               ) : (
-                <div style={styles.ellipse}>
-            <img src={Glassmorphic} alt="mentalIcon" style={{...styles.userIcon, height:"40px", width:"40px"}} />
-            {chat.isOnline && <span style={styles.notificationDot}></span>}
+                <div style={styles.chatItem}>
+                  <div style={styles.userSection}>
+                    <div style={styles.ellipse}>
+                      <img
+                        src={Glassmorphic}
+                        alt="Counselor"
+                        style={{ ...styles.userIcon, height: "40px", width: "40px" }}
+                      />
+                    </div>
+                    <div style={styles.chatDetails}>
+                      <strong>Counselor</strong>
+                      <p style={styles.chatMessage}>No messages from your counselor yet.</p>
+                    </div>
+                  </div>
                 </div>
               )}
-              <div style={styles.chatDetails}>
-                <strong>{chat.name}</strong>
-                <p style={styles.chatMessage}>{chat.message}</p>
-              </div>
-            </div>
-            {chat.id === 2 && <button onClick={() => handleNavigate("/continuechat")}
-             style={styles.chatButton}>Continue Chat</button>}
-                </div>
-              ))}
             </div>
               
            
@@ -125,33 +172,44 @@ const StudentsDashboard = () => {
           <div style={styles.tableWrapper}>
             <table style={styles.table}>
               <thead>
-                <div style={{ borderRadius: "20px", marginBottom: "20px" }} />
                 <tr style={styles.tableHeaderRow}>
-                  <th>Student</th>
+                  <th>Counselor</th>
                   <th>Date</th>
                   <th>Time</th>
-                  <th>Student ID</th>
+                  <th>Counsellor ID</th>
                   <th>Email</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[1, 2, 3, 4].map((_, index) => (
-                  <tr key={index} style={styles.tableBodyRow}>
-                    <td style={styles.studentCell}>
-                      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile" style={styles.avatar} />
-                      Jesse Thomas
-                    </td>
-                    <td>12/2/2024</td>
-                    <td>{["1:30pm", "1:30pm", "11:30pm", "2:30pm"][index]}</td>
-                    <td>4853966</td>
-                    <td>jt@gmail.com</td>
-                    <td>
-                      <button onClick={() => handleNavigate("/studentsschedulesession")}
-                      style={styles.viewButton}>View</button>
+                {appointments.length > 0 ? (
+                  appointments.map((appt, idx) => (
+                    <tr key={appt.id} style={styles.tableBodyRow}>
+                      <td style={styles.studentCell}>
+                        <img src={appt.counselor?.avatar || "https://randomuser.me/api/portraits/men/75.jpg"} alt="Profile" style={styles.avatar} />
+                        {appt.counselor?.name || "Counselor"}
+                      </td>
+                      <td>{appt.preferred_date}</td>
+                      <td>{appt.preferred_time}</td>
+                      <td>{user.id}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        <button
+                          onClick={() => navigate(`/studentsschedulesession/${appt.id}`)}
+                          style={styles.viewButton}
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} style={{ textAlign: "center", color: "#aaa" }}>
+                      No approved upcoming sessions found.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

@@ -37,7 +37,7 @@ const StudentCounselorDetails = () => {
         notes,
       });
       setMessage('Appointment scheduled!');
-      navigate('/MessageRequest'); // Redirect to appointment list
+      navigate('/studentscounselorsession'); // Redirect to appointment list
     } catch (err) {
       setMessage('Failed to schedule appointment');
     }
@@ -49,27 +49,7 @@ const StudentCounselorDetails = () => {
 
 
   // Sample data for demonstration
-  const counselorDetails = {
-    name: (
-      <span style={{ width: "298px", height: "38px", display: "inline-block" }}>
-        Mrs. Daniella Phillips
-      </span>
-    ),
-    specialization: "Psychology",
-    experience: "12 Years",
-    officeNumber: "4853966",
-    email: "daniPhil@example.com",
-    status: "Available",
-    rating: 4,
-    ratingStyle: {
-      width: "200px",
-      height: "50px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      margin: "0 auto",
-    },
-  };
+  
 
   return (
     <div style={{ ...styles.container, backgroundColor: "#fff" }}>

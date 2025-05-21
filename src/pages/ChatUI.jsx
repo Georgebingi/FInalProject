@@ -66,8 +66,8 @@ const ChatUI = () => {
             style={styles.profileImage}
           />
           <div>
-            <h3 style={styles.name}>{student.name}</h3>
-            <div style={styles.stars}>⭐ ⭐ ⭐ ⭐ ☆</div>
+            <h3 style={styles.name}>Annonymous Student</h3>
+            <div style={styles.stars}></div>
           </div>
         </div>
         <div style={styles.icons}>

@@ -1,17 +1,17 @@
 import { Calendar, Clock, GraduationCap, Mail, NotebookPen, XCircle, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import api from "../api/axios"; // Adjust the import based on your project structure
+import { useParams } from "react-router-dom";
 
 const StudentsScheduleSession = () => {
-    const [messages, setMessages] = useState([]);
-    const studentId = "123"; // Replace with actual student ID
-    const counselorId = "456"; // Replace with actual counselor ID
+    const { id } = useParams();
+    const [appointment, setAppointment] = useState(null);
 
     useEffect(() => {
-        api.get(`/messages?student_id=${studentId}&counselor_id=${counselorId}`)
-            .then(res => setMessages(Array.isArray(res.data) ? res.data : []))
-            .catch(() => setMessages([]));
-    }, [studentId, counselorId]);
+        api.get(`/appointments/${id}`)
+            .then(res => setAppointment(res.data))
+            .catch(() => setAppointment(null));
+    }, [id]);
 
     const sessionDetails = [
         {
