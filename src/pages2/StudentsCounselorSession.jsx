@@ -194,7 +194,7 @@ const StudentsCounselorSession = () => {
 
       </div>
       {/* Chat History */}
-      <div style={styles.chatHistory}>
+      {/* <div style={styles.chatHistory}>
         <h3 style={styles.header}>
           Chat History <span style={styles.seeAll}>See all</span>
         </h3>
@@ -218,7 +218,7 @@ const StudentsCounselorSession = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

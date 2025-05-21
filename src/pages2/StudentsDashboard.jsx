@@ -2,7 +2,7 @@ import vd_1 from "../assets/vd_1.png";
 import vd_2 from "../assets/vd_2.png";
 import Glassmorphic from "../assets/Glassmorphic.png"
 import { SearchIcon, ChevronDown, ChevronRight, ChevronLeft, LucideMessagesSquare } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 
@@ -72,15 +72,15 @@ const StudentsDashboard = () => {
           </div>
             
           {/* Chat History */}
-            <div style={styles.chatHistory}>
+            {/* <div style={styles.chatHistory}>
               <h2 style={{...styles.header, fontSize: "24px"}}>
                 Chat History 
-                {/* <button 
+                <button 
             style={{ ...styles.seeAll, background: "none", border: "none", cursor: "pointer", color: "#1E4CA1", fontSize: "14px" }} 
             onClick={() => handleNavigate("/chathistory")}
                 >
             See all
-                </button> */}
+                </button>
               </h2>
               {recentCounselorMsg ? (
                 <div style={styles.chatItem}>
@@ -97,12 +97,12 @@ const StudentsDashboard = () => {
                       <p style={styles.chatMessage}>{recentCounselorMsg.content}</p>
                     </div>
                   </div>
-                  <Link
-                    to={`/continuechat/${user.id}`}
+                  <button
+                    onClick={() => handleNavigate("/continuechat/${user.id}")}
                     style={styles.chatButton}
                   >
                     Continue Chat
-                  </Link>
+                  </button>
                 </div>
               ) : (
                 <div style={styles.chatItem}>
@@ -121,7 +121,7 @@ const StudentsDashboard = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
               
            
     
