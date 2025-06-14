@@ -7,7 +7,7 @@ import api from "../api/axios";
 import { UserContext } from "../context/UserContext";
 
 const StudentsSettings = ({ studentImageUrl, handleStudentImageChange, handleStudentDeleteImage }) => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -33,6 +33,18 @@ const StudentsSettings = ({ studentImageUrl, handleStudentImageChange, handleStu
 
   const handleNavigate = (path) => {
     navigate(path, { replace: true });
+  };
+
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await api.post('/logout'); // Assumes api.js adds Authorization header
+      setUser(null); // Clear user context
+      navigate("/roleselection", { replace: true });
+    } catch (err) {
+      alert("Logout failed. Please try again.");
+      console.error("Logout error:", err);
+    }
   };
 
   // Submit handler
@@ -179,7 +191,11 @@ const StudentsSettings = ({ studentImageUrl, handleStudentImageChange, handleStu
                 <span>Cancel</span>
               </button>
             </div>
-            <button type="button" style={{ ...styles.button, ...styles.logoutButton }} onClick={() => handleNavigate("/roleselection")}>
+            <button
+              type="button"
+              style={{ ...styles.button, ...styles.logoutButton }}
+              onClick={handleLogout}
+            >
               <LogOut size={14} />
               <span>Log Out</span>
             </button>

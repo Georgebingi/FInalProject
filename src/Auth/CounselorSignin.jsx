@@ -54,6 +54,7 @@ const CounselorSignin = () => {
       const { redirect_to, user } = response.data;
       localStorage.setItem("token", response.data.token); // Save token
       localStorage.setItem("user", JSON.stringify(user)); // Save user info
+      setUser(response.data.user);
       navigate(redirect_to); // Redirect to counselor dashboard
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Please try again.");

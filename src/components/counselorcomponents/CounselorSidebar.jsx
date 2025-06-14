@@ -1,16 +1,32 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NileLogo from "../../assets/Nile_logo.png";
 import Glassmorphic from "../../assets/Glassmorphic.png";
 import DashboardIcon from "../../assets/DashboardIcon.png";
 import { SettingsIcon, LogOut, UserIcon, LucideLayers } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import api from "../../api/axios";
+import { UserContext } from "../../context/UserContext";
 
 const CounselorSidebar = () => {
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   const handleSetActive = (path) => setActivePath(path);
+
+  // Logout handler (replicated from Settings)
+  const handleLogout = async () => {
+    try {
+      await api.post('/logout');
+      setUser(null);
+      navigate("/roleselection", { replace: true });
+    } catch (err) {
+      alert("Logout failed. Please try again.");
+      console.error("Logout error:", err);
+    }
+  };
 
   return (
     <aside style={styles.sidebar}>
@@ -134,14 +150,14 @@ const CounselorSidebar = () => {
             Settings
           </Link>
           <Link
-            to="/roleselection"
+            to="#"
             style={{
               ...styles.logout,
               ...(activePath === "/" && styles.active),
               display: "flex",
               alignItems: "center",
             }}
-            onClick={() => handleSetActive("/roleselection")}
+            onClick={handleLogout}
           >
             <LogOut
               size={20}

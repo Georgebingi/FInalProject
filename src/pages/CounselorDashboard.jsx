@@ -23,7 +23,9 @@ const CounselorDashboard = () => {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) return(
+      <div>Loading</div>
+    );
     // Fetch appointments for this counselor (authenticated)
     api.get(`/appointments/user/${user.id}?role=counselor`)
       .then(res => {

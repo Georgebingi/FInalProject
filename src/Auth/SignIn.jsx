@@ -26,6 +26,7 @@ const SignIn = () => {
       const { redirect_to, user } = response.data;
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(user));
+      setUser(response.data.user);
       navigate(redirect_to);
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Please try again.");
